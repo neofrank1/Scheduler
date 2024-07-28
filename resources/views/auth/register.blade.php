@@ -71,8 +71,11 @@
                             <label for="user_type" class="col-md-4 col-form-label text-md-end">{{ __('Role') }}</label>
 
                             <div class="col-md-6">
-                                <input id="user_type" type="text" class="form-control @error('user_type') is-invalid @enderror" name="user_type" value="{{ old('user_type') }}" required autofocus>
-
+                                <select id="user_type" class="form-select @error('user_type') is-invalid @enderror" name="user_type" value="{{ old('user_type') }}" required autofocus>
+                                    <option value="1">Admin</option>
+                                    <option value="2">Dean</option>
+                                    <option value="3">Chairperson</option>
+                                </select>
                                 @error('user_type')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
