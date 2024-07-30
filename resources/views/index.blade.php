@@ -9,7 +9,7 @@
 
 	<!-- sweetalert2 js -->
 	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    @vite(['resources/css/index_style.css', 'resources/js/index.js'])
+    @vite(['resources/css/app.css','resources/css/index_style.css', 'resources/js/index.js', 'resources/js/app.js'])
 	<title>Sign in & Sign up Form</title>
 </head>
 
@@ -168,55 +168,55 @@
 	</script> --}}
 
 	<!-- //Depending on the userPOsition the input feilds for userCollege and userProgram will be hidden -->
-	<script>
-		document.addEventListener("DOMContentLoaded", function() {
-			var positionSelect = document.querySelector('select[name="user_type"]');
-			var programSelect = document.querySelector('select[name="user_course"]');
-			var collegeSelect = document.querySelector('select[name="user_college"]');
-
+	<script type="module">
+		$(document).ready(function() {
+			var $positionSelect = $('#user_type');
+			var $programSelect = $('#user_course');
+			var $collegeSelect = $('#user_college');
+	
 			// Function to hide/show program and college select fields
 			function toggleFields() {
-				if (positionSelect.value === '2') {
-					programSelect.style.display = 'none';
-					collegeSelect.style.display = 'block'; // Show college for Dean
-				} else if (positionSelect.value === '1') {
-					programSelect.style.display = 'none';
-					collegeSelect.style.display = 'none'; // Hide both college and program for Admin
+				if ($positionSelect.val() === '2') {
+					$programSelect.hide();
+					$collegeSelect.show(); // Show college for Dean
+				} else if ($positionSelect.val() === '1') {
+					$programSelect.hide();
+					$collegeSelect.hide(); // Hide both college and program for Admin
 				} else {
-					programSelect.style.display = 'block';
-					collegeSelect.style.display = 'block'; // Show both college and program for other positions
+					$programSelect.show();
+					$collegeSelect.show(); // Show both college and program for other positions
 				}
 			}
-
+	
 			// Initial toggle based on the default value
 			toggleFields();
-
+	
 			// Event listener for userPosition change
-			positionSelect.addEventListener('change', toggleFields);
+			$positionSelect.change(toggleFields);
 		});
 	</script>
 
-	<script>
-		document.addEventListener("DOMContentLoaded", function() {
-			var positionSelect = document.querySelector('select[name="user_type"]');
-			var programSelect = document.querySelector('select[name="user_course"]');
-			var collegeSelect = document.querySelector('select[name="user_college"]');
+	<script type="module">
+		$(document).ready(function() {
+			var $positionSelect = $('select[name="user_type"]');
+			var $programSelect = $('select[name="user_course"]');
+			var $collegeSelect = $('select[name="user_college"]');
 
 			// Function to hide/show program and college select fields
 			function toggleFields() {
-				if (positionSelect.value === '3') {
-					programSelect.required = true;
-					collegeSelect.required = true;
-				} else if (positionSelect.value === '2') {
-					programSelect.required = false;
-					collegeSelect.required = true;
-				} else if (positionSelect.value === '1') {
-					programSelect.required = false;
-					collegeSelect.required = false;
+				if ($positionSelect.val() === '3') {
+					$programSelect.prop('required', true);
+					$collegeSelect.prop('required', true);
+				} else if ($positionSelect.val() === '2') {
+					$programSelect.prop('required', false);
+					$collegeSelect.prop('required', true);
+				} else if ($positionSelect.val() === '1') {
+					$programSelect.prop('required', false);
+					$collegeSelect.prop('required', false);
 				} else {
 					// For other positions, make both fields required
-					programSelect.required = true;
-					collegeSelect.required = true;
+					$programSelect.prop('required', true);
+					$collegeSelect.prop('required', true);
 				}
 			}
 
@@ -224,7 +224,7 @@
 			toggleFields();
 
 			// Event listener for userPosition change
-			positionSelect.addEventListener('change', toggleFields);
+			$positionSelect.change(toggleFields);
 		});
 	</script>
 
