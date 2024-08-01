@@ -9,7 +9,7 @@
 
 	<!-- sweetalert2 js -->
 	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    @vite(['resources/css/app.css','resources/css/index_style.css', 'resources/js/index.js', 'resources/js/app.js'])
+    @vite(['resources/css/app.css','resources/css/index_style.css', 'resources/css/select2.min.css', 'resources/js/index.js', 'resources/js/jquery.min.js','resources/js/select2.min.js'])
 	<title>Sign in & Sign up Form</title>
 </head>
 
@@ -88,12 +88,12 @@
 						<option value="3">Chairperson</option>
 					</select>
 
-					<select id="user_college" class="input-field @error('user_college') is-invalid @enderror" name="user_college" value="{{ old('user_college') }}" required autofocus>
-						<option disabled selected>Select College</option>
+					<select id="college_id" class="input-field @error('college_id') is-invalid @enderror" name="college_id" value="{{ old('college_id') }}" required autofocus>
+						<option disabled selected>Select a College</option>
 					</select>
 
-					<select id="user_course" class="input-field @error('user_course') is-invalid @enderror" name="user_course" value="{{ old('user_course') }}" required autofocus>
-						<option disabled selected>Select Program</option>
+					<select id="course_id" class="input-field @error('course_id') is-invalid @enderror" name="course_id" value="{{ old('course_id') }}" required autofocus>
+						<option disabled selected>Select a Program</option>
 					</select>
 
 					<div class="input-field">
@@ -139,40 +139,12 @@
 		</div>
 	</div>
 
-	{{-- <script>
-		document.addEventListener("DOMContentLoaded", function() {
-			var collegeSelect = document.querySelector('select[name="user_college"]');
-			var programSelect = document.querySelector('select[name="user_course"]');
-			var programs = {
-				"COLLEGE OF EDUCATION": ["BEEd", "BECEd", "BSNEd", "BSEd-Math", "BSEd-Science", "BSEd-Values Ed", "BSEd-English", "BSEd-Filipino", "BTLEd-IA", "BTLEd-HE", "BTLEd-ICT", "BTVTEd-Draft", "BTVTEd-Auto", "BTVTEd-Food", "BTVTEd-Elec", "BTVTEd-Elex", "BTVTEd-GFD", "BTVTEd-WF"],
-				"COLLEGE OF ENGINEERING": ["BSCE", "BSCPE", "BSECE", "BSEE", "BSIE", "BSME"],
-				"COLLEGE OF TECHNOLOGY": ["BSMx", "BSGD", "BSTechM", "BIT Automotive Technology", "BIT Civil Technology", "BIT Cosmetology", "BIT Drafting Technology", "BIT Electrical Technology", "BIT Electronics Technology", "BIT Food Preparation and Services Technology", "BIT Furniture and Cabinet Making", "BIT Garments Technology", "BIT Interior Design Technology", "BIT Machine Shop Technology", "BIT Power Plant Technology", "BIT Refrigeration and Air-conditioning Technology", "BIT Welding and Fabrication Technology"],
-				"COLLEGE OF MANAGEMENT AND ENTREPRENEURSHIP": ["BPA", "BSHM", "BSBA-MM", "BSTM"],
-				"COLLEGE OF COMPUTER INFORMATION AND COMMUNICATIONS TECHNOLOGY": ["BSIT", "BSIS", "BIT-CT"],
-				"COLLEGE OF ARTS AND SCIENCES": ["BAEL-ECP", "BAEL-ELSD", "BAL–LCS", "BAL–LAP", "BS MATH", "BS STAT", "BSDevCom", "BAF", "BS PSYCH", "Bachelor of Science in Nursing"]
-			};
-
-			collegeSelect.addEventListener('change', function() {
-				var selectedCollege = this.value;
-				programSelect.innerHTML = '<option value="" disabled selected>Select Program</option>'; // Clear previous options
-				if (selectedCollege in programs) {
-					programs[selectedCollege].forEach(function(program) {
-						var option = document.createElement('option');
-						option.textContent = program;
-						option.value = program;
-						programSelect.appendChild(option);
-					});
-				}
-			});
-		});
-	</script> --}}
-
 	<!-- //Depending on the userPOsition the input feilds for userCollege and userProgram will be hidden -->
 	<script type="module">
 		$(document).ready(function() {
 			var $positionSelect = $('#user_type');
-			var $programSelect = $('#user_course');
-			var $collegeSelect = $('#user_college');
+			var $programSelect = $('#course_id');
+			var $collegeSelect = $('#college_id');
 	
 			// Function to hide/show program and college select fields
 			function toggleFields() {
@@ -199,8 +171,8 @@
 	<script type="module">
 		$(document).ready(function() {
 			var $positionSelect = $('select[name="user_type"]');
-			var $programSelect = $('select[name="user_course"]');
-			var $collegeSelect = $('select[name="user_college"]');
+			var $programSelect = $('select[name="course_id"]');
+			var $collegeSelect = $('select[name="college_id"]');
 
 			// Function to hide/show program and college select fields
 			function toggleFields() {
@@ -228,6 +200,78 @@
 		});
 	</script>
 
+	{{-- Select 2 Option --}}
+	<script type="module">
+		/* $(document).ready(function () {
+			$('#user_college').select2({
+				minimumResultsForSearch: Infinity,
+				ajax: {
+					url: 'college/collegeList',
+					dataType: 'json',
+					processResults: function (data) {
+					return {
+						results: data.map(function (college) {
+								return {
+									id: college.id,
+									text: college.full_name
+								};
+							})
+						};
+					}
+				}
+			});
+		}); */
+	</script>
+
+	<script type="module">
+		$(document).ready(function () {
+			$.ajax({
+				url: '/college/collegeList/',
+				type: 'GET',
+				success: function(response) {
+					var $select = $('#college_id');
+					$select.empty(); // Clear existing options
+					$select.append('<option value="">Select a College</option>'); // Add default option
+					$.each(response, function(index, college) {
+						$select.append($('<option>', {
+							value: college.id,
+							text: college.full_name
+						}));
+					});
+				}
+			});
+
+			$('#college_id').on('change', function() {
+                var selectedValue = $(this).val();
+                var selectedText = $(this).find("option:selected").text();
+            });
+		});
+	</script>
+
+	{{-- <script type="module">
+		$(document).ready(function () {
+			$.ajax({
+				url: '/college/collegeList/',
+				type: 'GET',
+				success: function(response) {
+					var $select = $('#college_id');
+					$select.empty(); // Clear existing options
+					$select.append('<option value="">Select a College</option>'); // Add default option
+					$.each(response, function(index, college) {
+						$select.append($('<option>', {
+							value: college.id,
+							text: college.full_name
+						}));
+					});
+				}
+			});
+
+			$('#college_id').on('change', function() {
+				var selectedValue = $(this).val();
+				var selectedText = $(this).find("option:selected").text();
+			});
+		});
+	</script> --}}
 
 	<!-- IF there is an error when signing UP the data inputted will remain -->
 	<script>
@@ -244,8 +288,8 @@
 			const lastName = document.querySelector('input[name="last_name"]').value.trim();
 			const email = document.querySelector('input[name="reg_email"]').value.trim();
 			const position = document.querySelector('select[name="user_type"]').value;
-			const college = document.querySelector('select[name="user_college"]').value;
-			const program = document.querySelector('select[name="user_course"]').value;
+			const college = document.querySelector('select[name="college_id"]').value;
+			const program = document.querySelector('select[name="course_id"]').value;
 			const password = document.querySelector('input[name="reg_password"]').value.trim();
 			const passwordConfirm = document.querySelector('input[name="password_confirmation"]').value.trim();
 
@@ -329,26 +373,6 @@
 			return re.test(email);
 		}
 
-		// Show success message if it exists
-		/* <?php if (isset($_SESSION['success']) && $_SESSION['success']) : ?>
-			Swal.fire({
-				icon: 'success',
-				title: 'Pending for approval',
-				showConfirmButton: false,
-				timer: 1500
-			});
-			<?php unset($_SESSION['success']); ?>
-		<?php endif; ?> */
-
-		// Show error messages if they exist
-		/* <?php if (isset($_SESSION['errors']) && count($_SESSION['errors']) > 0) : ?>
-			const errorMessage = <?php echo json_encode(implode('<br>', $_SESSION['errors'])); ?>;
-			Swal.fire({
-				icon: 'error',
-				html: errorMessage // Use html property to support line breaks
-			});
-			<?php unset($_SESSION['errors']); ?>
-		<?php endif; ?> */
 	</script>
 
 </body>
