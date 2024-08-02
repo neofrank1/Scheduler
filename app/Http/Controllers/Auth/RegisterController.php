@@ -48,8 +48,16 @@ class RegisterController extends Controller
      */
     protected function validator(array $data)
     {
+        $data['email'] = $data['reg_email'];
+        $data['password'] = $data['reg_password'];
         return Validator::make($data, [
-            'name' => ['required', 'string', 'max:255'],
+            'employee_id' => ['required', 'integer'],
+            'first_name' => ['required', 'string', 'max:255'],
+            'middle_name' => ['required', 'string', 'max:255'],
+            'last_name' => ['required', 'string', 'max:255'],
+            'user_type' => ['required', 'integer'],
+            'college_id' => ['required', 'integer'],
+            'course_id' => ['required', 'integer'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
         ]);
@@ -63,8 +71,16 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
+        $data['email'] = $data['reg_email'];
+        $data['password'] = $data['reg_password'];
         return User::create([
-            'name' => $data['name'],
+            'employee_id' => $data['employee_id'],
+            'first_name' => $data['first_name'],
+            'middle_name' => $data['middle_name'],
+            'last_name' => $data['last_name'],
+            'user_type' => $data['user_type'],
+            'college_id' => $data['college_id'],
+            'course_id' => $data['course_id'],
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
         ]);
