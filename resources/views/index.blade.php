@@ -92,8 +92,8 @@
 						<option disabled selected>Select a College</option>
 					</select>
 
-					<select id="course_id" class="input-field @error('course_id') is-invalid @enderror" name="course_id" value="{{ old('course_id') }}" required autofocus>
-						<option disabled selected>Select a Program</option>
+					<select id="course_id" class="input-field @error('course_id') is-invalid @enderror" name="course_id" value="{{ old('course_id') }}" required autofocus disabled>
+						<option disabled selected>Select a Course</option>
 					</select>
 
 					<div class="input-field">
@@ -231,7 +231,7 @@
 				success: function(response) {
 					var $select = $('#college_id');
 					$select.empty(); // Clear existing options
-					$select.append('<option value="">Select a College</option>'); // Add default option
+					$select.append('<option value="" disabled selected>Select a College</option>'); // Add default option
 					$.each(response, function(index, college) {
 						$select.append($('<option>', {
 							value: college.id,
@@ -244,34 +244,44 @@
 			$('#college_id').on('change', function() {
                 var selectedValue = $(this).val();
                 var selectedText = $(this).find("option:selected").text();
+
+				if (selectedValue == 0) {
+                    $('#course_id').prop('disabled', true);
+                } else {
+                    $('#course_id').prop('disabled', false);
+					$.ajax({
+					url: '/course/courseList',
+					type: 'GET',
+					success: function(response) {
+							var $select = $('#course_id');
+							var college_id = $('#college_id').val();
+							$select.empty(); // Clear existing options
+							$select.append('<option value="" disabled selected>Select a Course</option>'); // Add default option
+							$.each(response, function(index, college) {
+								if (selectedValue == college.college_id) {
+									$select.append($('<option>', {
+									value: college.id,
+									text: college.full_name
+									}));
+								}
+							});
+						}
+					});
+				}
+
+				$('#course_id').on('change', function() {
+					var selectedValue = $(this).val();
+					var selectedText = $(this).find("option:selected").text();
+				});
             });
 		});
 	</script>
 
-	{{-- <script type="module">
+	<script type="module">
 		$(document).ready(function () {
-			$.ajax({
-				url: '/college/collegeList/',
-				type: 'GET',
-				success: function(response) {
-					var $select = $('#college_id');
-					$select.empty(); // Clear existing options
-					$select.append('<option value="">Select a College</option>'); // Add default option
-					$.each(response, function(index, college) {
-						$select.append($('<option>', {
-							value: college.id,
-							text: college.full_name
-						}));
-					});
-				}
-			});
-
-			$('#college_id').on('change', function() {
-				var selectedValue = $(this).val();
-				var selectedText = $(this).find("option:selected").text();
-			});
+			
 		});
-	</script> --}}
+	</script>
 
 	<!-- IF there is an error when signing UP the data inputted will remain -->
 	<script>
