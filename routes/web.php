@@ -22,3 +22,4 @@ Route::post('/college/statusCollege', [CollegeController::class, 'statusCollege'
 
 // Course Routes
 Route::get('/course/courseList', [CourseController::class, 'courseList']);
+Route::get('/course', [CourseController::class, 'index'])->name('course.home');

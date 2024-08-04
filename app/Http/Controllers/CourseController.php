@@ -13,4 +13,8 @@ class CourseController extends Controller
         $result = Course::all(['id', 'full_name', 'college_id']);
         return response()->json($result);
     }
+
+    public function index() {
+        return view('course.index');
+    }
 }

@@ -30,7 +30,7 @@
                     <div class="card-body">
                         <div class="row">
                             <div class="col-12">
-                                <table class="table table-bordered table-primary shadow-sm">
+                                <table class="table table-bordered table-primary shadow-sm" id="table">
                                     <thead>
                                         <tr>
                                             <td>No.</td>
@@ -94,6 +94,8 @@
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 }
             });
+
+            $('#table').DataTable();
 
             $('.btn-edit').on('click', function() {
                 var id = $(this).data('id');
