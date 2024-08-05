@@ -4,12 +4,15 @@ namespace App\Http\Controllers;
 use App\Models\College;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Yajra\DataTables\DataTables;
 
 class CollegeController extends Controller
 {
-    public function index(College $college) {
-        $data = College::all();
-        return view('college.index', compact('data'));
+    public function index() {
+        if (request()->ajax()) {
+            return DataTables::make(College::select('id', 'short_name', 'full_name', 'status'))->make(true);
+        }
+        return view('college.index');
     }
 
     public function collegeList(): JsonResponse {
