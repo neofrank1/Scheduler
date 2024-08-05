@@ -101,6 +101,7 @@
                     {
                         data: null,
                         name: 'actions',
+                        searchable: false,
                         render: function(data, type, row) {
                             if (row.status === 0) {
                                 return `
