@@ -16,6 +16,7 @@ return new class extends Migration
             $table->foreignId('college_id')->constrained('college');
             $table->string('short_name');
             $table->string('full_name');
+            $table->integer('status')->default(1);
             $table->timestamps();
         });
     }

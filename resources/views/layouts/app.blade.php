@@ -30,7 +30,14 @@
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <!-- Left Side Of Navbar -->
                     <ul class="navbar-nav me-auto">
-
+                        @if (Auth::user()->user_type == 1) 
+                            <li class="nav-item">
+                                <a class="nav-link fw-semibold" href="{{ route('college.home') }}">{{ __('College') }}</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link fw-semibold" href="{{ route('course.home') }}">{{ __('Course') }}</a>
+                            </li>
+                        @endif
                     </ul>
 
                     <!-- Right Side Of Navbar -->

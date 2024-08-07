@@ -9,7 +9,7 @@
 
 	<!-- sweetalert2 js -->
 	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    @vite(['resources/css/app.css','resources/css/index_style.css', 'resources/css/select2.min.css', 'resources/js/index.js', 'resources/js/jquery.min.js','resources/js/select2.min.js'])
+    @vite(['resources/css/app.css','resources/css/index_style.css', 'resources/js/app.js', 'resources/js/index.js',])
 	<title>Sign in & Sign up Form</title>
 </head>
 
