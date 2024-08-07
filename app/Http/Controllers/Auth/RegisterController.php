@@ -79,8 +79,8 @@ class RegisterController extends Controller
             'middle_name' => $data['middle_name'],
             'last_name' => $data['last_name'],
             'user_type' => $data['user_type'],
-            'college_id' => $data['college_id'],
-            'course_id' => $data['course_id'],
+            'college_id' => !empty($data['college_id']) ? $data['college_id'] :null,
+            'course_id' => !empty($data['course_id']) ? $data['course_id'] : null,
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
         ]);

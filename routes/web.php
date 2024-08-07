@@ -23,3 +23,6 @@ Route::post('/college/statusCollege', [CollegeController::class, 'statusCollege'
 // Course Routes
 Route::get('/course/courseList', [CourseController::class, 'courseList']);
 Route::get('/course', [CourseController::class, 'index'])->name('course.home');
+Route::post('/course/insertCourse', [CourseController::class, 'insertCourse'])->name('course.add');
+Route::get('/course/getCourse/{id}', [CourseController::class, 'editCourse']);
+Route::post('/course/updateCourse', [CourseController::class, 'updateCourse'])->name('course.update');
