@@ -37,6 +37,9 @@
                             <li class="nav-item">
                                 <a class="nav-link fw-semibold" href="{{ route('course.home') }}">{{ __('Course') }}</a>
                             </li>
+                            <li class="nav-item">
+                                <a class="nav-link fw-semibold" href="{{-- {{ route('course.home') }} --}}">{{ __('Faculty') }}</a>
+                            </li>
                         @endif
                     </ul>
 

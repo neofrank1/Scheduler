@@ -57,4 +57,22 @@ class CourseController extends Controller
             return redirect()->route('course.home')->with('success', 'Course updated successfully!');
         }
     }
+    public function statusCourse(Request $request)
+    {
+        if ($request->ajax()) {
+            $course = Course::find($request->input('id'));
+            if ($course) {
+                $course->status = $request->input('status');
+                $result = $course->save();
+
+                if ($result) {
+                    $message = $request->input('status') == 1 ? 'Course activated successfully!' : 'Course deactivated successfully!';
+                    return response()->json(['success' => true, 'message' => $message]);
+                }
+            }
+            return response()->json(['success' => false, 'message' => 'Failed to update Course status.']);
+        }
+
+        return response()->json(['success' => false, 'message' => 'Invalid request.']);
+    }
 }

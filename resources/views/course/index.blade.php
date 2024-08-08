@@ -48,7 +48,16 @@
        </div>
     </div>
 
+@extends('course.modal')
+
     <script type="module">
+
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
+
         $(document).ready(function () {
             $('#table-course').DataTable({
                 processing: true,
@@ -65,25 +74,25 @@
                         orderable: false,
                         searchable: false,
                         render: function(data, type, row) {
-                            /* if (row.status === 0) {
+                            if (row.status === 0) {
                                 return `
-                                    <a href="#" type="button" class="btn btn-success btn-edit" data-bs-toggle="modal" data-bs-target="#editModal" data-id="${row.id}">
+                                    <a type="button" class="btn btn-success btn-edit" data-bs-toggle="modal" data-bs-target="#editCourseModal" data-id="${row.id}">
                                         <i class="fa-solid fa-pen"></i> Edit
                                     </a>
-                                    <a href="#" type="button" class="btn btn-secondary btn-activate" data-status="1" data-id="${row.id}">
+                                    <a type="button" class="btn btn-secondary btn-activate" data-status="1" data-id="${row.id}">
                                         <i class="fa-solid fa-check"></i> Activate
                                     </a>
                                 `;
-                            } else { */
+                            } else { 
                                 return `
-                                    <a href="#" type="button" class="btn btn-success btn-edit" data-bs-toggle="modal" data-bs-target="#editCourseModal" data-id="${row.id}">
+                                    <a type="button" class="btn btn-success btn-edit" data-bs-toggle="modal" data-bs-target="#editCourseModal" data-id="${row.id}">
                                         <i class="fa-solid fa-pen"></i> Edit
-                                    </a>`
-                                   /*  <a href="#" type="button" class="btn btn-danger btn-deactivate" data-status="0" data-id="${row.id}">
+                                    </a>
+                                    <a type="button" class="btn btn-danger btn-deactivate" data-status="0" data-id="${row.id}">
                                         <i class="fa-solid fa-circle-xmark"></i> Deactivate
-                                    </a> */
+                                    </a>`
                                 ;
-                          /*   } */
+                            } 
                         }
                     }
                 ],
@@ -159,7 +168,50 @@
                     }
                 });
             });
+
+            $('#table-course').on('click', '.btn-deactivate', function() {
+                var id = $(this).data('id');
+                var status = $(this).data('status');
+
+                $.ajax({
+                    url: '{{ route('course.status') }}',
+                    type: 'POST',
+                    data: {
+                        id: id,
+                        status: status
+                    },
+                    success: function(response) {
+                        if (response.success) {
+                            alert(response.message);
+                            window.location.reload();
+                        } else {
+                            alert('Failed to update status');
+                        }
+                    }
+                });
+            });
+
+            $('#table-course').on('click', '.btn-activate', function() {
+                var id = $(this).data('id')
+                var status = $(this).data('status');
+
+                $.ajax({
+                    url: '{{ route('course.status') }}',
+                    type: 'POST',
+                    data: {
+                        id: id,
+                        status: status
+                    },
+                    success: function(response) {
+                        if (response.success) {
+                            alert(response.message);
+                            window.location.reload();
+                        } else {
+                            alert('Failed to update status');
+                        }
+                    }
+                });
+            });
         });
     </script>
-@extends('course.modal')
 @endsection
