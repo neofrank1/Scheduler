@@ -37,8 +37,16 @@
                             <li class="nav-item">
                                 <a class="nav-link fw-semibold" href="{{ route('course.home') }}">{{ __('Course') }}</a>
                             </li>
-                            <li class="nav-item">
-                                <a class="nav-link fw-semibold" href="{{-- {{ route('course.home') }} --}}">{{ __('Faculty') }}</a>
+                            <li class="nav-item dropdown">
+                                <a id="navbarDropdown" class="nav-link dropdown-toggle fw-semibold" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                                    {{ __('Faculty') }}
+                                </a>
+
+                                <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                                    <a class="nav-link text-center fw-semibold" href="{{ route('professor.home') }}">{{ __('Professor') }}</a>
+                                    <a class="nav-link text-center fw-semibold" href="{{-- {{ route('professor.home') }} --}}">{{ __('Dean') }}</a>
+                                    <a class="nav-link text-center fw-semibold" href="{{-- {{ route('professor.home') }} --}}">{{ __('Chairperson') }}</a>
+                                </div>
                             </li>
                         @endif
                     </ul>

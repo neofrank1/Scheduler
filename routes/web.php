@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CollegeController;
 use App\Http\Controllers\CourseController;
+use App\Http\Controllers\ProfessorController;
 
 Route::get('/', function () {
     return view('index');
@@ -27,3 +28,6 @@ Route::post('/course/insertCourse', [CourseController::class, 'insertCourse'])->
 Route::get('/course/getCourse/{id}', [CourseController::class, 'editCourse']);
 Route::post('/course/updateCourse', [CourseController::class, 'updateCourse'])->name('course.update');
 Route::post('/course/statusCourse', [CourseController::class, 'statusCourse'])->name('course.status');
+
+// Faculty Routes
+Route::get('/professor', [ProfessorController::class ,'index'])->name('professor.home');
