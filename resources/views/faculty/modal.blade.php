@@ -10,6 +10,12 @@
                 </div>
                 <div class="modal-body">
                     <div class="row">
+                        <div class="col-12">
+                            <label for="first_name" class="form-label">Employee ID</label>
+                            <input type="text" class="form-control" name="employee_id" id="employee_id">
+                        </div>
+                    </div>
+                    <div class="row mt-2">
                         <h5 class="fw-bold">Personal Info:</h5>
                         <div class="col-6">
                             <label for="first_name" class="form-label">First Name</label>
@@ -31,10 +37,6 @@
                             <label for="address" class="form-label">Address</label>
                             <input type="text" class="form-control" name="address" id="address">
                         </div>
-                       {{--  <div class="col-12 mt-2">
-                            <label for="college_department" class="form-label">College Department</label>
-                            <select class="form-select" id="college_id" name="college_id"></select>
-                        </div> --}}
                     </div>
                     <div class="row">
                         <div class="col-6 mt-2">
@@ -49,11 +51,11 @@
                     <div class="row">
                         <div class="col-6 mt-2">
                             <label for="college" class="form-label">College Department</label>
-                            <input type="text" class="form-control" name="address" id="address">
+                            <input type="text" class="form-control" name="address" id="address" disabled>
                         </div>
                         <div class="col-6 mt-2">
                             <label for="course" class="form-label">Course</label>
-                            <input type="text" class="form-control" name="address" id="address">
+                            <input type="text" class="form-control" name="address" id="address" disabled>
                         </div>
                     </div>
                     <div class="row">
