@@ -16,6 +16,15 @@
 <body>
 	<div class="container">
 		<div class="forms-container">
+			@if ($errors->any())
+				<div class="alert alert-danger">
+					<ul class="mb-0">
+						@foreach ($errors->all() as $error)
+							<li>{{ $error }}</li>
+						@endforeach
+					</ul>
+				</div>
+			@endif
 			<div class="signin-signup">
 				<!-- Sign IN form -->
 				<form method="POST" class="sign-in-form" action="{{ route('login') }}" id="signin-form">
