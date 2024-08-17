@@ -14,6 +14,7 @@ class College extends Model
     protected $fillable = [
         'short_name',
         'full_name',
+        'status',
         'create_at',
         'updated_at'
     ] ;

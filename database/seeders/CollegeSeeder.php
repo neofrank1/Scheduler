@@ -16,6 +16,7 @@ class CollegeSeeder extends Seeder
         College::insert([
             'short_name' => 'COEduc',
             'full_name' => 'College of Education',
+            'status' => 1,
             'created_at' => now(),
             'updated_at' => now(),
         ]);
@@ -23,6 +24,7 @@ class CollegeSeeder extends Seeder
         College::insert([
             'short_name' => 'COEng',
             'full_name' => 'College of Engineering',
+            'status' => 1,
             'created_at' => now(),
             'updated_at' => now(),
         ]);
@@ -30,6 +32,7 @@ class CollegeSeeder extends Seeder
         College::insert([
             'short_name' => 'COT',
             'full_name' => 'College of Technology',
+            'status' => 1,
             'created_at' => now(),
             'updated_at' => now(),
         ]);
@@ -37,13 +40,15 @@ class CollegeSeeder extends Seeder
         College::insert([
             'short_name' => '',
             'full_name' => 'College of Management and Entrepreneurship',
+            'status' => 1,
             'created_at' => now(),
             'updated_at' => now(),
         ]);
 
         College::insert([
             'short_name' => 'CCICT',
-            'full_name' => 'College of Science',
+            'full_name' => 'College of Information and Communications Technology',
+            'status' => 1,
             'created_at' => now(),
             'updated_at' => now(),
         ]);
@@ -51,6 +56,7 @@ class CollegeSeeder extends Seeder
         College::insert([
             'short_name' => 'CAS',
             'full_name' => 'College of Arts and Science',
+            'status' => 1,
             'created_at' => now(),
             'updated_at' => now(),
         ]);

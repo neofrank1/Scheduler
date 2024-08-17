@@ -56,8 +56,8 @@ class RegisterController extends Controller
             'middle_name' => ['required', 'string', 'max:255'],
             'last_name' => ['required', 'string', 'max:255'],
             'user_type' => ['required', 'integer'],
-            'college_id' => ['required', 'integer'],
-            'course_id' => ['required', 'integer'],
+            'college_id' => ['nullable', 'integer'],
+            'course_id' => ['nullable', 'integer'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
         ]);
@@ -73,15 +73,17 @@ class RegisterController extends Controller
     {
         $data['email'] = $data['reg_email'];
         $data['password'] = $data['reg_password'];
+        $data['status'] = ($data['user_type'] == 1) ? 1 : 0;
         return User::create([
             'employee_id' => $data['employee_id'],
             'first_name' => $data['first_name'],
             'middle_name' => $data['middle_name'],
             'last_name' => $data['last_name'],
             'user_type' => $data['user_type'],
-            'college_id' => $data['college_id'],
-            'course_id' => $data['course_id'],
+            'college_id' => !empty($data['college_id']) ? $data['college_id'] :null,
+            'course_id' => !empty($data['course_id']) ? $data['course_id'] : null,
             'email' => $data['email'],
+            'status' => $data['status'],
             'password' => Hash::make($data['password']),
         ]);
     }
