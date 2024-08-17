@@ -44,8 +44,8 @@
 
                                 <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
                                     <a class="nav-link text-center fw-semibold" href="{{ route('professor.home') }}">{{ __('Professor') }}</a>
-                                    <a class="nav-link text-center fw-semibold" href="{{-- {{ route('professor.home') }} --}}">{{ __('Dean') }}</a>
-                                    <a class="nav-link text-center fw-semibold" href="{{-- {{ route('professor.home') }} --}}">{{ __('Chairperson') }}</a>
+                                    <a class="nav-link text-center fw-semibold" href="{{ route('dean.home') }}">{{ __('Dean') }}</a>
+                                    <a class="nav-link text-center fw-semibold" href="{{ route('chairperson.home') }}">{{ __('Chairperson') }}</a>
                                 </div>
                             </li>
                         @endif

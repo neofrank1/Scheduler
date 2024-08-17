@@ -16,30 +16,31 @@
 <body>
 	<div class="container">
 		<div class="forms-container">
-			@if ($errors->any())
-				<div class="alert alert-danger">
-					<ul class="mb-0">
-						@foreach ($errors->all() as $error)
-							<li>{{ $error }}</li>
-						@endforeach
-					</ul>
-				</div>
-			@endif
 			<div class="signin-signup">
 				<!-- Sign IN form -->
 				<form method="POST" class="sign-in-form" action="{{ route('login') }}" id="signin-form">
                     @csrf
 					<img src="{{ Vite::asset('resources/img/login_logo.png') }}" alt="" width="300">
 					<h2 class="title">Sign in</h2>
-
+					@if ($errors->any())
+						<div class="alert alert-danger">
+							<ul class="mb-0">
+								@foreach ($errors->all() as $error)
+									<li>{{ $error }}</li>
+								@endforeach
+								@error('email')@enderror
+								@error('password')@enderror
+							</ul>
+						</div>
+					@endif
 					<div class="input-field">
 						<i class="fas fa-envelope"></i>
-                        <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" placeholder="Email" value="{{ old('email') }}" required autocomplete="email" autofocus>
+                        <input id="email" type="email" class="form-control" name="email" placeholder="Email" value="{{ old('email') }}" required autocomplete="email" autofocus>
 					</div>
 
 					<div class="input-field">
 						<i class="fas fa-lock"></i>
-						<input id="password" type="password" class="form-control @error('password') is-invalid @enderror" placeholder="Password" name="password" required autocomplete="current-password">
+						<input id="password" type="password" class="form-control" placeholder="Password" name="password" required autocomplete="current-password">
 					</div>
 
                     <div class="row mb-3">
