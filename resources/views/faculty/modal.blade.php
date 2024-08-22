@@ -51,11 +51,11 @@
                     <div class="row">
                         <div class="col-6 mt-2">
                             <label for="college" class="form-label">College Department</label>
-                            <input type="text" class="form-control" name="address" id="address" disabled>
+                            <input type="text" class="form-control" name="college_id" id="college_id" disabled>
                         </div>
                         <div class="col-6 mt-2">
                             <label for="course" class="form-label">Course</label>
-                            <input type="text" class="form-control" name="address" id="address" disabled>
+                            <input type="text" class="form-control" name="course_id" id="course_id" disabled>
                         </div>
                     </div>
                     <div class="row">

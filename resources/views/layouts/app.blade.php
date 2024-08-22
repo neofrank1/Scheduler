@@ -48,6 +48,10 @@
                                     <a class="nav-link text-center fw-semibold" href="{{ route('chairperson.home') }}">{{ __('Chairperson') }}</a>
                                 </div>
                             </li>
+                        @elseif(Auth::user()->user_type == 3)
+                        <li class="nav-item">
+                            <a class="nav-link fw-semibold" href="{{ route('professor.home') }}">{{ __('Professor') }}</a>
+                        </li>
                         @endif
                     </ul>
 

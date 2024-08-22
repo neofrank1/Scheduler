@@ -10,7 +10,7 @@
                                 <h4 class="card-title mt-2">Professor List</h4>
                             </div>
                             <div class="col-6 text-end">
-                                <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addProfessorModal">
+                                <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addProfessorModal" id="professor_add">
                                     <i class="fa-solid fa-plus"></i>
                                     Add Professor
                                 </button>
@@ -18,7 +18,7 @@
                         </div>
                     </div>
                     <div class="card-body">
-                        <table class="table table-bordered table-primary shadow" id="table-course">
+                        <table class="table table-bordered table-primary shadow" id="table-professor">
                             <thead>
                                 <tr>
                                     <th>No.</th>
@@ -37,23 +37,6 @@
                                     <th>Actions</th>
                                 </tr>
                             </thead>
-                            <tbody>
-                                <tr>
-                                    <td>1</td>
-                                    <td>1</td>
-                                    <td>Neo Frank</td>
-                                    <td>Defensor</td>
-                                    <td>Uy</td>
-                                    <td>Hernan Cortes St. Ext. Tipolo Mandaue</td>
-                                    <td>9222145350</td>
-                                    <td>Masters</td>
-                                    <td>Instructor 1</td>
-                                    <td>College of Communication Information and Technology</td>
-                                    <td>Bachelor of Science in Information Technology</td>
-                                    <td>300</td>
-                                    <td>Full Time Dropdown</td>
-                                </tr>
-                            </tbody>
                         </table>
                     </div>
                 </div>
@@ -61,4 +44,29 @@
         </div>
     </div>
 @extends('faculty.modal')
+
+<script type="module">
+
+    $(document).ready(function() {
+
+
+        $('#table-professor').DataTable({
+
+        });
+
+        $('#professor_add').on('click', function() {
+            var college_id = '<?php echo Auth::user()->college_id;?>'
+            var course_id = '<?php echo Auth::user()->course_id;?>'
+            var college_name = '<?php echo $college;?>'
+            var course_name = '<?php echo $course;?>'
+
+
+
+            $('#college_id').val(college_id);
+            $('#course_id').val(course_id);
+        })
+
+    });
+
+</script>
 @endsection
