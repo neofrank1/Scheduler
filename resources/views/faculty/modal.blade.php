@@ -41,21 +41,38 @@
                     <div class="row">
                         <div class="col-6 mt-2">
                             <label for="education" class="form-label">Education</label>
-                            <input type="text" class="form-control" name="education" id="education">
+                            <select class="form-select" name="education_id" id="education_id">
+                                <option value="1">Master</option>
+                                <option value="2">Doctorate</option>
+                            </select>
                         </div>
                         <div class="col-6 mt-2">
                             <label for="ranking" class="form-label">Ranking</label>
-                            <input class="form-control" name="ranking" id="ranking" type="tel">
+                            <select class="form-select" name="ranking_id" id="ranking_id"> 
+                                <?php foreach($ranking as $rankings):?>
+                                    <option value="<?= $rankings['id']?>">{{$rankings['title']}}</option>
+                                <?php endforeach;?>
+                            </select>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-6 mt-2">
                             <label for="college" class="form-label">College Department</label>
-                            <input type="text" class="form-control" name="college_id" id="college_id" disabled>
+                            @foreach($college as $colleges)
+                                @if ($colleges['id'] == Auth::user()->college_id)
+                                    <input type="text" class="form-control" name="college_name" id="college_name" value="<?= $colleges['full_name']?>" disabled>
+                                    <input type="hidden" class="form-control" name="college_id" id="college_id" value="<?= Auth::user()->college_id?>">
+                                @endif
+                            @endforeach
                         </div>
                         <div class="col-6 mt-2">
                             <label for="course" class="form-label">Course</label>
-                            <input type="text" class="form-control" name="course_id" id="course_id" disabled>
+                            @foreach($course as $courses)
+                                @if ($courses['id'] == Auth::user()->course_id)
+                                    <input type="text" class="form-control" name="course_name" id="course_name" value="<?= $courses['full_name']?>" disabled>
+                                    <input type="hidden" class="form-control" name="course_id" id="course_id" value="<?= Auth::user()->course_id?>">
+                                @endif
+                            @endforeach    
                         </div>
                     </div>
                     <div class="row">
@@ -64,8 +81,7 @@
                             <input type="text" class="form-control" name="address" id="address">
                         </div>
                         <div class="col-6 mt-2">
-                            <label for="course" class="form-label">Status</label>
-                            <input type="text" class="form-control" name="address" id="address">
+                            <input type="hidden" class="form-control" name="status" id="status" value="1">
                         </div>
                     </div>
                 </div>

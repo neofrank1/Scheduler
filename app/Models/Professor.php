@@ -9,6 +9,7 @@ class Professor extends Model
 {
     use HasFactory;
 
+    protected $table = 'professor';
     protected $fillable = [
         'employee_id',
         'first_name',

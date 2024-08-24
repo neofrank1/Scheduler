@@ -54,18 +54,6 @@
 
         });
 
-        $('#professor_add').on('click', function() {
-            var college_id = '<?php echo Auth::user()->college_id;?>'
-            var course_id = '<?php echo Auth::user()->course_id;?>'
-            var college_name = '<?php echo $college;?>'
-            var course_name = '<?php echo $course;?>'
-
-
-
-            $('#college_id').val(college_id);
-            $('#course_id').val(course_id);
-        })
-
     });
 
 </script>
