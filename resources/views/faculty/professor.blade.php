@@ -1,5 +1,14 @@
 @extends('layouts.app')
 @section('content')
+    @if(session('success'))
+        <div class="container">
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+            <i class="fas fa-check-square"></i>
+                {{ session('success') }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        </div>
+    @endif
     <div class="container-fluid">
         <div class="row">
             <div class="col-12">
@@ -33,7 +42,6 @@
                                     <th>College</th>
                                     <th>Course</th>
                                     <th>Maximmum Hours</th>
-                                    <th>Status</th>
                                     <th>Actions</th>
                                 </tr>
                             </thead>
@@ -49,9 +57,58 @@
 
     $(document).ready(function() {
 
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
+
 
         $('#table-professor').DataTable({
-
+            processing : true,
+            serverSide : true,
+            ajax: `{{ route('professor.home') }}`,
+            columns: [
+                { data: 'id', name: 'id' },
+                { data: 'employee_id', name: 'employee_id' },
+                { data: 'first_name', name: 'first_name' },
+                { data: 'middle_name', name: 'middle_name' },
+                { data: 'last_name', name: 'last_name' },
+                { data: 'address', name: 'address' },
+                { data: 'mobile_no', name: 'mobile_no' },
+                { data: 'education_id', name: 'education_id' },
+                { data: 'ranking_title', name: 'ranking_title' },
+                { data: 'college_name', name: 'college_name' },
+                { data: 'course_name', name: 'course_name' },
+                { data: 'maximum_hours', name: 'maximum_hours', searchable: false, orderable: false},
+                { 
+                    data: null, 
+                    name: 'actions', 
+                    searchable: false,
+                    render: function(data, type, row) {
+                        if (row.status === 0) {
+                            return `
+                                <a type="button" class="btn btn-success btn-edit" data-bs-toggle="modal" data-bs-target="#editCourseModal" data-id="${row.id}">
+                                    <i class="fa-solid fa-pen"></i> Edit
+                                </a>
+                                <a type="button" class="btn btn-secondary btn-activate" data-status="1" data-id="${row.id}">
+                                    <i class="fa-solid fa-check"></i> Activate
+                                </a>
+                            `;
+                        } else { 
+                            return `
+                                <a type="button" class="btn btn-success btn-edit" data-bs-toggle="modal" data-bs-target="#editCourseModal" data-id="${row.id}">
+                                    <i class="fa-solid fa-pen"></i> Edit
+                                </a>
+                                <a type="button" class="btn btn-danger btn-deactivate" data-status="0" data-id="${row.id}">
+                                    <i class="fa-solid fa-circle-xmark"></i> Deactivate
+                                </a>
+                            `;
+                        } 
+                    }
+                }
+            ],
+            responsive: true
         });
 
     });

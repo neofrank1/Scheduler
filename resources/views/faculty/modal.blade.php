@@ -1,7 +1,7 @@
 <!-- Add Professor Modal -->
 <div class="modal fade" id="addProfessorModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="addProfessorModal" aria-hidden="true">
     <div class="modal-dialog modal-lg">
-        <form action="{{ route('course.add') }}" method="POST">
+        <form action="{{ route('professor.add') }}" method="POST">
             @csrf
             <div class="modal-content">
                 <div class="modal-header">
@@ -78,7 +78,7 @@
                     <div class="row">
                         <div class="col-6 mt-2">
                             <label for="max_hours" class="form-label">Maximum Hours</label>
-                            <input type="text" class="form-control" name="address" id="address">
+                            <input type="text" class="form-control" name="maximum_hours" id="maximum_hours">
                         </div>
                         <div class="col-6 mt-2">
                             <input type="hidden" class="form-control" name="status" id="status" value="1">

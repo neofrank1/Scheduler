@@ -37,3 +37,4 @@ Route::get('/dean', [DeanController::class, 'index'])->middleware('auth')->name(
 Route::post('/dean/statusDean', [DeanController::class, 'statusDean'])->name('dean.status');
 Route::get('/chairperson', [ChairpersonController::class, 'index'])->middleware('auth')->name('chairperson.home');
 Route::post('/chairperson/statusChairperson', [ChairpersonController::class, 'statusChairperson'])->name('chairperson.status');
+Route::post('/professor/insertProfessor', [ProfessorController::class, 'insertProfessor'])->middleware('auth')->name('professor.add');
