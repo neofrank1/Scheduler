@@ -88,7 +88,7 @@
                     render: function(data, type, row) {
                         if (row.status === 0) {
                             return `
-                                <a type="button" class="btn btn-success btn-edit" data-bs-toggle="modal" data-bs-target="#editCourseModal" data-id="${row.id}">
+                                <a type="button" class="btn btn-success btn-edit" data-bs-toggle="modal" data-bs-target="#editProfessorModal" data-id="${row.id}">
                                     <i class="fa-solid fa-pen"></i> Edit
                                 </a>
                                 <a type="button" class="btn btn-secondary btn-activate" data-status="1" data-id="${row.id}">
@@ -97,7 +97,7 @@
                             `;
                         } else { 
                             return `
-                                <a type="button" class="btn btn-success btn-edit" data-bs-toggle="modal" data-bs-target="#editCourseModal" data-id="${row.id}">
+                                <a type="button" class="btn btn-success btn-edit" data-bs-toggle="modal" data-bs-target="#editProfessorModal" data-id="${row.id}">
                                     <i class="fa-solid fa-pen"></i> Edit
                                 </a>
                                 <a type="button" class="btn btn-danger btn-deactivate" data-status="0" data-id="${row.id}">
@@ -110,6 +110,65 @@
             ],
             responsive: true
         });
+
+        // Edit
+        $('#table-professor').on('click', '.btn-edit', function() {
+                var id = $(this).data('id');
+
+                $.ajax({
+                    url: '/professor/getProfessor/' + id,
+                    method: 'GET',
+                    success: function(response) {
+                        console.log(response);
+                       
+                    }
+                });
+            });
+
+        // Status
+        $('#table-professor').on('click', '.btn-deactivate', function() {
+                var id = $(this).data('id');
+                var status = $(this).data('status');
+
+                $.ajax({
+                    url: '{{ route('professor.status') }}',
+                    type: 'POST',
+                    data: {
+                        id: id,
+                        status: status
+                    },
+                    success: function(response) {
+                        if (response.success) {
+                            alert(response.message);
+                            window.location.reload();
+                        } else {
+                            alert('Failed to update status');
+                        }
+                    }
+                });
+            });
+
+            $('#table-professor').on('click', '.btn-activate', function() {
+                var id = $(this).data('id')
+                var status = $(this).data('status');
+
+                $.ajax({
+                    url: '{{ route('professor.status') }}',
+                    type: 'POST',
+                    data: {
+                        id: id,
+                        status: status
+                    },
+                    success: function(response) {
+                        if (response.success) {
+                            alert(response.message);
+                            window.location.reload();
+                        } else {
+                            alert('Failed to update status');
+                        }
+                    }
+                });
+            });
 
     });
 

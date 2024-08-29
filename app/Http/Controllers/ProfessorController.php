@@ -39,4 +39,28 @@ class ProfessorController extends Controller
         return redirect()->route('professor.home')->with('success', 'Professor created successfully!');
 
     }
+
+    public function editProfessor($id) {
+        $result = Professor::find($id);
+        return response()->json($result);
+    }
+
+    public function statusProfessor(Request $request)
+    {
+        if ($request->ajax()) {
+            $professor = Professor::find($request->input('id'));
+            if ($professor) {
+                $professor->status = $request->input('status');
+                $result = $professor->save();
+
+                if ($result) {
+                    $message = $request->input('status') == 1 ? 'Professor activated successfully!' : 'Professor deactivated successfully!';
+                    return response()->json(['success' => true, 'message' => $message]);
+                }
+            }
+            return response()->json(['success' => false, 'message' => 'Failed to update professor status.']);
+        }
+
+        return response()->json(['success' => false, 'message' => 'Invalid request.']);
+    }
 }
