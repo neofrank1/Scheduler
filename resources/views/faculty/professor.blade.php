@@ -115,15 +115,27 @@
         $('#table-professor').on('click', '.btn-edit', function() {
                 var id = $(this).data('id');
 
-                $.ajax({
-                    url: '/professor/getProfessor/' + id,
-                    method: 'GET',
-                    success: function(response) {
-                        console.log(response);
-                       
+            $.ajax({
+                url: '/professor/getProfessor/' + id,
+                method: 'GET',
+                success: function(response) {
+                    console.log(response);
+                    $('#edit_employee_id').val(response.employee_id);
+                    $('#edit_first_name').val(response.first_name);
+                    $('#edit_middle_name').val(response.middle_name);
+                    $('#edit_last_name').val(response.last_name);
+                    $('#edit_mobile_no').val(response.mobile_no);
+                    $('#edit_address').val(response.address);
+                    $('#edit_maximum_hours').val(response.maximum_hours);
+                    if ($('#edit_education_id option[value="' + response.education_id + '"]').length === 1) {
+                        $('#edit_education_id').val(response.education_id); 
                     }
-                });
+                    if ($('#edit_ranking_id option[value="' + response.ranking_id + '"]').length === 1) {
+                        $('#edit_ranking_id').val(response.ranking_id);
+                    }
+                }
             });
+        });
 
         // Status
         $('#table-professor').on('click', '.btn-deactivate', function() {

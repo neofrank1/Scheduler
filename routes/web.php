@@ -40,3 +40,4 @@ Route::post('/chairperson/statusChairperson', [ChairpersonController::class, 'st
 Route::post('/professor/insertProfessor', [ProfessorController::class, 'insertProfessor'])->middleware('auth')->name('professor.add');
 Route::post('/professor/statusProfessor', [ProfessorController::class, 'statusProfessor'])->middleware('auth')->name('professor.status');
 Route::get('/professor/getProfessor/{id}', [ProfessorController::class, 'editProfessor']);
+Route::post('/professor/updateProfessor', [ProfessorController::class, 'updateProfessor'])->middleware('auth')->name('professor.update');

@@ -41,7 +41,11 @@ class ProfessorController extends Controller
     }
 
     public function editProfessor($id) {
-        $result = Professor::find($id);
+        $result = Professor::select('professors.*', 'ranking.*', 'college.*')
+                        ->join('ranking', 'professors.ranking_id', '=', 'ranking.id')
+                        ->join('college', 'professors.college_id', '=', 'college.id')
+                        ->where('professors.id', $id)
+                        ->first();
         return response()->json($result);
     }
 
@@ -62,5 +66,24 @@ class ProfessorController extends Controller
         }
 
         return response()->json(['success' => false, 'message' => 'Invalid request.']);
+    }
+
+    public function updateProfessor(Request $request) {
+        if (empty($request->input())) {
+            return false;
+        }
+
+        if (empty($request->input('_token'))) {
+            return false;
+        }
+        $id = $request->input('employee_id');
+
+        $professor = Professor::find($id);
+
+        $result = $professor->update($request->except('_token'));
+
+        if ($result) {
+            return redirect()->route('professor.home')->with('success', 'professor updated successfully!');
+        }
     }
 }
