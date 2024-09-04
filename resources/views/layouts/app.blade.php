@@ -53,7 +53,7 @@
                             <a class="nav-link fw-semibold" href="{{ route('professor.home') }}">{{ __('Professor') }}</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link fw-semibold" href="{{-- {{ route('section.home') }} --}}">{{ __('Section') }}</a>
+                            <a class="nav-link fw-semibold" href="{{ route('section.home') }}">{{ __('Section') }}</a>
                         </li>
                         @endif
                     </ul>
