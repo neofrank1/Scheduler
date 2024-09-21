@@ -6,6 +6,7 @@ use App\Http\Controllers\CourseController;
 use App\Http\Controllers\ProfessorController;
 use App\Http\Controllers\DeanController;
 use App\Http\Controllers\ChairpersonController;
+use App\Http\Controllers\SectionController;
 
 Route::get('/', function () {
     return view('index');
@@ -37,3 +38,10 @@ Route::get('/dean', [DeanController::class, 'index'])->middleware('auth')->name(
 Route::post('/dean/statusDean', [DeanController::class, 'statusDean'])->name('dean.status');
 Route::get('/chairperson', [ChairpersonController::class, 'index'])->middleware('auth')->name('chairperson.home');
 Route::post('/chairperson/statusChairperson', [ChairpersonController::class, 'statusChairperson'])->name('chairperson.status');
+Route::post('/professor/insertProfessor', [ProfessorController::class, 'insertProfessor'])->middleware('auth')->name('professor.add');
+Route::post('/professor/statusProfessor', [ProfessorController::class, 'statusProfessor'])->middleware('auth')->name('professor.status');
+Route::get('/professor/getProfessor/{id}', [ProfessorController::class, 'editProfessor']);
+Route::post('/professor/updateProfessor', [ProfessorController::class, 'updateProfessor'])->middleware('auth')->name('professor.update');
+
+// Section
+Route::get('/section', [SectionController::class, 'index'])->middleware('auth')->name('section.home');
