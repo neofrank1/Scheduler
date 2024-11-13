@@ -16,6 +16,7 @@ class Section extends Model
         'year_lvl',
         'college_id',
         'course_id',
-        'program'
+        'program',
+        'status'
     ];
 }

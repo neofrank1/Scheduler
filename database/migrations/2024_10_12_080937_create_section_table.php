@@ -18,6 +18,7 @@ return new class extends Migration
             $table->foreignId('college_id')->nullable()->constrained('college');
             $table->foreignId('course_id')->nullable()->constrained('course');
             $table->integer('program');
+            $table->integer('status');
             $table->timestamps();
         });
     }
