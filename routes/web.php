@@ -46,3 +46,5 @@ Route::post('/professor/updateProfessor', [ProfessorController::class, 'updatePr
 // Section
 Route::get('/section', [SectionController::class, 'index'])->middleware('auth')->name('section.home');
 Route::post('/section/insertSection', [SectionController::class, 'insertSection'])->middleware('auth')->name('section.add');
+Route::get('/section/getSection/{id}', [SectionController::class, 'editSection']);
+Route::post('/section/updateSection', [SectionController::class, 'updateSection'])->middleware('auth')->name('section.update');

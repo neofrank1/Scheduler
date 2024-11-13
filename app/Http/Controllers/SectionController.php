@@ -34,4 +34,32 @@ class SectionController extends Controller
         Section::create($request->except('_token',));
         return redirect()->route('section.home')->with('success', 'Section created successfully!');
     }
+
+    public function editSection($id){
+        $result = Section::select('section.*', 'college.full_name as college_name', 'course.full_name as course_name')
+                ->join('course', 'section.course_id', '=', 'course.id')
+                ->join('college', 'section.college_id', '=', 'college.id')
+                ->where('section.id', $id)
+                ->first();
+        return response()->json($result);
+    }
+
+    public function updateSection(Request $request) {
+        if (empty($request->input())) {
+            return false;
+        }
+
+        if (empty($request->input('_token'))) {
+            return false;
+        }
+        $id = $request->input('section_id');
+
+        $section = Section::find($id);
+
+        $result = $section->update($request->except('_token'));
+
+        if ($result) {
+            return redirect()->route('section.home')->with('success', 'section updated successfully!');
+        }
+    }
 }
