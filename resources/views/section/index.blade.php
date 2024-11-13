@@ -164,6 +164,51 @@
                 }
             });
         });
+
+         // Status
+         $('#table-section').on('click', '.btn-deactivate', function() {
+                var id = $(this).data('id');
+                var status = $(this).data('status');
+
+                $.ajax({
+                    url: '{{ route('section.status') }}',
+                    type: 'POST',
+                    data: {
+                        id: id,
+                        status: status
+                    },
+                    success: function(response) {
+                        if (response.success) {
+                            alert(response.message);
+                            window.location.reload();
+                        } else {
+                            alert('Failed to update status');
+                        }
+                    }
+                });
+            });
+
+            $('#table-section').on('click', '.btn-activate', function() {
+                var id = $(this).data('id')
+                var status = $(this).data('status');
+
+                $.ajax({
+                    url: '{{ route('section.status') }}',
+                    type: 'POST',
+                    data: {
+                        id: id,
+                        status: status
+                    },
+                    success: function(response) {
+                        if (response.success) {
+                            alert(response.message);
+                            window.location.reload();
+                        } else {
+                            alert('Failed to update status');
+                        }
+                    }
+                });
+            });
     });
 </script>
 @endsection

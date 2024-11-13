@@ -48,3 +48,4 @@ Route::get('/section', [SectionController::class, 'index'])->middleware('auth')-
 Route::post('/section/insertSection', [SectionController::class, 'insertSection'])->middleware('auth')->name('section.add');
 Route::get('/section/getSection/{id}', [SectionController::class, 'editSection']);
 Route::post('/section/updateSection', [SectionController::class, 'updateSection'])->middleware('auth')->name('section.update');
+Route::post('/section/statusSection', [SectionController::class, 'statusSection'])->middleware('auth')->name('section.status');

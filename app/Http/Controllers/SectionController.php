@@ -62,4 +62,23 @@ class SectionController extends Controller
             return redirect()->route('section.home')->with('success', 'section updated successfully!');
         }
     }
+
+    public function statusSection(Request $request)
+    {
+        if ($request->ajax()) {
+            $section = Section::find($request->input('id'));
+            if ($section) {
+                $section->status = $request->input('status');
+                $result = $section->save();
+
+                if ($result) {
+                    $message = $request->input('status') == 1 ? 'Section activated successfully!' : 'Section deactivated successfully!';
+                    return response()->json(['success' => true, 'message' => $message]);
+                }
+            }
+            return response()->json(['success' => false, 'message' => 'Failed to update section status.']);
+        }
+
+        return response()->json(['success' => false, 'message' => 'Invalid request.']);
+    }
 }
