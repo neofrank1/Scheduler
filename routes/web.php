@@ -7,6 +7,7 @@ use App\Http\Controllers\ProfessorController;
 use App\Http\Controllers\DeanController;
 use App\Http\Controllers\ChairpersonController;
 use App\Http\Controllers\SectionController;
+use App\Http\Controllers\RoomController;
 
 Route::get('/', function () {
     return view('index');
@@ -49,3 +50,6 @@ Route::post('/section/insertSection', [SectionController::class, 'insertSection'
 Route::get('/section/getSection/{id}', [SectionController::class, 'editSection']);
 Route::post('/section/updateSection', [SectionController::class, 'updateSection'])->middleware('auth')->name('section.update');
 Route::post('/section/statusSection', [SectionController::class, 'statusSection'])->middleware('auth')->name('section.status');
+
+// Room
+Route::get('/room', [RoomController::class, 'index'])->middleware('auth')->name('room.home');
