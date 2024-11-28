@@ -53,3 +53,6 @@ Route::post('/section/statusSection', [SectionController::class, 'statusSection'
 
 // Room
 Route::get('/room', [RoomController::class, 'index'])->middleware('auth')->name('room.home');
+Route::post('/room/insertRoom', [RoomController::class, 'insertRoom'])->middleware('auth')->name('room.add');
+Route::get('/room/getRoom/{id}', [RoomController::class, 'editRoom']);
+Route::post('/room/updateRoom', [RoomController::class, 'updateRoom'])->middleware('auth')->name('room.update');
