@@ -8,6 +8,7 @@ use App\Http\Controllers\DeanController;
 use App\Http\Controllers\ChairpersonController;
 use App\Http\Controllers\SectionController;
 use App\Http\Controllers\RoomController;
+use App\Http\Controllers\SubjectController;
 
 Route::get('/', function () {
     return view('index');
@@ -56,3 +57,7 @@ Route::get('/room', [RoomController::class, 'index'])->middleware('auth')->name(
 Route::post('/room/insertRoom', [RoomController::class, 'insertRoom'])->middleware('auth')->name('room.add');
 Route::get('/room/getRoom/{id}', [RoomController::class, 'editRoom']);
 Route::post('/room/updateRoom', [RoomController::class, 'updateRoom'])->middleware('auth')->name('room.update');
+
+// Subject
+Route::get('/subject', [SubjectController::class, 'index'])->middleware('auth')->name('subject.home');
+Route::post('/subject/insertSubject', [SubjectController::class, 'insertSubject'])->middleware('auth')->name('subject.add');
