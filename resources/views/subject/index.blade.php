@@ -19,7 +19,7 @@
                                 <h4 class="card-title mt-2">Subject List</h4>
                             </div>
                             <div class="col-6 text-end">
-                            <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addRoomModal" id="room_add">
+                            <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addSubjectModal" id="room_add">
                                 <i class="fa-solid fa-plus"></i>
                                 Add Subject
                             </button>
@@ -27,11 +27,10 @@
                         </div>
                     </div>
                     <div class="card-body">
-                        <table class="table table-bordered table-primary shadow" id="table-room">
+                        <table class="table table-bordered table-primary shadow" id="table-subject">
                             <thead>
                                 <tr>
                                     <th>ID</th>
-                                    <th>Subject Name</th>
                                     <th>Subject Code</th>
                                     <th>Subject Description</th>
                                     <th>Subject Prerequisite</th>
@@ -57,6 +56,58 @@
 
 <script type="module">
     $(document).ready(function () {
+
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
+
+        $('#table-subject').dataTable({
+            processing : true,
+            serverSide : true,
+            ajax: `{{ route('subject.home') }}`,
+            columns: [
+                { data: 'id', name: 'id' },
+                { data: 'subj_code', name: 'subj_code' },
+                { data: 'subj_desc', name: 'subj_desc' },
+                { data: 'subj_prereq', name: 'subj_prereq', searchable: false, orderable: false},
+                { data: 'subj_type', name: 'subj_type' },
+                { data: 'subj_lab_hours', name: 'subj_lab_hours' },
+                { data: 'subj_lec_hours', name: 'subj_lec_hours' },
+                { data: 'semester', name: 'semester' },
+                { data: 'year_level', name: 'year_level' },
+                { data: 'school_year', name: 'school_year' },
+                { 
+                    data: null, 
+                    name: 'actions', 
+                    searchable: false,
+                    render: function(data, type, row) {
+                        if (row.status === 0) {
+                            return `
+                                <a type="button" class="btn btn-success btn-edit" data-bs-toggle="modal" data-bs-target="#editSubjectModal" data-id="${row.id}">
+                                    <i class="fa-solid fa-pen"></i> Edit
+                                </a>
+                                <a type="button" class="btn btn-secondary btn-activate" data-status="1" data-id="${row.id}">
+                                    <i class="fa-solid fa-check"></i> Activate
+                                </a>
+                            `;
+                        } else { 
+                            return `
+                                <a type="button" class="btn btn-success btn-edit" data-bs-toggle="modal" data-bs-target="#editSubjectModal" data-id="${row.id}">
+                                    <i class="fa-solid fa-pen"></i> Edit
+                                </a>
+                                <a type="button" class="btn btn-danger btn-deactivate" data-status="0" data-id="${row.id}">
+                                    <i class="fa-solid fa-circle-xmark"></i> Deactivate
+                                </a>
+                            `;
+                        } 
+                    }
+                }
+            ],
+            responsive: true
+        });
+
         // Add button click handler
         $("#addButton").on("click", function () {
             // Clone the first subject-form
