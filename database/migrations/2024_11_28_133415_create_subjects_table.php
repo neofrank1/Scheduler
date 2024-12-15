@@ -20,6 +20,7 @@ return new class extends Migration
             $table->float('subj_lec_hours', 5, 1);
             $table->float('subj_lab_hours', 5, 1);
             $table->float('subj_hours', 5, 1);
+            $table->foreignId(column: 'course_id')->nullable()->constrained('course');
             $table->integer('semester');
             $table->string('school_year');
             $table->integer('year_level');

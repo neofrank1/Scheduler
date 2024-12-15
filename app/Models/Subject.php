@@ -20,6 +20,7 @@ class Subject extends Model
         'subj_lec_hours',
         'subj_lab_hours',
         'subj_hours',
+        'course_id',
         'semester',
         'school_year',
         'year_level'

@@ -37,6 +37,7 @@
                                     <th>Subject Type</th>
                                     <th>Subject Lab Hours</th>
                                     <th>Subject Lec Hours</th>
+                                    <th>Course</th>
                                     <th>Semester</th>
                                     <th>Year Level</th>
                                     <th>S.Y</th>
@@ -75,6 +76,7 @@
                 { data: 'subj_type', name: 'subj_type' },
                 { data: 'subj_lab_hours', name: 'subj_lab_hours' },
                 { data: 'subj_lec_hours', name: 'subj_lec_hours' },
+                { data: 'course', name: 'course' },
                 { data: 'semester', name: 'semester' },
                 { data: 'year_level', name: 'year_level' },
                 { data: 'school_year', name: 'school_year' },
@@ -129,6 +131,32 @@
             if (forms.length > 1) {
                 forms.last().remove();
             }
+        });
+
+         // Edit
+         $('#table-subject').on('click', '.btn-edit', function() {
+                var id = $(this).data('id');
+                console.log(id);
+            /* $.ajax({
+                url: '/professor/getProfessor/' + id,
+                method: 'GET',
+                success: function(response) {
+                    console.log(response);
+                    $('#edit_employee_id').val(response.employee_id);
+                    $('#edit_first_name').val(response.first_name);
+                    $('#edit_middle_name').val(response.middle_name);
+                    $('#edit_last_name').val(response.last_name);
+                    $('#edit_mobile_no').val(response.mobile_no);
+                    $('#edit_address').val(response.address);
+                    $('#edit_maximum_hours').val(response.maximum_hours);
+                    if ($('#edit_education_id option[value="' + response.education_id + '"]').length === 1) {
+                        $('#edit_education_id').val(response.education_id); 
+                    }
+                    if ($('#edit_ranking_id option[value="' + response.ranking_id + '"]').length === 1) {
+                        $('#edit_ranking_id').val(response.ranking_id);
+                    }
+                }
+            }); */
         });
     });
 </script>
