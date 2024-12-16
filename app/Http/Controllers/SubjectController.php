@@ -50,8 +50,63 @@ class SubjectController extends Controller
         return redirect()->route('subject.home')->with('success', 'Subject created successfully!');
     }
 
-    public function editSubjects($id)
+    public function editSubject($id)
     {
+        $subject = Subject::select('subjects.*', 'course.short_name as course')
+                ->leftJoin('course', 'subjects.course_id', '=', 'course.id')
+                ->where('subjects.id', $id)
+                ->first();
 
+        // Generate dynamic school year options
+        $currentYear = date('Y');
+        $nextYear = $currentYear + 1;
+        $schoolYears = [];
+        for ($i = $currentYear; $i < $nextYear + 5; $i++) {
+            $schoolYears[] = $i . '-' . ($i + 1);
+        }
+
+        $year_level = array(
+            '1' => "1st Year",
+            '2' => "2nd Year",
+            '3' => "3rd Year",
+            '4' => "4th Year"
+        );
+
+        $semester = array(
+            '1' => "1st",
+            '2' => "2nd",
+        );
+
+        $subj_type = array(
+            '1' => "Major",
+            '2' => "Minor",
+        );
+
+        return response()->json([
+            'subject' => $subject,
+            'school_years' => $schoolYears,
+            'year_level' => $year_level,
+            'semester' => $semester,
+            'subj_type' => $subj_type
+        ]);
+    }
+
+    public function updateSubject(Request $request) {
+        if (empty($request->input())) {
+            return false;
+        }
+
+        if (empty($request->input('_token'))) {
+            return false;
+        }
+        $id = $request->input('subject_id');
+
+        $subject = Subject::find($id);
+
+        $result = $subject->update($request->except('_token'));
+
+        if ($result) {
+            return redirect()->route('subject.home')->with('success', 'Subject updated successfully!');
+        }
     }
 }

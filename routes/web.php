@@ -61,3 +61,5 @@ Route::post('/room/updateRoom', [RoomController::class, 'updateRoom'])->middlewa
 // Subject
 Route::get('/subject', [SubjectController::class, 'index'])->middleware('auth')->name('subject.home');
 Route::post('/subject/insertSubject', [SubjectController::class, 'insertSubject'])->middleware('auth')->name('subject.add');
+Route::get('/subject/getSubject/{id}', [SubjectController::class, 'editSubject']);
+Route::post('/subject/updateSubject', [SubjectController::class, 'updateSubject'])->middleware('auth')->name('subject.update');

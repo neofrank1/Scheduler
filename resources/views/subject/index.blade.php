@@ -134,29 +134,72 @@
         });
 
          // Edit
-         $('#table-subject').on('click', '.btn-edit', function() {
+        $('#table-subject').on('click', '.btn-edit', function() {
                 var id = $(this).data('id');
                 console.log(id);
-            /* $.ajax({
-                url: '/professor/getProfessor/' + id,
+            $.ajax({
+                url: '/subject/getSubject/' + id,
                 method: 'GET',
                 success: function(response) {
                     console.log(response);
-                    $('#edit_employee_id').val(response.employee_id);
-                    $('#edit_first_name').val(response.first_name);
-                    $('#edit_middle_name').val(response.middle_name);
-                    $('#edit_last_name').val(response.last_name);
-                    $('#edit_mobile_no').val(response.mobile_no);
-                    $('#edit_address').val(response.address);
-                    $('#edit_maximum_hours').val(response.maximum_hours);
-                    if ($('#edit_education_id option[value="' + response.education_id + '"]').length === 1) {
-                        $('#edit_education_id').val(response.education_id); 
-                    }
-                    if ($('#edit_ranking_id option[value="' + response.ranking_id + '"]').length === 1) {
-                        $('#edit_ranking_id').val(response.ranking_id);
-                    }
+                    $('#subject_id').val(id);
+                    $('#edit_subj_code').val(response.subject.subj_code);
+                    $('#edit_subj_desc').val(response.subject.subj_desc);
+                    $('#edit_subj_hours').val(response.subject.subj_hours);
+                    $('#edit_subj_lab_hours').val(response.subject.subj_lab_hours);
+                    $('#edit_subj_lec_hours').val(response.subject.subj_lec_hours);
+                    $('#edit_subj_prereq').val(response.subject.subj_prereq);
+                    var schoolYearSelect = $('#edit_school_yr');
+                    var yearLevelSelect = $('#edit_year_lvl');
+                    var semesterSelect = $('#edit_semester');
+                    var subjTypeSelect = $('#edit_subj_type');
+                    yearLevelSelect.empty(); // Clear existing options
+                    schoolYearSelect.empty(); // Clear existing options
+                    semesterSelect.empty(); // Clear existing options
+                    subjTypeSelect.empty(); // Clear existing options
+                    $.each(response.school_years, function(index, year) {
+                    schoolYearSelect.append(
+                        $('<option>', {
+                            value: year,
+                            text: year
+                            })
+                        );
+                    });
+
+                    $.each(response.year_level, function(index, year) {
+                        yearLevelSelect.append(
+                        $('<option>', {
+                            value: index,
+                            text: year
+                            })
+                        );
+                    });
+
+                    $.each(response.semester, function(index, year) {
+                        semesterSelect.append(
+                        $('<option>', {
+                            value: index,
+                            text: year
+                            })
+                        );
+                    });
+
+                    $.each(response.subj_type, function(index, year) {
+                        subjTypeSelect.append(
+                        $('<option>', {
+                            value: index,
+                            text: year
+                            })
+                        );
+                    });
+
+                    // Set the selected value manually
+                    schoolYearSelect.val(response.subject.school_year);
+                    yearLevelSelect.val(response.subject.year_level);
+                    semesterSelect.val(response.subject.semester);
+                    subjTypeSelect.val(response.subject.subj_type);
                 }
-            }); */
+            });
         });
     });
 </script>
