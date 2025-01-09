@@ -25,4 +25,9 @@ class Subject extends Model
         'school_year',
         'year_level'
     ];
+
+    public static function getSubjectsByCourseId($courseId)
+    {
+        return self::where('course_id', $courseId)->get();
+    }
 }

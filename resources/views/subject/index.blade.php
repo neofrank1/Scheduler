@@ -23,7 +23,7 @@
                                 <i class="fa-solid fa-plus"></i>
                                 Add Subject
                             </button>
-                    </div>
+                            </div>
                         </div>
                     </div>
                     <div class="card-body">

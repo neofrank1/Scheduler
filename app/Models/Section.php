@@ -19,4 +19,9 @@ class Section extends Model
         'program',
         'status'
     ];
+
+    public static function getSectionByCourseId($courseId)
+    {
+        return self::where('course_id', $courseId)->get();
+    }
 }

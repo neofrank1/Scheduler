@@ -61,6 +61,9 @@
                         <li class="nav-item">
                             <a class="nav-link fw-semibold" href="{{ route('subject.home') }}">{{ __('Subject') }}</a>
                         </li>
+                        <li class="nav-item">
+                            <a class="nav-link fw-semibold" href="{{ route('schedule.home') }}">{{ __('Schedule') }}</a>
+                        </li>
                         @endif
                     </ul>
 

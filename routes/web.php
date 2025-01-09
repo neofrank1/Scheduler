@@ -9,6 +9,7 @@ use App\Http\Controllers\ChairpersonController;
 use App\Http\Controllers\SectionController;
 use App\Http\Controllers\RoomController;
 use App\Http\Controllers\SubjectController;
+use App\Http\Controllers\ScheduleController;
 
 Route::get('/', function () {
     return view('index');
@@ -63,3 +64,7 @@ Route::get('/subject', [SubjectController::class, 'index'])->middleware('auth')-
 Route::post('/subject/insertSubject', [SubjectController::class, 'insertSubject'])->middleware('auth')->name('subject.add');
 Route::get('/subject/getSubject/{id}', [SubjectController::class, 'editSubject']);
 Route::post('/subject/updateSubject', [SubjectController::class, 'updateSubject'])->middleware('auth')->name('subject.update');
+
+// Schedule 
+Route::get('/schedule', [ScheduleController::class, 'index'])->middleware('auth')->name('schedule.home');
+Route::post('/schedule/insertSchedule', [ScheduleController::class, 'insertSchedule'])->middleware('auth')->name('schedule.add');
