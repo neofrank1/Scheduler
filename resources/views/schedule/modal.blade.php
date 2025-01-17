@@ -15,7 +15,7 @@
                     <div class="row mb-3">
                         <div class="col-4">
                             <label for="" class="form-label">School Year</label>
-                            <select class="form-select" name="schedule[school_year]">
+                            <select class="form-select" name="school_year">
                                 <?php 
                                 $date2 = date('Y', strtotime('+1 Years'));
                                 for ($i = date('Y'); $i < $date2 + 5; $i++) {
@@ -26,14 +26,14 @@
                         </div>
                         <div class="col-4">
                             <label for="" class="form-label">Semester</label>
-                            <select class="form-select" name="schedule[semester]">
+                            <select class="form-select" name="semester">
                                 <option value="1">1st</option>
                                 <option value="2">2nd</option>
                             </select>
                         </div>
                         <div class="col-4">
                             <label for="" class="form-label">Section</label>
-                            <select class="form-select" name="schedule[section_id]">
+                            <select class="form-select" name="section_id">
                                 <option disabled selected>Choose Section</option>
                                 <?php foreach ($sections as $section): ?>
                                     <option value="<?= $section['id'] ?>"><?= $section['name'] ?></option>
@@ -46,7 +46,7 @@
                             <div class="row mb-3">
                                 <div class="col-4">
                                     <label for="subj_code" class="form-label">Select Subject</label>
-                                    <select class="form-select" name="schedule[subjects][][subject_id]">
+                                    <select class="form-select" name="subjects[0][subject_id]">
                                         <option disabled selected>Choose Subject</option>
                                         <?php foreach ($subjects as $subject): ?>
                                             <option value="<?= $subject['id'] ?>"><?= $subject['subj_code'] ?></option>
@@ -55,7 +55,7 @@
                                 </div>
                                 <div class="col-4">
                                     <label for="subj_desc" class="form-label">Select Professor</label>
-                                    <select class="form-select" name="schedule[subjects][][professor_id]">
+                                    <select class="form-select" name="subjects[0][professor_id]">
                                         <option disabled selected>Choose Professor</option>
                                         <?php foreach ($professors as $professor): ?>
                                             <option value="<?= $professor['id'] ?>"><?= $professor['first_name'].' '.$professor['middle_name'].' '.$professor['last_name'] ?></option>
@@ -64,7 +64,7 @@
                                 </div>
                                 <div class="col-4">
                                     <label for="subj_hrs" class="form-label">Select Room</label>
-                                    <select class="form-select" name="schedule[subjects][][room_id]">
+                                    <select class="form-select" name="subjects[0][room_id]">
                                         <option disabled selected>Choose Room</option>
                                         <?php foreach ($rooms as $room): ?>
                                             <option value="<?= $room['id'] ?>"><?= $room['building_name'].'-'.$room['floor_number'].'-'.$room['room_number'] ?></option>
@@ -74,7 +74,6 @@
                             </div>
                             <div class="row">
                                 <?php 
-                                    // Days of the week and time slots
                                     $days = [
                                         1 => 'Monday',
                                         2 => 'Tuesday',
@@ -100,9 +99,9 @@
                                             <div class="card-body">
                                                 <div class="row">
                                                     <div class="col-6">
-                                                        <input type="hidden" name="schedule[subjects][][days][<?= $key ?>][]" value="<?= $key ?>">
+                                                        <input type="hidden" name="subjects[0][days][<?= $key ?>][day]" value="<?= $key ?>">
                                                         <label class="text-dark">Time Starts</label>
-                                                        <select class="form-select" name="schedule[subjects][][days][<?= $key ?>][start_time]">
+                                                        <select class="form-select" name="subjects[0][days][<?= $key ?>][start_time]">
                                                             <option value="" selected disabled>Select Start Time</option>
                                                             <?php foreach ($timeSlots as $time): ?>
                                                                 <option value="<?= $time ?>"><?= date("h:i A", strtotime($time)) ?></option>
@@ -111,7 +110,7 @@
                                                     </div>
                                                     <div class="col-6">
                                                         <label class="text-dark">Time Ends</label>
-                                                        <select class="form-select" name="schedule[subjects][][days][<?= $key ?>][end_time]">
+                                                        <select class="form-select" name="subjects[0][days][<?= $key ?>][end_time]">
                                                             <option value="" selected disabled>Select End Time</option>
                                                             <?php foreach ($timeSlots as $time): ?>
                                                                 <option value="<?= $time ?>"><?= date("h:i A", strtotime($time)) ?></option>

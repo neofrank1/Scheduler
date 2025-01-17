@@ -42,37 +42,30 @@
 
 <script type="module">
 
-    $(document).ready(function() {
-        // Add button click handler
-        $("#addButton").on("click", function () {
-            // Clone the first subject-form
-            let newForm = $(".subject-form:first").clone();
+    $(document).ready(function () {
+        let subjectFormContainer = $('#subjectFormContainer');
+        let addButton = $('#addButton');
+        let removeButton = $('#removeButton');
+        let subjectIndex = 1; // Start from 1 since the initial form is already present
 
-            // Clear input values in the cloned form
-            newForm.find("input").val("");
-
-            // Append the cloned form to the container
-            $("#subjectFormContainer").append(newForm);
+        addButton.on('click', function () {
+            let newSubjectForm = $('.subject-form').first().clone();
+            newSubjectForm.find('select').each(function () {
+                $(this).attr('name', $(this).attr('name').replace(/\[0\]/, '[' + subjectIndex + ']'));
+                $(this).prop('selectedIndex', 0); // Reset the select element
+            });
+            newSubjectForm.find('input[type="hidden"]').each(function () {
+                $(this).attr('name', $(this).attr('name').replace(/\[0\]/, '[' + subjectIndex + ']'));
+            });
+            subjectFormContainer.append(newSubjectForm);
+            subjectIndex++;
         });
 
-        // Remove button click handler
-        $("#removeButton").on("click", function () {
-            // Get all the forms
-            let forms = $(".subject-form");
-
-            // Ensure at least one form remains
-            if (forms.length > 1) {
-                forms.last().remove();
+        removeButton.on('click', function () {
+            if (subjectFormContainer.children().length > 1) {
+                subjectFormContainer.children().last().remove();
+                subjectIndex--;
             }
-        });
-
-       // Remove all added forms when the close button is clicked
-        $("#clearButton").on("click", function () {
-            // Remove all subject forms except the first one
-            $(".subject-form:not(:first)").remove();
-
-            // Optionally clear the first form's input values
-            $(".subject-form:first").find("input").val("");
         });
     });
 
