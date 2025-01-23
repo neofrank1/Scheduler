@@ -21,11 +21,7 @@
                         <table class="table table-bordered table-primary shadow" id="table-schedule">
                             <thead>
                                 <tr>
-                                    <th>ID</th>
-                                    <th>Section</th>
-                                    <th>Course</th>
-                                    <th>Semester</th>
-                                    <th>S.Y</th>
+                                    <th>Subject</th>
                                     <th>Actions</th>
                                 </tr>
                             </thead>
@@ -38,7 +34,6 @@
             </div>
         </div>
     </div>
-@extends('schedule.modal')
 
 <script type="module">
 
@@ -68,16 +63,15 @@
             }
         });
 
+        const pathParts = window.location.pathname.split('/');
+        const id = pathParts[pathParts.length - 1];
+
         $('#table-schedule').dataTable({
             processing : true,
             serverSide : true,
-            ajax: `{{ route('schedule.home') }}`,
+            ajax: `/schedule/editSchedule/${id}`,
             columns: [
-                { data: 'id', name: 'id' },
-                { data: 'section', name: 'section' },
-                { data: 'course', name: 'course' },
-                { data: 'semester', name: 'semseter' },
-                { data: 'school_yr', name: 'school_yr', searchable: false, orderable: false},
+                { data: 'subject', name: 'subject' },
                 { 
                     data: null, 
                     name: 'actions', 
@@ -85,20 +79,14 @@
                     render: function(data, type, row) {
                         if (row.status === 0) {
                             return `
-                                <a type="button" class="btn btn-success btn-edit" href="/schedule/editSchedule/${row.id}">
+                                <a type="button" class="btn btn-success btn-edit" data-bs-toggle="modal" data-bs-target="#editSubjectModal" data-id="${row.id}">
                                     <i class="fa-solid fa-pen"></i> Edit
-                                </a>
-                                <a type="button" class="btn btn-secondary btn-activate" data-status="1" data-id="${row.id}">
-                                    <i class="fa-solid fa-check"></i> Activate
                                 </a>
                             `;
                         } else { 
                             return `
-                                <a type="button" class="btn btn-success btn-edit" href="/schedule/editSchedule/${row.id}">
+                                <a type="button" class="btn btn-success btn-edit" data-bs-toggle="modal" data-bs-target="#editSubjectModal" data-id="${row.id}">
                                     <i class="fa-solid fa-pen"></i> Edit
-                                </a>
-                                <a type="button" class="btn btn-danger btn-deactivate" data-status="0" data-id="${row.id}">
-                                    <i class="fa-solid fa-circle-xmark"></i> Deactivate
                                 </a>
                             `;
                         } 

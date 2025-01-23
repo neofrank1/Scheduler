@@ -18,11 +18,8 @@ return new class extends Migration
             $table->foreignId(column: 'subject_id')->nullable()->constrained('subjects');
             $table->foreignId(column: 'section_id')->nullable()->constrained('section');
             $table->foreignId(column: 'course_id')->nullable()->constrained('course');
-            $table->time('start_time');
-            $table->time('end_time');
             $table->string('school_yr', 255);
             $table->string('semester', 255);
-            $table->string('day', 255);
             $table->boolean('status')->default(0);
             $table->timestamps();
         });

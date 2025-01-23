@@ -17,11 +17,8 @@ class Schedule extends Model
         'subject_id',
         'section_id',
         'course_id',
-        'start_time',
-        'end_time',
         'school_yr',
         'semester',
-        'day',
         'status',
     ];
 }

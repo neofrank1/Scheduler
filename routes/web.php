@@ -68,3 +68,5 @@ Route::post('/subject/updateSubject', [SubjectController::class, 'updateSubject'
 // Schedule 
 Route::get('/schedule', [ScheduleController::class, 'index'])->middleware('auth')->name('schedule.home');
 Route::post('/schedule/insertSchedule', [ScheduleController::class, 'insertSchedule'])->middleware('auth')->name('schedule.add');
+Route::get('/schedule/editSchedule/{id}', [ScheduleController::class, 'editSchedule']);
+Route::post('/schedule/updateSchedule', [ScheduleController::class, 'updateSchedule'])->middleware('auth')->name('schedule.update');
