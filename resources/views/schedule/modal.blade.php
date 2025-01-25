@@ -1,3 +1,4 @@
+<!-- Add Schedule and TimeSlot -->
 <div class="modal fade" id="addScheduleModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="addScheduleModal" aria-hidden="true">
     <div class="modal-dialog modal-xl">
         <form action="{{ route('schedule.add') }}" method="POST">
@@ -29,6 +30,7 @@
                             <select class="form-select" name="semester">
                                 <option value="1">1st</option>
                                 <option value="2">2nd</option>
+                                <option value="3">Trimester</option>
                             </select>
                         </div>
                         <div class="col-4">
@@ -134,3 +136,75 @@
         </form>
     </div>
 </div>
+
+<!-- Edit TimeSlot Modal -->
+<div class="modal fade" id="editScheduleModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="editScheduleModal" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+        <form action="{{ route('schedule.add') }}" method="POST">
+            @csrf
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="editScheduleModal">Add Schedule</h1>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <?php 
+                            $days = [
+                                1 => 'Monday',
+                                2 => 'Tuesday',
+                                3 => 'Wednesday',
+                                4 => 'Thursday',
+                                5 => 'Friday',
+                                6 => 'Saturday',
+                                7 => 'Sunday'
+                            ];
+
+                            $timeSlots = [
+                                '07:00', '08:00', '09:00', '10:00', '11:00', '12:00',
+                                '13:00', '14:00', '15:00', '16:00', '17:00', '18:00', '19:00'
+                            ];
+                        ?>
+
+                        <?php foreach ($days as $key => $day): ?>
+                            <div class="col-sm-3">
+                                <div class="card mt-3 mb-4">
+                                    <div class="card-header">
+                                        <h6 class="day-heading text-dark"><?= htmlspecialchars($day) ?></h6>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="row">
+                                            <div class="col-6">
+                                                <input type="hidden" name="subjects[0][days][<?= $key ?>][day]" value="<?= $key ?>">
+                                                <label class="text-dark">Time Starts</label>
+                                                <select class="form-select" name="subjects[0][days][<?= $key ?>][start_time]">
+                                                    <option value="" selected disabled>Select Start Time</option>
+                                                    <?php foreach ($timeSlots as $time): ?>
+                                                        <option value="<?= $time ?>"><?= date("h:i A", strtotime($time)) ?></option>
+                                                    <?php endforeach; ?>
+                                                </select>
+                                            </div>
+                                            <div class="col-6">
+                                                <label class="text-dark">Time Ends</label>
+                                                <select class="form-select" name="subjects[0][days][<?= $key ?>][end_time]">
+                                                    <option value="" selected disabled>Select End Time</option>
+                                                    <?php foreach ($timeSlots as $time): ?>
+                                                        <option value="<?= $time ?>"><?= date("h:i A", strtotime($time)) ?></option>
+                                                    <?php endforeach; ?>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        <?php endforeach; ?>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Add</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+

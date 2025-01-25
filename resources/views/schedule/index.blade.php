@@ -24,6 +24,8 @@
                                     <th>ID</th>
                                     <th>Section</th>
                                     <th>Course</th>
+                                    <th>Subject</th>
+                                    <th>Professor</th>
                                     <th>Semester</th>
                                     <th>S.Y</th>
                                     <th>Actions</th>
@@ -71,11 +73,19 @@
         $('#table-schedule').dataTable({
             processing : true,
             serverSide : true,
-            ajax: `{{ route('schedule.home') }}`,
+            ajax: {
+                url: `{{ route('schedule.home') }}`,
+                dataSrc: function (json) {
+                    console.log(json);
+                    return json.data;
+                }
+            },
             columns: [
                 { data: 'id', name: 'id' },
                 { data: 'section', name: 'section' },
                 { data: 'course', name: 'course' },
+                { data: 'subject', name: 'subject' },
+                { data: 'professor', name: 'professor' },
                 { data: 'semester', name: 'semseter' },
                 { data: 'school_yr', name: 'school_yr', searchable: false, orderable: false},
                 { 
@@ -85,23 +95,49 @@
                     render: function(data, type, row) {
                         if (row.status === 0) {
                             return `
-                                <a type="button" class="btn btn-success btn-edit" href="/schedule/editSchedule/${row.id}">
-                                    <i class="fa-solid fa-pen"></i> Edit
-                                </a>
-                                <a type="button" class="btn btn-secondary btn-activate" data-status="1" data-id="${row.id}">
-                                    <i class="fa-solid fa-check"></i> Activate
-                                </a>
+                            <div class="dropdown">
+                                    <a class="btn btn-secondary dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                        <i class="fa-solid fa-list"></i>
+                                    </a>
+                                    <ul class="dropdown-menu dropdown-menu-dark">
+                                        <li><a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#editRoomModal" data-id="${row.id}">
+                                                <i class="fa-solid fa-pen"></i> Edit Teacher/Room/Section
+                                            </a>                                   
+                                        </li>
+                                        <li><a class="dropdown-item" href="/schedule/editSchedule/${row.id}">
+                                                <i class="fa-solid fa-pen"></i> Edit Subject Time Slot
+                                            </a>        
+                                        </li>
+                                        <li><a class="dropdown-item" data-status="1" data-id="${row.id}">
+                                                <i class="fa-solid fa-circle-xmark"></i> Activate
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
                             `;
                         } else { 
                             return `
-                                <a type="button" class="btn btn-success btn-edit" href="/schedule/editSchedule/${row.id}">
-                                    <i class="fa-solid fa-pen"></i> Edit
-                                </a>
-                                <a type="button" class="btn btn-danger btn-deactivate" data-status="0" data-id="${row.id}">
-                                    <i class="fa-solid fa-circle-xmark"></i> Deactivate
-                                </a>
+                                <div class="dropdown">
+                                    <a class="btn btn-secondary dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                        <i class="fa-solid fa-list"></i>
+                                    </a>
+                                    <ul class="dropdown-menu dropdown-menu-dark">
+                                        <li><a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#editRoomModal" data-id="${row.id}">
+                                                <i class="fa-solid fa-pen"></i> Edit Teacher/Room/Section
+                                            </a>                                   
+                                        </li>
+                                        <li><a class="dropdown-item" href="/schedule/editSchedule/${row.id}">
+                                                <i class="fa-solid fa-pen"></i> Edit Subject Time Slot
+                                            </a>        
+                                        </li>
+                                        <li><a class="dropdown-item" data-status="0" data-id="${row.id}">
+                                                <i class="fa-solid fa-circle-xmark"></i> Deactivate
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
                             `;
-                        } 
+                        }
                     }
                 }
             ],

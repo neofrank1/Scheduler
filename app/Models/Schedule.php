@@ -21,4 +21,9 @@ class Schedule extends Model
         'semester',
         'status',
     ];
+
+    public static function getTimeSlotBySchedule($scheduleId)
+    {
+        return TimeSlot::where('schedule_id', $scheduleId)->get();
+    }
 }
