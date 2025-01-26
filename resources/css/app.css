@@ -2,3 +2,17 @@
 @import "@fortawesome/fontawesome-free/css/regular.css";
 @import "@fortawesome/fontawesome-free/css/solid.css";
 @import "@fortawesome/fontawesome-free/css/brands.css";
+
+.dropdown-toggle {
+    display: inline-block; /* Make it inline so it only affects the icon */
+    cursor: pointer; /* Ensure the cursor changes to a pointer */
+    padding: 0; /* Remove button padding */
+    border: none; /* Remove button-like border */
+    background: none; /* Remove button background */
+    color: inherit; /* Keep the color of the text/icon */
+    outline: none; /* Remove focus outline */
+}
+
+.dropdown-toggle:hover {
+    color: #aaa; /* Optional: Add a hover effect for the icon */
+}

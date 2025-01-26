@@ -24,4 +24,9 @@ class Professor extends Model
         'maximum_hours',
         'status',
     ];
+
+    public static function getProfessorByCourseId($courseId)
+    {
+        return self::where('course_id', $courseId)->get();
+    }
 }
