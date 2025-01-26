@@ -76,7 +76,7 @@ class ScheduleController extends Controller
         }
 
         if ($res) {
-            return redirect()->route('schedule.home')->with('error', 'Schedule created successfully!');
+            return redirect()->route('schedule.home')->with('success', 'Schedule created successfully!');
         }
     }
 
@@ -87,28 +87,100 @@ class ScheduleController extends Controller
         $sections = Section::getSectionByCourseId(Auth::user()->course_id);
         $rooms = Room::get();
 
-        if (request()->ajax()) {
-            $query = TimeSlot::select('time_slot.schedule_id', 'subjects.subj_code as subject_name')
-                ->leftJoin('schedule', 'time_slot.schedule_id', '=', 'schedule.id')
-                ->leftJoin('subjects', 'schedule.subject_id', '=', 'subjects.id')
-                ->where('time_slot.schedule_id', $id)
-                ->groupBy('time_slot.schedule_id', 'subjects.subj_code')
-                ->get();
+        $timesched = $this->getTimeSlot($id)->toArray();
+        $timesched = array_combine(range(1, count($timesched)), array_values($timesched));
 
-            return DataTables::of($query)->make(true);    
-        }
-        return view('schedule.edit')->with(compact('subjects','professors', 'rooms', 'sections'));
+        return view('schedule.edit')->with(compact('subjects','professors', 'rooms', 'sections', 'timesched'));
     }
 
-    public function getTimsSlot($id) {
+    public function editSchedule2($id)
+    {
+        $subjects = Subject::getSubjectsByCourseId(Auth::user()->course_id);
+        $professors = Professor::getProfessorByCourseId(Auth::user()->course_id);
+        $sections = Section::getSectionByCourseId(Auth::user()->course_id);
+        $rooms = Room::get();
+        $schedule = Schedule::find($id);
+
+        return view('schedule.edit2')->with(compact('subjects','professors', 'rooms', 'sections', 'schedule'));
+    }
+
+    public function getTimeSlot($id) {
         
         if (empty($id)) {
             return false;
         }
 
-        if (request()->ajax()) {
-            $timeSlots = Schedule::getTimeSlotBySchedule($id);
-            return response()->json($timeSlots);
+        $timeSlots = Schedule::getTimeSlotBySchedule($id);
+        return $timeSlots;
+    }
+
+    public function updateTimeSlot(Request $request) {
+        if(empty($request->input('_token'))) {
+            return;
+        }
+        
+        $data = $request->input('timeslot');
+
+        foreach($data as $timeslots) {
+            foreach($timeslots as $timeslot) {
+                $arr = [
+                    'start_time' => $timeslot['start_time'] ?? null,
+                    'end_time' => $timeslot['end_time'] ?? null,
+                    'day' => $timeslot['day'] ?? null,
+                    'schedule_id' => $timeslot['schedule_id'] ?? null,
+                ];
+
+                if ($arr['start_time'] != null && $arr['end_time'] != null && $arr['day'] != null && $arr['schedule_id'] != null && isset($timeslot['id']) && $timeslot['id'] != null) {
+                    $res = TimeSlot::where('id', $timeslot['id'])
+                               ->where('schedule_id', $timeslot['schedule_id'])
+                               ->update($arr); 
+                } else if ($arr['start_time'] != null && $arr['end_time'] != null && $arr['day'] != null && $arr['schedule_id'] != null) {
+                    $res = TimeSlot::create($arr);
+                } else if ($arr['start_time'] == null && $arr['end_time'] == null && $arr['day'] != null && $arr['schedule_id'] != null && isset($timeslot['id']) && $timeslot['id'] != null) {
+                    $res = TimeSlot::where('id', $timeslot['id'])
+                               ->where('schedule_id', $timeslot['schedule_id'])
+                               ->delete();
+                }
+            }
+        }
+
+        if ($res) {
+            return redirect()->route('schedule.home')->with('success', 'Schedule updated successfully!');
+        }
+    }
+
+    public function updateSchedule(Request $request) {
+        if(empty($request->input('_token'))) {
+            return;
+        }
+
+        $data = $request->input();
+
+        $schedule = Schedule::find($data['id']);
+        $result = $schedule->update($data);
+
+        if ($result) {
+            return redirect()->route('schedule.home')->with('success', 'Schedule updated successfully!');
+        }
+    }
+
+    public function updateStatus(Request $request) {
+        if(empty($request->input('_token'))) {
+            return;
+        }
+
+        if ($request->ajax()) {
+            $schedule = Schedule::find($request->input('id'));
+            if ($schedule) {
+                $status = $request->input('status');
+                $result = $schedule->update($status);
+
+                if ($result) {
+                    $message = $request->input('status') == 1 ? 'Schedule activated successfully!' : 'Schedule deactivated successfully!';
+                    return response()->json(['success' => true, 'message' => $message]);
+                }
+            }
+            return response()->json(['success' => false, 'message' => 'Failed to update schedule status.']);
         }
     }
 }

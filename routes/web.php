@@ -70,3 +70,7 @@ Route::get('/schedule', [ScheduleController::class, 'index'])->middleware('auth'
 Route::post('/schedule/insertSchedule', [ScheduleController::class, 'insertSchedule'])->middleware('auth')->name('schedule.add');
 Route::get('/schedule/editSchedule/{id}', [ScheduleController::class, 'editSchedule'])->middleware('auth');
 Route::post('/schedule/updateSchedule', [ScheduleController::class, 'updateSchedule'])->middleware('auth')->name('schedule.update');
+Route::get('/schedule/getTimeSlot/{id}', [ScheduleController::class, 'getTimeSlot'])->middleware('auth');
+Route::post('/schedule/updateTimeSlot', [ScheduleController::class, 'updateTimeSlot'])->middleware('auth')->name('schedule.updateTimeSlot');
+Route::get('/schedule/editSchedule2/{id}', [ScheduleController::class, 'editSchedule2'])->middleware('auth');
+Route::post('/schedule/updateStatus', [ScheduleController::class, 'updateStatus'])->middleware('auth')->name('schedule.updateStatus');

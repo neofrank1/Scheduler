@@ -1,6 +1,15 @@
 @extends('layouts.app')
 @section('content')
     <div class="container">
+        @if(session('success'))
+            <div class="container">
+                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                <i class="fas fa-check-square"></i>
+                    {{ session('success') }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            </div>
+        @endif
         <div class="row">
             <div class="col-12">
                 <div class="card">
@@ -45,6 +54,13 @@
 <script type="module">
 
     $(document).ready(function () {
+
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
+
         let subjectFormContainer = $('#subjectFormContainer');
         let addButton = $('#addButton');
         let removeButton = $('#removeButton');
@@ -100,7 +116,7 @@
                                         <i class="fa-solid fa-list"></i>
                                     </a>
                                     <ul class="dropdown-menu dropdown-menu-dark">
-                                        <li><a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#editRoomModal" data-id="${row.id}">
+                                        <li><a class="dropdown-item" href="/schedule/editSchedule2/${row.id}">
                                                 <i class="fa-solid fa-pen"></i> Edit Teacher/Room/Section
                                             </a>                                   
                                         </li>
@@ -122,7 +138,7 @@
                                         <i class="fa-solid fa-list"></i>
                                     </a>
                                     <ul class="dropdown-menu dropdown-menu-dark">
-                                        <li><a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#editRoomModal" data-id="${row.id}">
+                                        <li><a class="dropdown-item" href="/schedule/editSchedule2/${row.id}">
                                                 <i class="fa-solid fa-pen"></i> Edit Teacher/Room/Section
                                             </a>                                   
                                         </li>
@@ -142,6 +158,25 @@
                 }
             ],
             responsive: true
+        });
+
+        $('#table-schedule tbody').on('click', 'a.dropdown-item', function () {
+            let status = $(this).data('status');
+            console.log(status);
+            let id = $(this).data('id');
+            let url = '{{ route('schedule.updateStatus') }}';
+            $.ajax({
+                url: url,
+                type: 'POST',
+                data: {
+                    id: id,
+                    status: status
+                },
+                success: function (response) {
+                    console.log(response);
+                    $('#table-schedule').DataTable().ajax.reload();
+                }
+            });
         });
     });
 
