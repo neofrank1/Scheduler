@@ -64,6 +64,29 @@
                         <li class="nav-item">
                             <a class="nav-link fw-semibold" href="{{ route('schedule.home') }}">{{ __('Schedule') }}</a>
                         </li>
+                        <li class="nav-item dropdown">
+                                <a id="navbarDropdown" class="nav-link dropdown-toggle fw-semibold" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                                   {{ __('Reports') }}
+                                </a>
+
+                                <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                                    <a class="dropdown-item" href="{{ route('pdf.prospectus.home') }}">
+                                        {{ __('Prospectus') }}
+                                    </a>
+                                    <a class="dropdown-item" href="{{ route('home') }}">
+                                        {{ __('PBT') }}
+                                    </a>
+                                    <a class="dropdown-item" href="{{ route('home') }}">
+                                        {{ __('PBS') }}
+                                    </a>
+                                    <a class="dropdown-item" href="{{ route('home') }}">
+                                        {{ __('PBR') }}
+                                    </a>
+                                    <a class="dropdown-item" href="{{ route('home') }}">
+                                        {{ __('MIS') }}
+                                    </a>
+                                </div>
+                            </li>
                         @endif
                     </ul>
 

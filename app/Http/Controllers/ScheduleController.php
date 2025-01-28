@@ -173,7 +173,7 @@ class ScheduleController extends Controller
             $schedule = Schedule::find($request->input('id'));
             if ($schedule) {
                 $status = $request->input('status');
-                $result = $schedule->update($status);
+                $result = $schedule->save($status);
 
                 if ($result) {
                     $message = $request->input('status') == 1 ? 'Schedule activated successfully!' : 'Schedule deactivated successfully!';

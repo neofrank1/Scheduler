@@ -10,6 +10,7 @@ use App\Http\Controllers\SectionController;
 use App\Http\Controllers\RoomController;
 use App\Http\Controllers\SubjectController;
 use App\Http\Controllers\ScheduleController;
+use App\Http\Controllers\PDFController;
 
 Route::get('/', function () {
     return view('index');
@@ -74,3 +75,7 @@ Route::get('/schedule/getTimeSlot/{id}', [ScheduleController::class, 'getTimeSlo
 Route::post('/schedule/updateTimeSlot', [ScheduleController::class, 'updateTimeSlot'])->middleware('auth')->name('schedule.updateTimeSlot');
 Route::get('/schedule/editSchedule2/{id}', [ScheduleController::class, 'editSchedule2'])->middleware('auth');
 Route::post('/schedule/updateStatus', [ScheduleController::class, 'updateStatus'])->middleware('auth')->name('schedule.updateStatus');
+
+// PDF
+Route::get('/pdf/prospectus', [PDFController::class, 'prospectus'])->middleware('auth')->name('pdf.prospectus.home');
+Route::get('/pdf/generateProspectus/{id}', [PDFController::class, 'generateProspectus'])->middleware('auth')->name('pdf.generateProspectus');

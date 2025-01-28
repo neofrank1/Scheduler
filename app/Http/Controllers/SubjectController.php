@@ -37,6 +37,7 @@ class SubjectController extends Controller
                 'subj_hours' => $request->input('subj_hours')[$index] ?? null,
                 'subj_lab_hours' => $request->input('subj_lab_hours')[$index] ?? null,
                 'subj_lec_hours' => $request->input('subj_lec_hours')[$index] ?? null,
+                'subj_units' => $request->input('subj_units')[$index] ?? null,
                 'subj_prereq' => $request->input('subj_prereq')[$index] ?? null,
                 'subj_type' => $request->input('subj_type')[$index] ?? null,
                 'course_id' => Auth::user()->course_id,
