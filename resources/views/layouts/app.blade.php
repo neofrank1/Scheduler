@@ -82,7 +82,7 @@
                                     <a class="dropdown-item" href="{{ route('home') }}">
                                         {{ __('PBR') }}
                                     </a>
-                                    <a class="dropdown-item" href="{{ route('home') }}">
+                                    <a class="dropdown-item" href="{{ route('pdf.mis.home') }}">
                                         {{ __('MIS') }}
                                     </a>
                                 </div>

@@ -44,12 +44,44 @@ class PDFController extends Controller
             'course' => $course['short_name'] . '-' . $course['full_name'],
             'subjects' => $subject->toArray()
         ];
-        /* echo "<pre>";
-            print_r($data);
-        echo "</pre>";
-        die(); */
+
         return view('pdf.prospectus_result', ['data' => $data]);
 
     }
 
+    public function mis() {
+        
+        if (request()->ajax()) {
+            $query = Section::select('section.*')
+            ->where('college_id', Auth::user()->college_id)
+            ->where('course_id', Auth::user()->course_id);
+            
+            return DataTables::of($query)->make(true);    
+        }
+
+        return view('pdf.mis_home');
+    }
+
+    public function generateMIS($id) {
+
+        $schedule = TimeSlot::select('time_slot.*', 'schedule.*', 'subjects.subj_code', 'subjects.subj_desc', 'professors.first_name', 'professors.last_name', 'rooms.*', 'section.name')
+                    ->leftJoin('schedule', 'time_slot.schedule_id', '=', 'schedule.id')
+                    ->leftJoin('subjects', 'schedule.subject_id', '=', 'subjects.id')
+                    ->leftJoin('professors', 'schedule.prof_id', '=', 'professors.id')
+                    ->leftJoin('rooms', 'schedule.room_id', '=', 'rooms.id')
+                    ->leftJoin('section', 'schedule.section_id', '=', 'section.id')
+                    ->where('schedule.section_id', $id)
+                    ->get();
+        $data = [
+            'school_year' => date('Y') . '-' . (date('Y') + 1),
+            'schedule' => $schedule->toArray()
+        ];
+
+        echo '<pre>';
+        print_r($data);
+        echo '</pre>';
+        die();
+
+        return view('pdf.mis_result');
+    }
 }

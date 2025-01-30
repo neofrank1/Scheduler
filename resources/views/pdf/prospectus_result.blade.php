@@ -6,7 +6,7 @@
     @vite(['resources/sass/app.scss','resources/css/app.css', 'resources/js/app.js'])
     <style>
          * {
-            font-family: 'times new roman', sans-serif;
+            font-family: 'arial', sans-serif;
         }
         table {
             width: 100%;
@@ -26,17 +26,29 @@
     <div id="content">
         <div class="container-xl">
             <div class="row justify-content-center">
-                <div class="col-12 text-center">
-                    <img src="{{ Vite::asset('resources/img/ctulogo.png') }}" alt="CTU Logo" style="width: 100px; height: auto; display: inline-block;">
-                    <div style="display: inline-block; vertical-align: middle; margin: 0 10px;">
-                        <p style="margin: 2px;">Republic of the Philippines</p>
-                        <p style="font-weight: bold; margin: 2px;">CEBU TECHNOLOGICAL UNIVERSITY</p>
-                        <p style="margin: 2px;">MAIN CAMPUS</p>
-                        <p style="font-weight: bold; margin: 2px;">{{$data['course']}}</p>
-                        <p style="margin: 2px;">Effective As of SY {{$data['school_year']}}</p>
-                    </div>
-                    <img src="{{ Vite::asset('resources/img/bplogo.png') }}" alt="BP Logo" style="width: 120px; height: auto; display: inline-block;">
-                </div> 
+                    <div class="col-12 text-center">
+                        <?php
+                        $path = Vite::asset('resources/img/ctulogo.png');
+                        $type = pathinfo($path, PATHINFO_EXTENSION);
+                        $datas = file_get_contents($path);
+                        $base64 = 'data:image/' . $type . ';base64,' . base64_encode($datas);
+                        ?>
+                        <img src="<?php echo $base64; ?>" alt="CTU Logo" style="width: 100px; height: auto; display: inline-block;">
+                            <div style="display: inline-block; vertical-align: middle; margin: 0 10px;">
+                                <p style="margin: 2px;">Republic of the Philippines</p>
+                                <p style="font-weight: bold; margin: 2px;">CEBU TECHNOLOGICAL UNIVERSITY</p>
+                                <p style="margin: 2px;">MAIN CAMPUS</p>
+                                <p style="font-weight: bold; margin: 2px;">{{$data['course'] ?? null}}</p>
+                                <p style="margin: 2px;">Effective As of SY {{$data['school_year'] ?? null}}</p>
+                            </div>
+                        <?php
+                        $path2 = Vite::asset('resources/img/bplogo.png');
+                        $type2 = pathinfo($path2, PATHINFO_EXTENSION);
+                        $data2 = file_get_contents($path2);
+                        $base64_2 = 'data:image/' . $type2 . ';base64,' . base64_encode($data2);
+                        ?>
+                        <img src="<?php echo $base64_2; ?>" alt="BP Logo" style="width: 120px; height: auto; display: inline-block;">
+                    </div> 
             </div>
             
             <div class="row mt-4">

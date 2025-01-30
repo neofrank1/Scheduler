@@ -79,3 +79,5 @@ Route::post('/schedule/updateStatus', [ScheduleController::class, 'updateStatus'
 // PDF
 Route::get('/pdf/prospectus', [PDFController::class, 'prospectus'])->middleware('auth')->name('pdf.prospectus.home');
 Route::get('/pdf/generateProspectus/{id}', [PDFController::class, 'generateProspectus'])->middleware('auth')->name('pdf.generateProspectus');
+Route::get('/pdf/mis', [PDFController::class, 'mis'])->middleware('auth')->name('pdf.mis.home');
+Route::get('/pdf/generateMIS/{id}', [PDFController::class, 'generateMIS'])->middleware('auth')->name('pdf.generateMIS');
