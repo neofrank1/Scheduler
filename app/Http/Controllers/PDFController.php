@@ -64,24 +64,60 @@ class PDFController extends Controller
 
     public function generateMIS($id) {
 
-        $schedule = TimeSlot::select('time_slot.*', 'schedule.*', 'subjects.subj_code', 'subjects.subj_desc', 'professors.first_name', 'professors.last_name', 'rooms.*', 'section.name')
+        $schedule = TimeSlot::select('time_slot.*', 'schedule.*', 'subjects.subj_code', 'subjects.subj_desc', 'subjects.subj_lec_hours', 'subjects.subj_lab_hours', 'subjects.subj_units', 'professors.first_name', 'professors.last_name', 'professors.middle_name', 'rooms.*')
                     ->leftJoin('schedule', 'time_slot.schedule_id', '=', 'schedule.id')
                     ->leftJoin('subjects', 'schedule.subject_id', '=', 'subjects.id')
                     ->leftJoin('professors', 'schedule.prof_id', '=', 'professors.id')
                     ->leftJoin('rooms', 'schedule.room_id', '=', 'rooms.id')
-                    ->leftJoin('section', 'schedule.section_id', '=', 'section.id')
                     ->where('schedule.section_id', $id)
                     ->get();
+
+        $college = College::find(Auth::user()->college_id)->toArray();
+        $section = Section::find($id)->toArray();
+        $schedule = $schedule->toArray();
+        $course = Course::find(Auth::user()->course_id)->toArray();
+
+        $groupedSchedule = [];
+        foreach ($schedule as $value) {
+            if (!isset($groupedSchedule[$value['schedule_id']])) {
+                $groupedSchedule[$value['schedule_id']] = $value;
+                $groupedSchedule[$value['schedule_id']]['days'] = [];
+                $groupedSchedule[$value['schedule_id']]['start_times'] = [];
+                $groupedSchedule[$value['schedule_id']]['end_times'] = [];
+            }
+            match ($value['day']) {
+                '1' => $value['day'] = 'Mon',
+                '2' => $value['day'] = 'Tue',
+                '3' => $value['day'] = 'Wed',
+                '4' => $value['day'] = 'Thu',
+                '5' => $value['day'] = 'Fri',
+                '6' => $value['day'] = 'Sat',
+                '7' => $value['day'] = 'Sun',
+            };
+            $groupedSchedule[$value['schedule_id']]['days'][] = $value['day'];
+            $start_time = date('h:i A', strtotime($value['start_time']));
+            if (!in_array($start_time, $groupedSchedule[$value['schedule_id']]['start_times'])) {
+                $groupedSchedule[$value['schedule_id']]['start_times'][] = $start_time;
+            }
+            $end_time = date('h:i A', strtotime($value['end_time']));
+            if (!in_array($end_time, $groupedSchedule[$value['schedule_id']]['end_times'])) {
+                $groupedSchedule[$value['schedule_id']]['end_times'][] = $end_time;
+            }
+            unset($groupedSchedule[$value['schedule_id']]['day']);
+            unset($groupedSchedule[$value['schedule_id']]['start_time']);
+            unset($groupedSchedule[$value['schedule_id']]['end_time']);
+        }
+        $schedules = $groupedSchedule;
+        
         $data = [
-            'school_year' => date('Y') . '-' . (date('Y') + 1),
-            'schedule' => $schedule->toArray()
+            'college' => $college['short_name'],
+            'school_year' => $schedule[0]['school_yr'],
+            'semester' => $schedule[0]['semester'],
+            'schedule' => $schedules,
+            'section' => $section['name'],
+            'course' => $course['short_name'] . '-' . $course['full_name']
         ];
 
-        echo '<pre>';
-        print_r($data);
-        echo '</pre>';
-        die();
-
-        return view('pdf.mis_result');
+        return view('pdf.mis_result', ['data' => $data]);
     }
 }
