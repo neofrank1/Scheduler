@@ -40,7 +40,6 @@
                                     <th>Course</th>
                                     <th>Semester</th>
                                     <th>Year Level</th>
-                                    <th>S.Y</th>
                                     <th>Actions</th>
                                 </tr>
                             </thead>
@@ -79,7 +78,6 @@
                 { data: 'course', name: 'course' },
                 { data: 'semester', name: 'semester' },
                 { data: 'year_level', name: 'year_level' },
-                { data: 'school_year', name: 'school_year' },
                 { 
                     data: null, 
                     name: 'actions', 
@@ -149,6 +147,7 @@
                     $('#edit_subj_lab_hours').val(response.subject.subj_lab_hours);
                     $('#edit_subj_lec_hours').val(response.subject.subj_lec_hours);
                     $('#edit_subj_prereq').val(response.subject.subj_prereq);
+                    $('#edit_subj_units').val(response.subject.subj_units);
                     var schoolYearSelect = $('#edit_school_yr');
                     var yearLevelSelect = $('#edit_year_lvl');
                     var semesterSelect = $('#edit_semester');

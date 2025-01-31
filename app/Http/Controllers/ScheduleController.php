@@ -67,7 +67,7 @@ class ScheduleController extends Controller
                     );
                     
                     if ($data['start_time'] == null && $data['end_time'] == null) {
-                        return redirect()->route('schedule.home')->with('error', 'Please fill up all fields!');
+                        continue;
                     } else {
                         $res = TimeSlot::create($data);
                     }
@@ -88,9 +88,9 @@ class ScheduleController extends Controller
         $rooms = Room::get();
 
         $timesched = $this->getTimeSlot($id)->toArray();
-        $timesched = array_combine(range(1, count($timesched)), array_values($timesched));
+        $timesched = array_combine(array_column($timesched, 'day'), array_values($timesched));
 
-        return view('schedule.edit')->with(compact('subjects','professors', 'rooms', 'sections', 'timesched'));
+        return view('schedule.edit')->with(compact('subjects','professors', 'rooms', 'sections', 'timesched', 'id'));
     }
 
     public function editSchedule2($id)
@@ -173,7 +173,7 @@ class ScheduleController extends Controller
             $schedule = Schedule::find($request->input('id'));
             if ($schedule) {
                 $status = $request->input('status');
-                $result = $schedule->update($status);
+                $result = $schedule->save($status);
 
                 if ($result) {
                     $message = $request->input('status') == 1 ? 'Schedule activated successfully!' : 'Schedule deactivated successfully!';

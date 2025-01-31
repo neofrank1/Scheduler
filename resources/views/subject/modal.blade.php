@@ -81,6 +81,10 @@
                                         <option value="2">Minor</option>
                                      </select>
                                 </div>
+                                <div class="col-4">
+                                    <label for="subj_units" class="form-label">Subject Unit</label>
+                                    <input type="text" class="form-control" name="subj_units[]" id="subj_units">
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -164,6 +168,10 @@
                                 <select class="form-select" name="subj_type" id="edit_subj_type">
 
                                 </select>
+                        </div>
+                        <div class="col-4">
+                            <label for="subj_units" class="form-label">Subject Prerequisite</label>
+                            <input type="text" class="form-control" name="subj_units" id="edit_subj_units">
                         </div>
                     </div>
                     <div class="modal-footer mt-3">

@@ -57,13 +57,13 @@
                                                         <input type="hidden" name="timeslot[days][<?= $key ?>][schedule_id]" value="<?= $timesched[$key]['schedule_id'] ?>">
                                                     <?php else: ?>
                                                         <input type="hidden" name="timeslot[days][<?= $key ?>][day]" value="<?= $key ?>">
-                                                        <input type="hidden" name="timeslot[days][<?= $key ?>][schedule_id]" value="<?= $timesched[1]['schedule_id'] ?>">
+                                                        <input type="hidden" name="timeslot[days][<?= $key ?>][schedule_id]" value="<?= $id ?>">
                                                     <?php endif; ?>
                                                     <label class="text-dark">Time Starts</label>
                                                     <select class="form-select" name="timeslot[days][<?= $key ?>][start_time]">
                                                         <option value="" selected disabled>Select Start Time</option>
                                                         <?php foreach ($timeSlots as $time): ?>
-                                                            <?php if (isset($timesched[$key]['start_time']) && date("h:i", strtotime($timesched[$key]['start_time'])) == $time):?>
+                                                            <?php if (isset($timesched[$key]['start_time']) && date("h:i", strtotime($timesched[$key]['start_time'])) == date("h:i", strtotime($time))):?>
                                                                 <option value="<?= $timesched[$key]['start_time'] ?>" selected><?= date("h:i A", strtotime($timesched[$key]['start_time'])) ?></option>
                                                             <?php else: ?>
                                                                 <option value="<?= $time ?>"><?= date("h:i A", strtotime($time)) ?></option>
@@ -76,7 +76,7 @@
                                                     <select class="form-select" name="timeslot[days][<?= $key ?>][end_time]">
                                                         <option value="" selected disabled>Select End Time</option>
                                                         <?php foreach ($timeSlots as $time): ?>
-                                                            <?php if (isset($timesched[$key]['end_time'] ) && date("h:i", strtotime($timesched[$key]['end_time'])) == $time):?>
+                                                            <?php if (isset($timesched[$key]['end_time'] ) && date("h:i", strtotime($timesched[$key]['end_time'])) == date("h:i", strtotime($time))):?>
                                                                 <option value="<?= $timesched[$key]['end_time'] ?>" selected><?= date("h:i A", strtotime($timesched[$key]['end_time'])) ?></option>
                                                             <?php else: ?>
                                                                 <option value="<?= $time ?>"><?= date("h:i A", strtotime($time)) ?></option>

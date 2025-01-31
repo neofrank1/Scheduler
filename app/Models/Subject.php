@@ -20,10 +20,12 @@ class Subject extends Model
         'subj_lec_hours',
         'subj_lab_hours',
         'subj_hours',
+        'subj_units',
         'course_id',
         'semester',
         'school_year',
-        'year_level'
+        'year_level',
+        'status'
     ];
 
     public static function getSubjectsByCourseId($courseId)
