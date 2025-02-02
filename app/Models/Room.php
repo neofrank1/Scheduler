@@ -16,5 +16,7 @@ class Room extends Model
         'building_name',
         'floor_number',
         'room_number',
+        'college_id',
+        'course_id',
     ];
 }

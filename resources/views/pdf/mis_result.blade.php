@@ -135,15 +135,15 @@
             
             <div class="row justify-content-start" style="margin-top: 10%;">
                 <div class="col-3">
-                    <h6 class="fw-bold" style="position: absolute; left: 80px;">Prepared by:</h6>
+                    <h6 class="fw-bold" style="position: absolute; left: 60px;">Prepared by:</h6>
                 </div>
                 <div class="col-3">
-                    <h6 class="fw-bold" style="position: relative; left: 60px;">Review, Certified True and Correct:</h6>
+                    <h6 class="fw-bold" style="position: relative; left: 20px;">Review, Certified True and Correct:</h6>
                 </div>
                 <div class="col-3">
                 </div>
                 <div class="col-3">
-                    <h6 class="fw-bold" style="position: relative; left: 50px;">Approved by:</h6>
+                    <h6 class="fw-bold" style="position: relative; left: 30px;">Approved by:</h6>
                 </div> 
             </div>
             <div class="row justify-content-center mt-5">

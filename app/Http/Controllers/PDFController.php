@@ -120,4 +120,72 @@ class PDFController extends Controller
 
         return view('pdf.mis_result', ['data' => $data]);
     }
+
+    public function pbt() {
+
+        if (request()->ajax()) {
+            $query = Section::select('section.*')
+            ->where('college_id', Auth::user()->college_id)
+            ->where('course_id', Auth::user()->course_id);
+            
+            return DataTables::of($query)->make(true);    
+        }
+
+        return view('pdf.pbt_home');
+    }
+
+    public function generatePBT($id) {
+        
+    }
+
+    public function pbr() {
+
+        if (request()->ajax()) {
+            $query = Schedule::select('schedule.*', 'rooms.*')
+                    ->leftJoin('rooms', 'schedule.room_id', '=', 'rooms.id')
+                    ->where('schedule.course_id', Auth::user()->course_id)
+                    ->where('rooms.college_id', Auth::user()->college_id)
+                    ->get();
+
+            return DataTables::of($query)->make(true);    
+        }
+
+        return view('pdf.pbr_home');
+    }
+
+    public function generatePBR($id) {
+        
+        $timeSlots = [
+            '07:00', '08:00', '09:00', '10:00', '11:00', '12:00',
+            '13:00', '14:00', '15:00', '16:00', '17:00', '18:00', '19:00'
+        ];
+
+        $college = College::find(Auth::user()->college_id)->toArray();
+        $course = Course::find(Auth::user()->course_id)->toArray();
+        $schedule = TimeSlot::select('time_slot.*', 'schedule.*', 'subjects.subj_code', 'subjects.subj_desc', 'subjects.subj_lec_hours', 'subjects.subj_lab_hours', 'subjects.subj_units', 'professors.first_name', 'professors.last_name', 'professors.middle_name', 'rooms.*')
+                    ->leftJoin('schedule', 'time_slot.schedule_id', '=', 'schedule.id')
+                    ->leftJoin('subjects', 'schedule.subject_id', '=', 'subjects.id')
+                    ->leftJoin('professors', 'schedule.prof_id', '=', 'professors.id')
+                    ->leftJoin('rooms', 'schedule.room_id', '=', 'rooms.id')
+                    ->where('rooms.id', $id)
+                    ->where('rooms.college_id', Auth::user()->college_id)
+                    ->get();
+
+        $schedule = $schedule->toArray();
+        $data = [
+            'college' => $college['short_name'],
+            'school_year' => date('Y') . '-' . (date('Y') + 1),
+            'course' => $course['short_name'] . '-' . $course['full_name'],
+            'semester' => $schedule[0]['semester'],
+            'schedule' => $schedule,
+            'time_slots' => $timeSlots
+        ];
+
+        echo '<pre>';
+        print_r($data);
+        echo '</pre>';
+
+
+        return view('pdf.pbr_result', ['data' => $data]);
+    }
 }
