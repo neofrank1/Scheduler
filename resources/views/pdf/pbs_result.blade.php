@@ -60,8 +60,8 @@
                         
                         <div class="container-fluid">
                             <div class="row mb-8 mt-5">
-                                <h5 class="fw-bold">{{$data['room']}}</h5>
-                                <div class="col-12">
+                                <h5 class="fw-bold"></h5>
+                                <div class="col-8">
                                     <table id="data_table" style="font-size: 10px;">
                                         <thead>
                                             <tr>
@@ -116,7 +116,6 @@
                                                             <td rowspan="{{ $diff }}">
                                                                 {{ date("h:i A", strtotime($schedule['start_time'])) }} - {{ date("h:i A", strtotime($schedule['end_time'])) }}<br>
                                                                 {{ $schedule['subj_code'] }}<br>
-                                                                {{ $schedule['section_name'] }}<br>
                                                                 {{ $schedule['first_name'] }} {{ $schedule['last_name'] }}
                                                             </td>
 

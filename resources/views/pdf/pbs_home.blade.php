@@ -19,9 +19,10 @@
                                 <table class="table table-bordered table-primary shadow" id="table-prospectus">
                                     <thead>
                                         <tr>
-                                            <th>No.</th>
-                                            <th>Room</th>
+                                            <th>Section</th>
                                             <th>Semester</th>
+                                            <th>Program</th>
+                                            <th>School Year</th>
                                             <th>Action</th>
                                         </tr>
                                     </thead>
@@ -49,7 +50,7 @@
                 processing: true,
                 serverSide: true,
                 ajax: {
-                    url: `{{ route('pdf.pbr.home') }}`,
+                    url: `{{ route('pdf.pbs.home') }}`,
                     type: 'GET',
                     dataSrc: function (json) {
                         console.log(json);
@@ -57,14 +58,9 @@
                     }
                 },
                 columns: [
-                    { data: 'room_id', name: 'id' },
                     {
-                        data: null,
-                        name: 'room',
-                        render: function(data, type, row) {
-                            let roomNumber = row.room_number.toString().padStart(2, '0');
-                            return `${row.building_name} - ${row.floor_number}${roomNumber}`;
-                        }
+                        data: 'name',
+                        name: 'section',
                     },
                     {
                         data: 'semester',
@@ -72,6 +68,16 @@
                         render: function(data, type, row) {
                             return data == 1 ? '1st Semester' : '2nd Semester';
                         }
+                    },
+                    { data: 'program',
+                        name: 'program',
+                        render: function(data, type, row) {
+                            return data == 1 ? 'Day' : 'Evening';
+                        }
+                    },
+                    {
+                        data: 'school_yr',
+                        name: 'school_year',
                     },
                     {
                         data: null,
@@ -81,7 +87,7 @@
                         render: function(data, type, row) 
                         {
                             return `
-                                <a type="button" class="btn btn-success btn-edit" href="/pdf/generatePBR/${row.room_id}/${row.semester}/${row.school_yr}">
+                                <a type="button" class="btn btn-success btn-edit" href="/pdf/generatePBS/${row.section_id}/${row.semester}/${row.school_yr}">
                                     <i class="fa-solid fa-pen"></i> Download PDF
                                 </a>`
                         } 

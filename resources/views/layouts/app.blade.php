@@ -76,7 +76,7 @@
                                 <a class="dropdown-item" href="{{ route('pdf.pbt.home') }}">
                                     {{ __('PBT') }}
                                 </a>
-                                <a class="dropdown-item" href="{{ route('home') }}">
+                                <a class="dropdown-item" href="{{ route('pdf.pbs.home') }}">
                                     {{ __('PBS') }}
                                 </a>
                                 <a class="dropdown-item" href="{{ route('pdf.pbr.home') }}">
