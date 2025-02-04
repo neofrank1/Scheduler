@@ -87,7 +87,7 @@
                         render: function(data, type, row) 
                         {
                             return `
-                                <a type="button" class="btn btn-success btn-edit" href="/pdf/generatePBS/${row.section_id}/${row.semester}/${row.school_yr}">
+                                <a type="button" class="btn btn-success btn-edit" href="/pdf/generatePBS/${row.section_id}/${row.semester}/${row.school_yr}/${row.program}">
                                     <i class="fa-solid fa-pen"></i> Download PDF
                                 </a>`
                         } 

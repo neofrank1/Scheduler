@@ -25,7 +25,7 @@
     <body>
         <div id="content">
             <div class="container-fluid">
-                <div class="row justify-content-center mt-2">
+                <div class="row justify-content-center">
                         <div class="col-12 text-center">
                             <?php
                             $path = Vite::asset('resources/img/ctulogo.png');
@@ -42,11 +42,11 @@
                                     <p style="font-size: 10px; margin: 0;">Website: www.ctu.edu.ph | Email: thepresident@ctu.edu.ph</p>
                                     <p style="font-size: 10px; margin: 0;">Phone: +6332 402 460 loc. 1137</p>
                                     <h3 style="font-size: 12px; font-weight: bold;" class="mt-2">{{$data['college']}}</h3>
-                                    <h3 style="font-size: 12px; font-weight: bold;" class="mt-3">CLASS PROGRAM FOR MIS</h3>
+                                    <h3 style="font-size: 12px; font-weight: bold;" class="mt-3">PROGRAM BY TEACHER</h3>
                                     <?php if ($data['semester'] == 1):?>
-                                        <h4 style="font-size: 12px; font-weight: bold;" class="mt-3">{{$data['semester']}}st Semester SY {{$data['school_year']}}</h4>
+                                        <h4 style="font-size: 12px; font-weight: bold;" class="mt-1">{{$data['semester']}}st Semester SY {{$data['school_year']}}</h4>
                                     <?php else: ?>
-                                        <h4 style="font-size: 12px; font-weight: bold;" class="mt-3">{{$data['semester']}}nd Semester SY {{$data['school_year']}}</h4>
+                                        <h4 style="font-size: 12px; font-weight: bold;" class="mt-1">{{$data['semester']}}nd Semester SY {{$data['school_year']}}</h4>
                                     <?php endif; ?>
                                 </div>
                             <?php
@@ -60,118 +60,200 @@
                         
                         <div class="container-fluid">
                             <div class="row mb-8 mt-5">
-                                <h5 class="fw-bold">{{$data['section']}}</h5>
-                                <div class="col-12">
-                                        <table>
-                                            <thead>
+                                <div class="col-6">
+                                    <p style="margin: 0;">Name: {{$data['professor']['first_name']}} {{$data['professor']['middle_name']}} {{$data['professor']['last_name']}}</p>
+                                </div>
+                                <div class="col-6">
+                                    <p style="margin: 0;">Special Training:</p>
+                                </div>
+                                <div class="col-6">
+                                    <p style="margin: 0;">Degree: </p>
+                                </div>
+                                <div class="col-6">
+                                    <p style="margin: 0;">Major:</p>
+                                </div>
+                                <div class="col-6">
+                                    <p style="margin: 0;">Status:</p>
+                                </div>
+                                <div class="col-6">
+                                    <p style="margin: 0;">Minor:</p>
+                                </div>
+                                <div class="col-4">
+                                    <table style="font-size: 12px;">
+                                        <thead class="fw-bold">
+                                            <tr>
+                                                <td colspan="4">SUMMARY OF COURSES</td>
+                                            </tr>
+                                        </thead>
+                                        <thead class="fw-bold">
+                                            <tr>
+                                                <td>Course Code</td>
+                                                <td>Descriptive Title</td>
+                                                <td>Degree Year & Section</td>
+                                                <td>Total No. of Students</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach($data['summary'] as $summary)
                                                 <tr>
-                                                    <th>MIS Code</th>
-                                                    <th>Course No. </th>
-                                                    <th>Descriptive Title</th>
-                                                    <th>Time</th>
-                                                    <th>Day</th>
-                                                    <th>Lec</th>
-                                                    <th>Lab</th>
-                                                    <th>Unit</th>
-                                                    <th>Room</th>
-                                                    <th>Instructor</th>
+                                                    <td>{{ $summary['subj_code'] }}</td>
+                                                    <td>{{ $summary['subj_desc'] }}</td>
+                                                    <td>{{ $summary['section_name']}}</td>
+                                                    <td></td>
                                                 </tr>
-                                            </thead>
-                                            <tbody>
-                                                @foreach($data['schedule'] as $schedule)
-                                                    <tr>
-                                                        <td>
-
-                                                        </td>
-                                                        <td>
-                                                            {{$schedule['subj_code']}}
-                                                        </td>
-                                                        <td>
-                                                            {{$schedule['subj_desc']}}
-                                                        </td>
-                                                        <td>
-                                                            @if(count($schedule['start_times']) == count($schedule['end_times']) && count($schedule['start_times']) > 0)
-                                                                @foreach ($schedule['start_times'] as $key => $start_time)
-                                                                    {{$start_time}} - {{$schedule['end_times'][$key]}}
-                                                                    @if (!$loop->last)
-                                                                        /
-                                                                    @endif
-                                                                @endforeach
-                                                            @else
-                                                                N/A
-                                                            @endif
-                                                        </td>
-                                                        <td>
-                                                            @foreach ($schedule['days'] as $day)
-                                                                {{$day}}
-                                                                @if (!$loop->last)
-                                                                    /
-                                                                @endif
-                                                            @endforeach
-                                                        </td>
-                                                        <td>
-                                                            {{$schedule['subj_lec_hours']}}
-                                                        </td>
-                                                        <td>
-                                                            {{$schedule['subj_lab_hours']}}
-                                                        </td>
-                                                        <td>
-                                                            {{$schedule['subj_units']}}
-                                                        </td>
-                                                        <td>
-                                                            {{$schedule['building_name']}} {{$schedule['floor_number']}}{{ strlen($schedule['room_number']) == 1 ? '0' . $schedule['room_number'] : ltrim($schedule['room_number'], '0') }}
-                                                        </td>
-                                                        <td>
-                                                            {{$schedule['first_name']}} {{$schedule['middle_name']}} {{$schedule['last_name']}}
-                                                        </td>
-                                                    </tr>
+                                            @endforeach
+                                            <tr>
+                                                <td colspan="4">
+                                                    <div class="row">
+                                                        <div class="col-6">
+                                                            <p class="text-start m-1">No. of Preperation: ______________</p>
+                                                        </div>
+                                                        <div class="col-6">
+                                                            <p class="text-start m-1">Production: ________________</p>
+                                                        </div>
+                                                        <div class="col-6">
+                                                            <p class="text-start m-1">No. of Units: _____________</p>
+                                                        </div>
+                                                        <div class="col-6">
+                                                            <p class="text-start m-1">Extension: _______________</p>
+                                                        </div>
+                                                        <div class="col-6">
+                                                            <p class="text-start m-1">No. of Hours/Week: ______________</p>
+                                                        </div>
+                                                        <div class="col-6">
+                                                            <p class="text-start m-1">Research: __________________</p>
+                                                        </div>
+                                                        <div class="col-12">
+                                                            <p class="text-start m-1">Administrative Design: <u>{{isset($data['course']) ? 'CHAIRPERSON '.$data['course'] : '______________________'}}</u></p>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="col-8">
+                                    <table id="data_table" style="font-size: 12px;">
+                                        <thead>
+                                            <tr>
+                                                <th>Time</th>
+                                                @foreach(['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'] as $day)
+                                                    <th>{{ $day }}</th>
                                                 @endforeach
-                                            </tbody>
-                                        </table>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @php
+                                                // Track rowspans for each day and time slot
+                                                $rowspans = array_fill(1, 7, []); // 7 days (1-7)
+                                            @endphp
+
+                                            @foreach($data['time_slots'] as $timeslot)
+                                                <tr>
+                                                    <td>{{ date("h:i A", strtotime($timeslot)) }}</td>
+                                                    @foreach([1 => 'Monday', 2 => 'Tuesday', 3 => 'Wednesday', 4 => 'Thursday', 5 => 'Friday', 6 => 'Saturday', 7 => 'Sunday'] as $key => $day)
+                                                        @php
+                                                            $isCovered = false;
+                                                            // Check if this day/time slot is covered by a previous rowspan
+                                                            if (isset($rowspans[$key][$timeslot]) && $rowspans[$key][$timeslot] > 0) {
+                                                                $rowspans[$key][$timeslot]--;
+                                                                $isCovered = true;
+                                                            }
+                                                        @endphp
+
+                                                        @if($isCovered)
+                                                            {{-- Skip this cell (covered by rowspan) --}}
+                                                            @continue
+                                                        @endif
+
+                                                        @php
+                                                            $scheduleFound = false;
+                                                            foreach ($data['schedule'] as $schedule) {
+                                                                if (
+                                                                    $schedule['day'] == $key && 
+                                                                    date("h:i A", strtotime($schedule['start_time'])) == date("h:i A", strtotime($timeslot))
+                                                                ) {
+                                                                    $start = strtotime($schedule['start_time']);
+                                                                    $end = strtotime($schedule['end_time']);
+                                                                    $diff = ($end - $start) / 3600; // 30-minute intervals
+                                                                    $scheduleFound = true;
+                                                                    break;
+                                                                }
+                                                            }
+                                                        @endphp
+
+                                                        @if($scheduleFound)
+                                                            {{-- Render the cell with rowspan --}}
+                                                            <td rowspan="{{ $diff }}">
+                                                                {{ date("h:i A", strtotime($schedule['start_time'])) }} - {{ date("h:i A", strtotime($schedule['end_time'])) }}<br>
+                                                                {{ $schedule['subj_code'] }}<br>
+                                                                {{ $schedule['section_name'] }}<br>
+                                                                {{ $schedule['building_name'] }} {{$schedule['floor_number']}}{{ str_pad($schedule['room_number'], 2, '0', STR_PAD_LEFT) }}
+                                                            </td>
+
+                                                            {{-- Mark subsequent time slots as covered by this rowspan --}}
+                                                            @php
+                                                                $currentTime = strtotime($timeslot);
+                                                                for ($i = 1; $i < $diff; $i++) {
+                                                                    $nextTime = date("H:i", $currentTime + 3600 * $i); // Add 30 minutes
+                                                                    $rowspans[$key][$nextTime] = $diff - $i;
+                                                                }
+                                                            @endphp
+                                                        @else
+                                                            {{-- Empty cell --}}
+                                                            <td></td>
+                                                        @endif
+                                                    @endforeach
+                                                </tr>
+                                            @endforeach
+                                        </tbody>
+                                    </table>
                                 </div>
                             </div>
                         </div>
                 </div>
                 
-                <div class="row justify-content-start" style="margin-top: 10%;">
-                    <div class="col-3">
-                        <h6 class="fw-bold" style="position: absolute; left: 60px;">Prepared by:</h6>
+                <div class="row justify-content-start mt-3">
+                    <div class="col-4">
+                        <p class="fw-bold" style="position: absolute; left: 130px;">Prepared by:</p>
                     </div>
-                    <div class="col-3">
-                        <h6 class="fw-bold" style="position: relative; left: 20px;">Review, Certified True and Correct:</h6>
+                    <div class="col-4">
+                        <p class="fw-bold text-start">Review, Certified True and Correct:</p>
                     </div>
-                    <div class="col-3">
-                    </div>
-                    <div class="col-3">
-                        <h6 class="fw-bold" style="position: relative; left: 30px;">Approved by:</h6>
+                    <div class="col-4">
+                        <p class="fw-bold" style="position: relative; left: 100px;">Approved by:</p>
                     </div> 
                 </div>
                 <div class="row justify-content-center mt-5">
-                    <div class="col-3 text-center">
-                        <h6 class="fw-bold">_________________________________</h6>
+                    <div class="col-4 text-center">
+                        <p class="fw-bold">_________________________________</p>
                     </div>
-                    <div class="col-3 text-center">
-                        <h6 class="fw-bold">__________________________________</h6>
+                    <div class="col-4 text-center">
+                        <p class="fw-bold">__________________________________</p>
                     </div>
-                    <div class="col-3 text-center">
-                        <h6 class="fw-bold">_________________________</h6>
-                    </div>
-                    <div class="col-3 text-center">
-                        <h6 class="fw-bold">__________________________________</h6>
+                    <div class="col-4 text-center">
+                        <p class="fw-bold">__________________________________</p>
                     </div>
                 </div>
                 <div class="row justify-content-center">
-                    <div class="col-3 text-center">
-                        <h6 class="fw-bold">Program Coordinator/Chair</h6>
+                    <div class="col-4 text-center">
+                        <p class="fw-bold">Program Coordinator/Chair</p>
                     </div>
-                    <div class="col-3 text-center">
-                        <h6 class="fw-bold">Dean, {{$data['course']}}</h6>
+                    <div class="col-4 text-center">
+                        <p class="fw-bold">Dean, {{$data['course']}}</p>
                     </div>
-                    <div class="col-3 text-center">
-                        <h6 class="fw-bold">OIC-Dean, CAS</h6>
+                    <div class="col-4 text-center">
+                        <p class="fw-bold">Campus Director, CTU-Main Campus</p>
                     </div>
-                    <div class="col-3 text-center">
-                        <h6 class="fw-bold">Campus Director, CTU-Main Campus</h6>
+                </div>
+                <div class="row justify-content-center mt-2">
+                    <div class="col-12 text-center">
+                        <p class="fw-bold">__________________________________</p>
+                    </div>
+                </div>
+                <div class="row justify-content-center">
+                    <div class="col-12 text-center">
+                        <p class="fw-bold">Dean, CAS</p>
                     </div>
                 </div>
             </div>
@@ -187,10 +269,10 @@
                 var element = document.getElementById('content');
                 var opt = {
                     margin:       0.5,
-                    filename:     'mis.pdf',
+                    filename:     'PBS.pdf',
                     image:        { type: 'png', quality: 1 },
-                    html2canvas:  { scale: 2 },
-                    jsPDF:        { unit: 'in', format: 'legal', orientation: 'landscape' },
+                    html2canvas:  { scale: 1 },
+                    jsPDF:        { unit: 'in', format: 'tabloid', orientation: 'landscape' },
                     pagebreak: { mode: ['avoid-all', 'css', 'legacy'] }
                 };
 

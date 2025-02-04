@@ -22,6 +22,7 @@
                                             <th>No.</th>
                                             <th>Semester</th>
                                             <th>Professor</th>
+                                            <th>School Year</th>
                                             <th>Action</th>
                                         </tr>
                                     </thead>
@@ -48,17 +49,31 @@
             $('#table-prospectus').DataTable({
                 processing: true,
                 serverSide: true,
-                ajax: `{{ route('pdf.mis.home') }}`,
+                ajax: {
+                    url: `{{ route('pdf.pbt.home') }}`,
+                    type: 'GET',
+                    dataSrc: function (json) {
+                        console.log(json);
+                        return json.data;
+                    }
+                },
                 columns: [
-                    { data: 'id', name: 'id' },
-                    { data: 'name', name: 'section' },
+                    { data: 'prof_id', name: 'id' },
                     {
-                        data: 'program',
+                        data: 'semester',
                         name: 'program',
                         render: function(data, type, row) {
-                            return data == 1 ? 'Day' : 'Night';
+                            return data == 1 ? '1st Semester' : '2nd Semester';
                         }
                     },
+                    {
+                        data: null,
+                        name: 'section',
+                        render: function(data, type, row) {
+                            return `${row.first_name} ${row.last_name}`;
+                        }
+                    },
+                    { data: 'school_yr', name: 'school_yr' },
                     {
                         data: null,
                         name: 'actions',
@@ -67,7 +82,7 @@
                         render: function(data, type, row) 
                         {
                             return `
-                                <a type="button" class="btn btn-success btn-edit" href="/pdf/generateMIS/${row.id}">
+                                <a type="button" class="btn btn-success btn-edit" href="/pdf/generatePBT/${row.prof_id}/${row.semester}/${row.school_yr}">
                                     <i class="fa-solid fa-pen"></i> Download PDF
                                 </a>`
                         } 

@@ -124,18 +124,70 @@ class PDFController extends Controller
     public function pbt() {
 
         if (request()->ajax()) {
-            $query = Section::select('section.*')
-            ->where('college_id', Auth::user()->college_id)
-            ->where('course_id', Auth::user()->course_id);
-            
+            $query = Schedule::select(
+                        'schedule.semester',
+                        'schedule.school_yr',
+                        'schedule.prof_id',
+                        'professors.first_name',
+                        'professors.last_name',
+                        DB::raw('count(schedule.prof_id) as prof_count')
+                    )
+                    ->leftJoin('professors', 'schedule.prof_id', '=', 'professors.id')
+                    ->where('schedule.course_id', Auth::user()->course_id)
+                    ->groupBy('schedule.prof_id', 'schedule.semester', 'schedule.school_yr', 'professors.first_name', 'professors.last_name')
+                    ->get();
+        
             return DataTables::of($query)->make(true);    
         }
 
         return view('pdf.pbt_home');
     }
 
-    public function generatePBT($id) {
-        
+    public function generatePBT($id, $semester, $school_yr) {
+        $timeSlots = [
+            '07:00', '08:00', '09:00', '10:00', '11:00', '12:00',
+            '13:00', '14:00', '15:00', '16:00', '17:00', '18:00', '19:00', '20:00', '21:00'
+        ];
+
+        $college = College::find(Auth::user()->college_id)->toArray();
+        $course = Course::find(Auth::user()->course_id)->toArray();
+        $professor = Professor::find($id)->toArray();
+        $schedule = TimeSlot::select('time_slot.*', 'schedule.*', 'subjects.subj_code', 'subjects.subj_desc', 'subjects.subj_lec_hours', 'subjects.subj_lab_hours', 'subjects.subj_units','professors.first_name', 'professors.last_name', 'professors.middle_name', 'rooms.*', 'section.name as section_name', 'section.program')
+                    ->leftJoin('schedule', 'time_slot.schedule_id', '=', 'schedule.id')
+                    ->leftJoin('subjects', 'schedule.subject_id', '=', 'subjects.id')
+                    ->leftJoin('professors', 'schedule.prof_id', '=', 'professors.id')
+                    ->leftJoin('rooms', 'schedule.room_id', '=', 'rooms.id')
+                    ->leftJoin('section', 'schedule.section_id', '=', 'section.id')
+                    ->where('schedule.semester', $semester)
+                    ->where('schedule.school_yr', $school_yr)
+                    ->where('schedule.prof_id', $id)
+                    ->get();
+
+        $summary = Schedule::select('schedule.*', 'subjects.*', 'section.name as section_name')
+                    ->leftJoin('subjects', 'schedule.subject_id', '=', 'subjects.id')
+                    ->leftJoin('section', 'schedule.section_id', '=', 'section.id')
+                    ->where('schedule.course_id', Auth::user()->course_id)
+                    ->where('schedule.semester', $semester)
+                    ->where('schedule.school_yr', $school_yr)
+                    ->where('schedule.prof_id', $id)
+                    ->get();
+
+        $schedule = $schedule->toArray();
+        $summary = $summary->toArray();
+        $data = [
+            'college' => $college['short_name'],
+            'school_year' => date('Y') . '-' . (date('Y') + 1),
+            'course' => $course['short_name'] . '-' . $course['full_name'],
+            'semester' => $schedule[0]['semester'],
+            'schedule' => $schedule,
+            'section' => $schedule[0]['section_name'],
+            'program' => $schedule[0]['program'] == 1 ? 'Day' : 'Evening',
+            'time_slots' => $timeSlots,
+            'summary' => $summary,
+            'professor' => $professor
+        ];
+
+        return view('pdf.pbt_result', ['data' => $data]);
     }
 
     public function pbr() {
@@ -219,7 +271,7 @@ class PDFController extends Controller
         return view ('pdf.pbs_home');
     }
 
-    public function generatePBS($section, $semester, $school_yr) {
+    public function generatePBS($section, $semester, $school_yr, $program) {
 
         $timeSlots = [
             '07:00', '08:00', '09:00', '10:00', '11:00', '12:00',
@@ -228,7 +280,7 @@ class PDFController extends Controller
 
         $college = College::find(Auth::user()->college_id)->toArray();
         $course = Course::find(Auth::user()->course_id)->toArray();
-        $schedule = TimeSlot::select('time_slot.*', 'schedule.*', 'subjects.subj_code', 'subjects.subj_desc', 'subjects.subj_lec_hours', 'subjects.subj_lab_hours', 'subjects.subj_units', 'professors.first_name', 'professors.last_name', 'professors.middle_name', 'rooms.*', 'section.name as section_name')
+        $schedule = TimeSlot::select('time_slot.*', 'schedule.*', 'subjects.subj_code', 'subjects.subj_desc', 'subjects.subj_lec_hours', 'subjects.subj_lab_hours', 'subjects.subj_units','professors.first_name', 'professors.last_name', 'professors.middle_name', 'rooms.*', 'section.name as section_name', 'section.program')
                     ->leftJoin('schedule', 'time_slot.schedule_id', '=', 'schedule.id')
                     ->leftJoin('subjects', 'schedule.subject_id', '=', 'subjects.id')
                     ->leftJoin('professors', 'schedule.prof_id', '=', 'professors.id')
@@ -237,21 +289,30 @@ class PDFController extends Controller
                     ->where('schedule.section_id', $section)
                     ->where('schedule.semester', $semester)
                     ->where('schedule.school_yr', $school_yr)
+                    ->where('section.program', $program)
+                    ->get();
+
+        $summary = Schedule::select('schedule.*', 'subjects.*')
+                    ->leftJoin('subjects', 'schedule.subject_id', '=', 'subjects.id')
+                    ->where('schedule.course_id', Auth::user()->course_id)
+                    ->where('schedule.section_id', $section)
+                    ->where('schedule.semester', $semester)
+                    ->where('schedule.school_yr', $school_yr)
                     ->get();
 
         $schedule = $schedule->toArray();
+        $summary = $summary->toArray();
         $data = [
             'college' => $college['short_name'],
             'school_year' => date('Y') . '-' . (date('Y') + 1),
             'course' => $course['short_name'] . '-' . $course['full_name'],
             'semester' => $schedule[0]['semester'],
             'schedule' => $schedule,
+            'section' => $schedule[0]['section_name'],
+            'program' => $schedule[0]['program'] == 1 ? 'Day' : 'Evening',
             'time_slots' => $timeSlots,
+            'summary' => $summary
         ];
-
-        echo '<pre>';
-        echo print_r($data);
-        echo '</pre>';
 
         return view ('pdf.pbs_result', ['data' => $data]);
     }

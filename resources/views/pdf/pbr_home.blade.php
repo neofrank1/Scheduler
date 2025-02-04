@@ -7,7 +7,7 @@
                     <div class="card-header">
                         <div class="row mt-2">
                             <div class="col-6">
-                                <h4 class="card-title">PBR</h4>
+                                <h4 class="card-title">PBT</h4>
                             </div>
                             <div class="col-6 text-end">
                             </div>
@@ -20,8 +20,9 @@
                                     <thead>
                                         <tr>
                                             <th>No.</th>
-                                            <th>Room</th>
                                             <th>Semester</th>
+                                            <th>Professor</th>
+                                            <th>School Year</th>
                                             <th>Action</th>
                                         </tr>
                                     </thead>
@@ -49,7 +50,7 @@
                 processing: true,
                 serverSide: true,
                 ajax: {
-                    url: `{{ route('pdf.pbr.home') }}`,
+                    url: `{{ route('pdf.pbt.home') }}`,
                     type: 'GET',
                     dataSrc: function (json) {
                         console.log(json);
@@ -57,22 +58,22 @@
                     }
                 },
                 columns: [
-                    { data: 'room_id', name: 'id' },
-                    {
-                        data: null,
-                        name: 'room',
-                        render: function(data, type, row) {
-                            let roomNumber = row.room_number.toString().padStart(2, '0');
-                            return `${row.building_name} - ${row.floor_number}${roomNumber}`;
-                        }
-                    },
+                    { data: 'prof_id', name: 'id' },
                     {
                         data: 'semester',
-                        name: 'semester',
+                        name: 'program',
                         render: function(data, type, row) {
                             return data == 1 ? '1st Semester' : '2nd Semester';
                         }
                     },
+                    {
+                        data: null,
+                        name: 'section',
+                        render: function(data, type, row) {
+                            return `${row.first_name} ${row.last_name}`;
+                        }
+                    },
+                    { data: 'school_yr', name: 'school_yr' },
                     {
                         data: null,
                         name: 'actions',
@@ -81,7 +82,7 @@
                         render: function(data, type, row) 
                         {
                             return `
-                                <a type="button" class="btn btn-success btn-edit" href="/pdf/generatePBR/${row.room_id}/${row.semester}/${row.school_yr}">
+                                <a type="button" class="btn btn-success btn-edit" href="/pdf/generatePBT/${row.prof_id}/${row.semester}/${row.school_yr}">
                                     <i class="fa-solid fa-pen"></i> Download PDF
                                 </a>`
                         } 

@@ -82,8 +82,8 @@ Route::get('/pdf/generateProspectus/{id}', [PDFController::class, 'generateProsp
 Route::get('/pdf/mis', [PDFController::class, 'mis'])->middleware('auth')->name('pdf.mis.home');
 Route::get('/pdf/generateMIS/{id}', [PDFController::class, 'generateMIS'])->middleware('auth')->name('pdf.generateMIS');
 Route::get('/pdf/pbt', [PDFController::class, 'pbt'])->middleware('auth')->name('pdf.pbt.home');
-Route::get('/pdf/generatePBT/{id}', [PDFController::class, 'generatePBT'])->middleware('auth')->name('pdf.generatePBT');
+Route::get('/pdf/generatePBT/{id}/{semester}/{school_yr}', [PDFController::class, 'generatePBT'])->middleware('auth')->name('pdf.generatePBT');
 Route::get('/pdf/pbr', [PDFController::class, 'pbr'])->middleware('auth')->name('pdf.pbr.home');
 Route::get('/pdf/generatePBR/{id}/{semester}/{school_yr}', [PDFController::class, 'generatePBR'])->middleware('auth')->name('pdf.generatePBR');
 Route::get('/pdf/pbs', [PDFController::class, 'pbs'])->middleware('auth')->name('pdf.pbs.home');
-Route::get('/pdf/generatePBS/{section}/{semester}/{school_yr}', [PDFController::class, 'generatePBS'])->middleware('auth')->name('pdf.generatePBS');
+Route::get('/pdf/generatePBS/{section}/{semester}/{school_yr}/{program}', [PDFController::class, 'generatePBS'])->middleware('auth')->name('pdf.generatePBS');
