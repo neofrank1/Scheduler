@@ -22,6 +22,7 @@ class Professor extends Model
         'college_id',
         'course_id',
         'maximum_hours',
+        'employee_status',
         'status',
     ];
 

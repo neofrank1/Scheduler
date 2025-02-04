@@ -24,6 +24,7 @@ return new class extends Migration
             $table->foreignId('college_id')->nullable()->constrained('college');
             $table->foreignId('course_id')->nullable()->constrained('course');
             $table->float('maximum_hours');
+            $table->integer('employee_status');
             $table->integer('status');
             $table->timestamps();
         });

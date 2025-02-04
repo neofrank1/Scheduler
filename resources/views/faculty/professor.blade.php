@@ -133,6 +133,9 @@
                     if ($('#edit_ranking_id option[value="' + response.ranking_id + '"]').length === 1) {
                         $('#edit_ranking_id').val(response.ranking_id);
                     }
+                    if ($('#edit_employee_status option[value="' + response.employee_status + '"]').length === 1) {
+                        $('#edit_employee_status').val(response.employee_status);
+                    }
                 }
             });
         });
