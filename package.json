@@ -24,6 +24,7 @@
         "datatables.net-scroller-dt": "^2.4.3",
         "datatables.net-searchbuilder-dt": "^1.7.1",
         "datatables.net-searchpanes-dt": "^2.3.0",
+        "html2pdf.js": "^0.10.2",
         "jquery": "^3.7.1",
         "jszip": "^3.10.1",
         "pdfmake": "^0.2.10"

@@ -16,6 +16,8 @@ return new class extends Migration
             $table->string('building_name');
             $table->integer('floor_number');
             $table->integer('room_number');
+            $table->foreignId('college_id')->nullable()->constrained('college');
+            $table->foreignId('course_id')->nullable()->constrained('course');
             $table->timestamps();
         });
     }
