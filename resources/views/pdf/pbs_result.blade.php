@@ -42,11 +42,12 @@
                                     <p style="font-size: 10px; margin: 0;">Website: www.ctu.edu.ph | Email: thepresident@ctu.edu.ph</p>
                                     <p style="font-size: 10px; margin: 0;">Phone: +6332 402 460 loc. 1137</p>
                                     <h3 style="font-size: 12px; font-weight: bold;" class="mt-2">{{$data['college']}}</h3>
-                                    <h3 style="font-size: 12px; font-weight: bold;" class="mt-3">PROGRAM BY ROOM UTILIZATION</h3>
+                                    <h3 style="font-size: 12px; font-weight: bold;" class="mt-3">PROGRAM BY SECTION</h3>
+                                    <h3 style="font-size: 12px;">{{ strtoupper($data['program']) }} PROGRAM</h3>
                                     <?php if ($data['semester'] == 1):?>
-                                        <h4 style="font-size: 12px; font-weight: bold;" class="mt-3">{{$data['semester']}}st Semester SY {{$data['school_year']}}</h4>
+                                        <h4 style="font-size: 12px; font-weight: bold;" class="mt-1">{{$data['semester']}}st Semester SY {{$data['school_year']}}</h4>
                                     <?php else: ?>
-                                        <h4 style="font-size: 12px; font-weight: bold;" class="mt-3">{{$data['semester']}}nd Semester SY {{$data['school_year']}}</h4>
+                                        <h4 style="font-size: 12px; font-weight: bold;" class="mt-1">{{$data['semester']}}nd Semester SY {{$data['school_year']}}</h4>
                                     <?php endif; ?>
                                 </div>
                             <?php
@@ -60,7 +61,41 @@
                         
                         <div class="container-fluid">
                             <div class="row mb-8 mt-5">
-                                <h5 class="fw-bold"></h5>
+                                <div class="col-6">
+                                    <p style="margin: 0;">Degree Year & Section: {{$data['section']}} {{$data['program']}}</p>
+                                </div>
+                                <div class="col-6">
+                                    <p style="margin: 0;">Major:</p>
+                                </div>
+                                <div class="col-6">
+                                    <p style="margin: 0;">Adviser:</p>
+                                </div>
+                                <div class="col-6">
+                                    <p style="margin: 0;">Assignment:</p>
+                                </div>
+                                <div class="col-4">
+                                    <table style="font-size: 10px;">
+                                        <thead class="fw-bold">
+                                            <tr>
+                                                <td colspan="2">SUMMARY OF COURSES</td>
+                                            </tr>
+                                        </thead>
+                                        <thead class="fw-bold">
+                                            <tr>
+                                                <td>Course Code</td>
+                                                <td>Descriptive Title</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach($data['summary'] as $summary)
+                                                <tr>
+                                                    <td>{{ $summary['subj_code'] }}</td>
+                                                    <td>{{ $summary['subj_desc'] }}</td>
+                                                </tr>
+                                            @endforeach
+                                        </tbody>
+                                    </table>
+                                </div>
                                 <div class="col-8">
                                     <table id="data_table" style="font-size: 10px;">
                                         <thead>
@@ -197,7 +232,7 @@
                 var element = document.getElementById('content');
                 var opt = {
                     margin:       0.5,
-                    filename:     'mis.pdf',
+                    filename:     'PBS.pdf',
                     image:        { type: 'png', quality: 1 },
                     html2canvas:  { scale: 1 },
                     jsPDF:        { unit: 'in', format: 'tabloid', orientation: 'landscape' },
