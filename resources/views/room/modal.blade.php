@@ -12,19 +12,19 @@
                     <div class="row">
                         <div class="col-12">
                             <label for="name" class="form-label">Building Name</label>
-                            <input type="text" class="form-control" name="building_name" id="name">
+                            <input type="text" class="form-control" name="building_name" id="name" required>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-12">
                             <label for="name" class="form-label">Floor Number</label>
-                            <input type="number" class="form-control" name="floor_number" id="name">
+                            <input type="number" class="form-control" name="floor_number" id="name" required>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-12">
                             <label for="name" class="form-label">Room Number</label>
-                            <input type="number" class="form-control" name="room_number" id="name">
+                            <input type="number" class="form-control" name="room_number" id="name" required>
                         </div>
                     </div>
                 </div>
@@ -51,19 +51,19 @@
                     <div class="row">
                         <div class="col-12">
                             <label for="name" class="form-label">Building Name</label>
-                            <input type="text" class="form-control" name="building_name" id="edit_building_name">
+                            <input type="text" class="form-control" name="building_name" id="edit_building_name" required>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-12">
                             <label for="name" class="form-label">Floor Number</label>
-                            <input type="number" class="form-control" name="floor_number" id="edit_floor_number">
+                            <input type="number" class="form-control" name="floor_number" id="edit_floor_number" required>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-12">
                             <label for="name" class="form-label">Room Number</label>
-                            <input type="number" class="form-control" name="room_number" id="edit_room_number">
+                            <input type="number" class="form-control" name="room_number" id="edit_room_number" required>
                             <input type="hidden" name="room_id" id="edit_room_id">
                         </div>
                     </div>

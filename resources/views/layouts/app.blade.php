@@ -48,6 +48,33 @@
                                     <a class="nav-link text-center fw-semibold" href="{{ route('chairperson.home') }}">{{ __('Chairperson') }}</a>
                                 </div>
                             </li>
+                        @elseif(Auth::user()->user_type == 2)
+                            <li class="nav-item">
+                                <a class="nav-link fw-semibold" href="{{ route('chairperson.home') }}">{{ __('Chairperson') }}</a>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a id="navbarDropdown" class="nav-link dropdown-toggle fw-semibold" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                                    {{ __('Reports') }}
+                                </a>
+
+                                <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                                    <a class="dropdown-item" href="{{ route('pdf.prospectus.home') }}">
+                                        {{ __('Prospectus') }}
+                                    </a>
+                                    <a class="dropdown-item" href="{{ route('pdf.pbt.home') }}">
+                                        {{ __('PBT') }}
+                                    </a>
+                                    <a class="dropdown-item" href="{{ route('pdf.pbs.home') }}">
+                                        {{ __('PBS') }}
+                                    </a>
+                                    <a class="dropdown-item" href="{{ route('pdf.pbr.home') }}">
+                                        {{ __('PBRU') }}
+                                    </a>
+                                    <a class="dropdown-item" href="{{ route('pdf.mis.home') }}">
+                                        {{ __('MIS') }}
+                                    </a>
+                                </div>
+                            </li>
                         @elseif(Auth::user()->user_type == 3)
                         <li class="nav-item">
                             <a class="nav-link fw-semibold" href="{{ route('professor.home') }}">{{ __('Professor') }}</a>

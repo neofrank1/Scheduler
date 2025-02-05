@@ -21,12 +21,20 @@ class PDFController extends Controller
     public function prospectus()
     {   
         if (request()->ajax()) {
-            $query = Course::select('course.*', 'college.short_name as department')
-            ->leftJoin('college', 'course.college_id', '=', 'college.id')
-            ->where('college_id', Auth::user()->college_id)
-            ->where('course.id', Auth::user()->course_id);
-            
-            return DataTables::of($query)->make(true);    
+            if (Auth::user()->user_type == 2) {
+                $query = Course::select('course.*', 'college.short_name as department')
+                ->leftJoin('college', 'course.college_id', '=', 'college.id')
+                ->where('college_id', Auth::user()->college_id);
+
+                return DataTables::of($query)->make(true);    
+            } else {
+                $query = Course::select('course.*', 'college.short_name as department')
+                ->leftJoin('college', 'course.college_id', '=', 'college.id')
+                ->where('college_id', Auth::user()->college_id)
+                ->where('course.id', Auth::user()->course_id);
+                
+                return DataTables::of($query)->make(true);    
+            }
         }
         return view('pdf.prospectus_home');
     }
@@ -52,11 +60,19 @@ class PDFController extends Controller
     public function mis() {
         
         if (request()->ajax()) {
-            $query = Section::select('section.*')
-            ->where('college_id', Auth::user()->college_id)
-            ->where('course_id', Auth::user()->course_id);
-            
-            return DataTables::of($query)->make(true);    
+            if (Auth::user()->user_type == 2) {
+                $query = Section::select('section.*')
+                ->where('college_id', Auth::user()->college_id);
+                
+                return DataTables::of($query)->make(true);    
+            } else {
+                $query = Section::select('section.*')
+                ->where('college_id', Auth::user()->college_id)
+                ->where('course_id', Auth::user()->course_id);
+                
+                return DataTables::of($query)->make(true);    
+            }
+           
         }
 
         return view('pdf.mis_home');
@@ -75,7 +91,7 @@ class PDFController extends Controller
         $college = College::find(Auth::user()->college_id)->toArray();
         $section = Section::find($id)->toArray();
         $schedule = $schedule->toArray();
-        $course = Course::find(Auth::user()->course_id)->toArray();
+        $course = Course::find(!empty(Auth::user()->course_id) ? Auth::user()->course_id : $section['course_id'])->toArray();
 
         $groupedSchedule = [];
         foreach ($schedule as $value) {
@@ -124,20 +140,37 @@ class PDFController extends Controller
     public function pbt() {
 
         if (request()->ajax()) {
-            $query = Schedule::select(
-                        'schedule.semester',
-                        'schedule.school_yr',
-                        'schedule.prof_id',
-                        'professors.first_name',
-                        'professors.last_name',
-                        DB::raw('count(schedule.prof_id) as prof_count')
-                    )
-                    ->leftJoin('professors', 'schedule.prof_id', '=', 'professors.id')
-                    ->where('schedule.course_id', Auth::user()->course_id)
-                    ->groupBy('schedule.prof_id', 'schedule.semester', 'schedule.school_yr', 'professors.first_name', 'professors.last_name')
-                    ->get();
-        
-            return DataTables::of($query)->make(true);    
+            if (Auth::user()->user_type == 2) {
+                $query = Schedule::select(
+                    'schedule.semester',
+                    'schedule.school_yr',
+                    'schedule.prof_id',
+                    'professors.first_name',
+                    'professors.last_name',
+                    DB::raw('count(schedule.prof_id) as prof_count')
+                )
+                ->leftJoin('professors', 'schedule.prof_id', '=', 'professors.id')
+                ->where('professors.college_id', Auth::user()->college_id)
+                ->groupBy('schedule.prof_id', 'schedule.semester', 'schedule.school_yr', 'professors.first_name', 'professors.last_name')
+                ->get();
+    
+                return DataTables::of($query)->make(true);  
+            } else {
+                $query = Schedule::select(
+                            'schedule.semester',
+                            'schedule.school_yr',
+                            'schedule.prof_id',
+                            'professors.first_name',
+                            'professors.last_name',
+                            DB::raw('count(schedule.prof_id) as prof_count')
+                        )
+                        ->leftJoin('professors', 'schedule.prof_id', '=', 'professors.id')
+                        ->where('schedule.course_id', Auth::user()->course_id)
+                        ->groupBy('schedule.prof_id', 'schedule.semester', 'schedule.school_yr', 'professors.first_name', 'professors.last_name')
+                        ->get();
+            
+                return DataTables::of($query)->make(true);    
+            }
         }
 
         return view('pdf.pbt_home');
@@ -148,9 +181,9 @@ class PDFController extends Controller
             '07:00', '08:00', '09:00', '10:00', '11:00', '12:00',
             '13:00', '14:00', '15:00', '16:00', '17:00', '18:00', '19:00', '20:00', '21:00'
         ];
-
+        $professor_id = Professor::find($id)->toArray();
         $college = College::find(Auth::user()->college_id)->toArray();
-        $course = Course::find(Auth::user()->course_id)->toArray();
+        $course = Course::find(!empty(Auth::user()->course_id) ?  Auth::user()->course_id : $professor_id['course_id'])->toArray();
         $professor = Professor::find($id)->toArray();
         $schedule = TimeSlot::select('time_slot.*', 'schedule.*', 'subjects.subj_code', 'subjects.subj_desc', 'subjects.subj_lec_hours', 'subjects.subj_lab_hours', 'subjects.subj_units','professors.first_name', 'professors.last_name', 'professors.middle_name', 'rooms.*', 'section.name as section_name', 'section.program')
                     ->leftJoin('schedule', 'time_slot.schedule_id', '=', 'schedule.id')
@@ -166,7 +199,7 @@ class PDFController extends Controller
         $summary = Schedule::select('schedule.*', 'subjects.*', 'section.name as section_name')
                     ->leftJoin('subjects', 'schedule.subject_id', '=', 'subjects.id')
                     ->leftJoin('section', 'schedule.section_id', '=', 'section.id')
-                    ->where('schedule.course_id', Auth::user()->course_id)
+                    ->where('schedule.course_id', !empty(Auth::user()->course_id) ?  Auth::user()->course_id : $professor_id['course_id'])
                     ->where('schedule.semester', $semester)
                     ->where('schedule.school_yr', $school_yr)
                     ->where('schedule.prof_id', $id)
@@ -193,22 +226,40 @@ class PDFController extends Controller
     public function pbr() {
 
         if (request()->ajax()) {
-            $query = Schedule::select(
-                        'schedule.room_id',
-                        'rooms.building_name',
-                        'rooms.floor_number',
-                        'rooms.room_number',
-                        'schedule.semester',
-                        'schedule.school_yr',
-                        DB::raw('count(schedule.room_id) as room_count')
-                    )
-                    ->leftJoin('rooms', 'schedule.room_id', '=', 'rooms.id')
-                    ->where('schedule.course_id', Auth::user()->course_id)
-                    ->where('rooms.college_id', Auth::user()->college_id)
-                    ->groupBy('schedule.room_id', 'rooms.building_name', 'rooms.floor_number', 'rooms.room_number','schedule.semester', 'schedule.school_yr')
-                    ->get();
-        
-            return DataTables::of($query)->make(true);    
+            if (Auth::user()->user_type == 2) {
+                $query = Schedule::select(
+                    'schedule.room_id',
+                    'rooms.building_name',
+                    'rooms.floor_number',
+                    'rooms.room_number',
+                    'schedule.semester',
+                    'schedule.school_yr',
+                    DB::raw('count(schedule.room_id) as room_count')
+                )
+                ->leftJoin('rooms', 'schedule.room_id', '=', 'rooms.id')
+                ->where('rooms.college_id', Auth::user()->college_id)
+                ->groupBy('schedule.room_id', 'rooms.building_name', 'rooms.floor_number', 'rooms.room_number','schedule.semester', 'schedule.school_yr')
+                ->get();
+    
+                return DataTables::of($query)->make(true);
+            } else {
+                $query = Schedule::select(
+                    'schedule.room_id',
+                    'rooms.building_name',
+                    'rooms.floor_number',
+                    'rooms.room_number',
+                    'schedule.semester',
+                    'schedule.school_yr',
+                    DB::raw('count(schedule.room_id) as room_count')
+                )
+                ->leftJoin('rooms', 'schedule.room_id', '=', 'rooms.id')
+                ->where('schedule.course_id', Auth::user()->course_id)
+                ->where('rooms.college_id', Auth::user()->college_id)
+                ->groupBy('schedule.room_id', 'rooms.building_name', 'rooms.floor_number', 'rooms.room_number','schedule.semester', 'schedule.school_yr')
+                ->get();
+    
+                return DataTables::of($query)->make(true);
+            }   
         }
 
         return view('pdf.pbr_home');
@@ -221,7 +272,6 @@ class PDFController extends Controller
         ];
 
         $college = College::find(Auth::user()->college_id)->toArray();
-        $course = Course::find(Auth::user()->course_id)->toArray();
         $room = Room::find($id)->toArray();
         $schedule = TimeSlot::select('time_slot.*', 'schedule.*', 'subjects.subj_code', 'subjects.subj_desc', 'subjects.subj_lec_hours', 'subjects.subj_lab_hours', 'subjects.subj_units', 'professors.first_name', 'professors.last_name', 'professors.middle_name', 'rooms.*', 'section.name as section_name')
                     ->leftJoin('schedule', 'time_slot.schedule_id', '=', 'schedule.id')
@@ -239,7 +289,6 @@ class PDFController extends Controller
         $data = [
             'college' => $college['short_name'],
             'school_year' => date('Y') . '-' . (date('Y') + 1),
-            'course' => $course['short_name'] . '-' . $course['full_name'],
             'semester' => $schedule[0]['semester'],
             'schedule' => $schedule,
             'time_slots' => $timeSlots,
@@ -252,20 +301,37 @@ class PDFController extends Controller
     public function pbs() {
 
         if (request()->ajax()) {
-            $query = Schedule::select(
-                        'schedule.section_id',
-                        'schedule.semester',
-                        'schedule.school_yr',
-                        'section.name',
-                        'section.program',
-                        DB::raw('count(schedule.section_id) as section')
-                    )
-                    ->leftJoin('section', 'schedule.section_id', '=', 'section.id')
-                    ->where('schedule.course_id', Auth::user()->course_id)
-                    ->groupBy('schedule.section_id', 'schedule.semester', 'schedule.school_yr', 'section.name', 'section.program')
-                    ->get();
-        
-            return DataTables::of($query)->make(true);    
+            if (Auth::user()->user_type == 2) {
+                $query = Schedule::select(
+                    'schedule.section_id',
+                    'schedule.semester',
+                    'schedule.school_yr',
+                    'section.name',
+                    'section.program',
+                    DB::raw('count(schedule.section_id) as section')
+                )
+                ->leftJoin('section', 'schedule.section_id', '=', 'section.id')
+                ->where('section.college_id', Auth::user()->college_id)
+                ->groupBy('schedule.section_id', 'schedule.semester', 'schedule.school_yr', 'section.name', 'section.program')
+                ->get();
+    
+                return DataTables::of($query)->make(true);    
+            } else {
+                $query = Schedule::select(
+                    'schedule.section_id',
+                    'schedule.semester',
+                    'schedule.school_yr',
+                    'section.name',
+                    'section.program',
+                    DB::raw('count(schedule.section_id) as section')
+                )
+                ->leftJoin('section', 'schedule.section_id', '=', 'section.id')
+                ->where('schedule.course_id', Auth::user()->course_id)
+                ->groupBy('schedule.section_id', 'schedule.semester', 'schedule.school_yr', 'section.name', 'section.program')
+                ->get();
+    
+                return DataTables::of($query)->make(true);    
+            }
         }
 
         return view ('pdf.pbs_home');
@@ -277,9 +343,9 @@ class PDFController extends Controller
             '07:00', '08:00', '09:00', '10:00', '11:00', '12:00',
             '13:00', '14:00', '15:00', '16:00', '17:00', '18:00', '19:00', '20:00', '21:00'
         ];
-
+        $section = Section::find($section)->toArray();
         $college = College::find(Auth::user()->college_id)->toArray();
-        $course = Course::find(Auth::user()->course_id)->toArray();
+        $course = Course::find(!empty(Auth::user()->course_id) ? Auth::user()->course_id : $section['course_id'])->toArray();
         $schedule = TimeSlot::select('time_slot.*', 'schedule.*', 'subjects.subj_code', 'subjects.subj_desc', 'subjects.subj_lec_hours', 'subjects.subj_lab_hours', 'subjects.subj_units','professors.first_name', 'professors.last_name', 'professors.middle_name', 'rooms.*', 'section.name as section_name', 'section.program')
                     ->leftJoin('schedule', 'time_slot.schedule_id', '=', 'schedule.id')
                     ->leftJoin('subjects', 'schedule.subject_id', '=', 'subjects.id')
@@ -294,7 +360,7 @@ class PDFController extends Controller
 
         $summary = Schedule::select('schedule.*', 'subjects.*')
                     ->leftJoin('subjects', 'schedule.subject_id', '=', 'subjects.id')
-                    ->where('schedule.course_id', Auth::user()->course_id)
+                    ->where('schedule.course_id', !empty(Auth::user()->course_id) ? Auth::user()->course_id : $section['course_id'])
                     ->where('schedule.section_id', $section)
                     ->where('schedule.semester', $semester)
                     ->where('schedule.school_yr', $school_yr)

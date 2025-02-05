@@ -12,11 +12,11 @@
                     <div class="row">
                         <div class="col-12">
                             <label for="short_name" class="form-label">Short Name</label>
-                            <input type="text" class="form-control" name="short_name" id="short_name">
+                            <input type="text" class="form-control" name="short_name" id="short_name" required>
                         </div>
                         <div class="col-12 mt-2">
                             <label for="full_name" class="form-label">Full Name</label>
-                            <input type="text" class="form-control" name="full_name" id="full_name">
+                            <input type="text" class="form-control" name="full_name" id="full_name" required>
                         </div>
                         <div class="col-12 mt-2">
                             <label for="college_department" class="form-label">College Department</label>
@@ -47,11 +47,11 @@
                     <div class="row">
                         <div class="col-12">
                             <label for="short_name" class="form-label">Short Name</label>
-                            <input type="text" class="form-control" name="short_name" id="edit_short_name">
+                            <input type="text" class="form-control" name="short_name" id="edit_short_name" required>
                         </div>
                         <div class="col-12 mt-2">
                             <label for="full_name" class="form-label">Full Name</label>
-                            <input type="text" class="form-control" name="full_name" id="edit_full_name">
+                            <input type="text" class="form-control" name="full_name" id="edit_full_name" required>
                         </div>
                         <div class="col-12 mt-2">
                             <label for="college_department" class="form-label">College Department</label>

@@ -169,7 +169,7 @@
                         <p class="fw-bold">Program Coordinator/Chair</p>
                     </div>
                     <div class="col-4 text-center">
-                        <p class="fw-bold">Dean, {{$data['course']}}</p>
+                        <p class="fw-bold">Dean, {{$data['college']}}</p>
                     </div>
                     <div class="col-4 text-center">
                         <p class="fw-bold">Campus Director, CTU-Main Campus</p>

@@ -47,29 +47,29 @@
                             <div class="row mb-3">
                                 <div class="col-4">
                                     <label for="subj_code" class="form-label">Subject Code</label>
-                                    <input type="text" class="form-control" name="subj_code[]" id="subj_code">
+                                    <input type="text" class="form-control" name="subj_code[]" id="subj_code" required>
                                 </div>
                                 <div class="col-4">
                                     <label for="subj_desc" class="form-label">Subject Description</label>
-                                    <input type="text" class="form-control" name="subj_desc[]" id="subj_desc">
+                                    <input type="text" class="form-control" name="subj_desc[]" id="subj_desc" required>
                                 </div>
                                 <div class="col-4">
                                     <label for="subj_hrs" class="form-label">Subject Hours</label>
-                                    <input type="text" class="form-control" name="subj_hours[]" id="subj_hours">
+                                    <input type="text" class="form-control" name="subj_hours[]" id="subj_hours" required>
                                 </div>
                             </div>
                             <div class="row mb-3">
                                 <div class="col-4">
                                     <label for="subj_lab_hours" class="form-label">Subject Lab Hours</label>
-                                    <input type="text" class="form-control" name="subj_lab_hours[]" id="subj_lab_hours">
+                                    <input type="text" class="form-control" name="subj_lab_hours[]" id="subj_lab_hours" required>
                                 </div>
                                 <div class="col-4">
                                     <label for="subj_lec_hours" class="form-label">Subject Lec Hours</label>
-                                    <input type="text" class="form-control" name="subj_lec_hours[]" id="subj_lec_hours">
+                                    <input type="text" class="form-control" name="subj_lec_hours[]" id="subj_lec_hours" required>
                                 </div>
                                 <div class="col-4">
                                     <label for="subj_prereq" class="form-label">Subject Prerequisite</label>
-                                    <input type="text" class="form-control" name="subj_prereq[]" id="subj_prereq">
+                                    <input type="text" class="form-control" name="subj_prereq[]" id="subj_prereq" required>
                                 </div>
                             </div>
                             <div class="row">
@@ -83,7 +83,7 @@
                                 </div>
                                 <div class="col-4">
                                     <label for="subj_units" class="form-label">Subject Unit</label>
-                                    <input type="text" class="form-control" name="subj_units[]" id="subj_units">
+                                    <input type="text" class="form-control" name="subj_units[]" id="subj_units" required>
                                 </div>
                             </div>
                         </div>
@@ -115,13 +115,13 @@
                     <div class="row mb-3">
                         <div class="col-4">
                             <label for="" class="form-label">School Year</label>
-                            <select class="form-select" placeholder="Choose School Year" name="school_year" id="edit_school_yr">
+                            <select class="form-select" placeholder="Choose School Year" name="school_year" id="edit_school_yr" required>
                                 
                             </select>
                         </div>
                         <div class="col-4">
                             <label for="" class="form-label">Year Level</label>
-                            <select class="form-select" name="year_level" id="edit_year_lvl">
+                            <select class="form-select" name="year_level" id="edit_year_lvl" required>
                 
                             </select>
                         </div>
@@ -136,29 +136,29 @@
                     <div class="row mb-3">
                         <div class="col-4">
                             <label for="subj_code" class="form-label">Subject Code</label>
-                            <input type="text" class="form-control" name="subj_code" id="edit_subj_code">
+                            <input type="text" class="form-control" name="subj_code" id="edit_subj_code" required>
                         </div>
                         <div class="col-4">
                             <label for="subj_desc" class="form-label">Subject Description</label>
-                            <input type="text" class="form-control" name="subj_desc" id="edit_subj_desc">
+                            <input type="text" class="form-control" name="subj_desc" id="edit_subj_desc" required>
                         </div>
                         <div class="col-4">
                             <label for="subj_hrs" class="form-label">Subject Hours</label>
-                            <input type="text" class="form-control" name="subj_hours" id="edit_subj_hours">
+                            <input type="text" class="form-control" name="subj_hours" id="edit_subj_hours" required>
                         </div>
                     </div>
                     <div class="row mb-3">
                         <div class="col-4">
                             <label for="subj_lab_hours" class="form-label">Subject Lab Hours</label>
-                            <input type="text" class="form-control" name="subj_lab_hours" id="edit_subj_lab_hours">
+                            <input type="text" class="form-control" name="subj_lab_hours" id="edit_subj_lab_hours" required>
                         </div>
                         <div class="col-4">
                             <label for="subj_lec_hours" class="form-label">Subject Lec Hours</label>
-                            <input type="text" class="form-control" name="subj_lec_hours" id="edit_subj_lec_hours">
+                            <input type="text" class="form-control" name="subj_lec_hours" id="edit_subj_lec_hours" required>
                         </div>
                         <div class="col-4">
                             <label for="subj_prereq" class="form-label">Subject Prerequisite</label>
-                            <input type="text" class="form-control" name="subj_prereq" id="edit_subj_prereq">
+                            <input type="text" class="form-control" name="subj_prereq" id="edit_subj_prereq" required>
                         </div>
                     </div>
                     <div class="row">
@@ -171,7 +171,7 @@
                         </div>
                         <div class="col-4">
                             <label for="subj_units" class="form-label">Subject Prerequisite</label>
-                            <input type="text" class="form-control" name="subj_units" id="edit_subj_units">
+                            <input type="text" class="form-control" name="subj_units" id="edit_subj_units" required>
                         </div>
                     </div>
                     <div class="modal-footer mt-3">
