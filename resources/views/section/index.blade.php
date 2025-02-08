@@ -63,7 +63,12 @@
                 { data: 'id', name: 'id' },
                 { data: 'name', name: 'name' },
                 { data: 'year_lvl', name: 'year_lvl' },
-                { data: 'program', name: 'program', searchable: false, orderable: false},
+                { data: 'program',
+                    name: 'program',
+                    render: function(data, type, row) {
+                        return data == 1 ? 'Day' : 'Evening';
+                    }, searchable: false, orderable: false
+                },
                 { data: 'college_name', name: 'college_name' },
                 { data: 'course_name', name: 'course_name' },
                 { 

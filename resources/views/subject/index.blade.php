@@ -72,7 +72,12 @@
                 { data: 'subj_code', name: 'subj_code' },
                 { data: 'subj_desc', name: 'subj_desc' },
                 { data: 'subj_prereq', name: 'subj_prereq', searchable: false, orderable: false},
-                { data: 'subj_type', name: 'subj_type' },
+                { data: 'subj_type',
+                    name: 'subj_type',
+                    render: function(data, type, row) {
+                        return data == 1 ? 'Major' : 'Minor';
+                    }
+                },
                 { data: 'subj_lab_hours', name: 'subj_lab_hours' },
                 { data: 'subj_lec_hours', name: 'subj_lec_hours' },
                 { data: 'course', name: 'course' },
