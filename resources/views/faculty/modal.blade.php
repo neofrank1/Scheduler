@@ -87,6 +87,8 @@
                             <select class="form-select" name="employee_status" id="employee_status">
                                 <option value="1">Permanent</option>
                                 <option value="2">Part Time</option>
+                                <option value="3">Probationary</option>
+                                <option value="4">Full-Time</option>
                             </select>
                         </div>
                         <div class="col-6 mt-2">
@@ -192,6 +194,8 @@
                             <select class="form-select" name="employee_status" id="edit_employee_status">
                                 <option value="1">Permanent</option>
                                 <option value="2">Part Time</option>
+                                <option value="3">Probationary</option>
+                                <option value="4">Full-Time</option>
                             </select>
                         </div>
                         <div class="col-6 mt-2">

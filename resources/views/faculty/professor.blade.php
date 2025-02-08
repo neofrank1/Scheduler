@@ -76,7 +76,24 @@
                 { data: 'last_name', name: 'last_name' },
                 { data: 'address', name: 'address' },
                 { data: 'mobile_no', name: 'mobile_no' },
-                { data: 'education_id', name: 'education_id' },
+                {
+                    data: 'education_id',
+                    name: 'education_id',
+                    render: function(data, type, row) {
+                        switch (data) {
+                            case 1:
+                                return 'Associate Graduate';
+                            case 2:
+                                return "Bachelor's Degree";
+                            case 3:
+                                return "Master's Degree";
+                            case 4:
+                                return "Doctorate Degree";
+                            default:
+                                return 'Unknown';
+                        }
+                    }
+                },
                 { data: 'ranking_title', name: 'ranking_title' },
                 { data: 'college_name', name: 'college_name' },
                 { data: 'course_name', name: 'course_name' },
