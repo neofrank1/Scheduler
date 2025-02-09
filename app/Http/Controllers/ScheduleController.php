@@ -39,9 +39,9 @@ class ScheduleController extends Controller
         if(empty($request->input('_token'))) {
             return;
         }
-        foreach($request->input('subjects') as $value) {
+        foreach($request->input('subjects') as $key => $value) {
             
-            $data = array(
+            $data1 = array(
                 'course_id' => Auth::user()->course_id,
                 'section_id' => $request->input('section_id'),
                 'semester' => $request->input('semester'),
@@ -52,8 +52,31 @@ class ScheduleController extends Controller
                 'status' => 1
             );
 
-            if ($data != null) {
-                $res = Schedule::create($data);
+            if ($data1 != null) {
+                foreach($value['days'] as $day) {
+                    $data = array(
+                        'start_time' => isset($day['start_time']) ? $day['start_time'] : null,
+                        'end_time' => isset($day['end_time']) ? $day['end_time'] : null,
+                        'day' => $day['day'],
+                    );
+
+                    $conflict = $this->checkDataSchedule([
+                        'room_id' => $data1['room_id'],
+                        'semester' => $data1['semester'],
+                        'school_yr' => $data1['school_yr'],
+                        'start_time' => $data['start_time'],
+                        'end_time' => $data['end_time'],
+                        'day' => $data['day'],
+                        'prof_id' => $data1['prof_id'],
+                        'section_id' => $data1['section_id']
+                    ]);
+
+                    if ($conflict) {
+                        return redirect()->back()->with('error', 'Schedule conflict detected!');
+                    }
+                }   
+
+                $res = Schedule::create($data1);
                 $lastInsertedId = $res->id;
             }
 
@@ -183,4 +206,53 @@ class ScheduleController extends Controller
             return response()->json(['success' => false, 'message' => 'Failed to update schedule status.']);
         }
     }
+
+    public function checkDataSchedule($data)
+    {
+        try {
+            $query = "SELECT COUNT(*) as count 
+                    FROM schedule AS scheduled
+                    LEFT JOIN time_slot AS day_time ON scheduled.id = day_time.schedule_id
+                    WHERE scheduled.status = 1 
+                    AND (
+                        (scheduled.room_id = :room_id AND scheduled.school_yr = :school_yr1 AND scheduled.semester = :semester1 
+                        AND day_time.start_time <= :end_time1 AND day_time.end_time >= :start_time1 AND day_time.day = :day1) 
+                        OR 
+                        (scheduled.prof_id = :prof_id AND scheduled.school_yr = :school_yr2 AND scheduled.semester = :semester2 
+                        AND day_time.start_time <= :end_time2 AND day_time.end_time >= :start_time2 AND day_time.day = :day2)
+                        OR 
+                        (scheduled.section_id = :section_id AND scheduled.school_yr = :school_yr3 AND scheduled.semester = :semester3 
+                        AND day_time.start_time <= :end_time3 AND day_time.end_time >= :start_time3 AND day_time.day = :day3)
+                    )";
+
+            // Convert time format correctly and ensure all data keys exist
+            $params = [
+                'room_id' => $data['room_id'] ?? null,
+                'prof_id' => $data['prof_id'] ?? null,
+                'school_yr1' => $data['school_yr'] ?? null,
+                'semester1' => $data['semester'] ?? null,
+                'start_time1' => isset($data['start_time']) ? date('H:i:s', strtotime($data['start_time'])) : null,
+                'end_time1' => isset($data['end_time']) ? date('H:i:s', strtotime($data['end_time'])) : null,
+                'day1' => $data['day'] ?? null,
+                'school_yr2' => $data['school_yr'] ?? null,
+                'semester2' => $data['semester'] ?? null,
+                'start_time2' => isset($data['start_time']) ? date('H:i:s', strtotime($data['start_time'])) : null,
+                'end_time2' => isset($data['end_time']) ? date('H:i:s', strtotime($data['end_time'])) : null,
+                'day2' => $data['day'] ?? null,
+                'section_id' => $data['section_id'] ?? null,
+                'school_yr3' => $data['school_yr'] ?? null,
+                'semester3' => $data['semester'] ?? null,
+                'start_time3' => isset($data['start_time']) ? date('H:i:s', strtotime($data['start_time'])) : null,
+                'end_time3' => isset($data['end_time']) ? date('H:i:s', strtotime($data['end_time'])) : null,
+                'day3' => $data['day'] ?? null,
+            ];
+
+            $result = DB::select($query, $params);
+
+            return isset($result[0]) && $result[0]->count != 0;
+        } catch (\Exception $e) {
+            return false;
+        }
+    }
+
 }

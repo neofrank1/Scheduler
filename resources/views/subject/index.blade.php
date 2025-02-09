@@ -66,6 +66,7 @@
         $('#table-subject').dataTable({
             processing : true,
             serverSide : true,
+            searching : false,
             ajax: `{{ route('subject.home') }}`,
             columns: [
                 { data: 'id', name: 'id' },

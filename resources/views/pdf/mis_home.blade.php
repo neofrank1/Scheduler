@@ -48,6 +48,7 @@
             $('#table-prospectus').DataTable({
                 processing: true,
                 serverSide: true,
+                searching : false,
                 ajax: `{{ route('pdf.mis.home') }}`,
                 columns: [
                     { data: 'id', name: 'id' },

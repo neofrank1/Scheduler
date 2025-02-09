@@ -49,6 +49,7 @@
             $('#table-prospectus').DataTable({
                 processing: true,
                 serverSide: true,
+                searching : false,
                 ajax: {
                     url: `{{ route('pdf.pbt.home') }}`,
                     type: 'GET',

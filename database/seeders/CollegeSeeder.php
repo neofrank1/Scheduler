@@ -47,7 +47,7 @@ class CollegeSeeder extends Seeder
 
         College::insert([
             'short_name' => 'CCICT',
-            'full_name' => 'College of Information and Communications Technology',
+            'full_name' => 'College of Computer, Information and Communications Technology',
             'status' => 1,
             'created_at' => now(),
             'updated_at' => now(),

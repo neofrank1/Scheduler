@@ -62,13 +62,13 @@
                                         {{ __('Prospectus') }}
                                     </a>
                                     <a class="dropdown-item" href="{{ route('pdf.pbt.home') }}">
-                                        {{ __('PBT') }}
+                                        {{ __('Program by Teacher') }}
                                     </a>
                                     <a class="dropdown-item" href="{{ route('pdf.pbs.home') }}">
-                                        {{ __('PBS') }}
+                                        {{ __('Program by Section') }}
                                     </a>
                                     <a class="dropdown-item" href="{{ route('pdf.pbr.home') }}">
-                                        {{ __('PBRU') }}
+                                        {{ __('Program by Room Utilization') }}
                                     </a>
                                     <a class="dropdown-item" href="{{ route('pdf.mis.home') }}">
                                         {{ __('MIS') }}
@@ -101,13 +101,13 @@
                                     {{ __('Prospectus') }}
                                 </a>
                                 <a class="dropdown-item" href="{{ route('pdf.pbt.home') }}">
-                                    {{ __('PBT') }}
+                                    {{ __('Program by Teacher') }}
                                 </a>
                                 <a class="dropdown-item" href="{{ route('pdf.pbs.home') }}">
-                                    {{ __('PBS') }}
+                                    {{ __('Program by Section') }}
                                 </a>
                                 <a class="dropdown-item" href="{{ route('pdf.pbr.home') }}">
-                                    {{ __('PBRU') }}
+                                    {{ __('Program by Room Utilization') }}
                                 </a>
                                 <a class="dropdown-item" href="{{ route('pdf.mis.home') }}">
                                     {{ __('MIS') }}
