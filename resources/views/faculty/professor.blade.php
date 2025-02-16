@@ -92,11 +92,12 @@
                             default:
                                 return 'Unknown';
                         }
-                    }
+                    },
+                    searchable: false, orderable: false
                 },
-                { data: 'ranking_title', name: 'ranking_title' },
-                { data: 'college_name', name: 'college_name' },
-                { data: 'course_name', name: 'course_name' },
+                { data: 'ranking_title', name: 'ranking_title', searchable: false, orderable: false },
+                { data: 'college_name', name: 'college_name', searchable: false, orderable: false },
+                { data: 'course_name', name: 'course_name', searchable: false, orderable: false },
                 { data: 'maximum_hours', name: 'maximum_hours', searchable: false, orderable: false},
                 { 
                     data: null, 
@@ -159,49 +160,74 @@
 
         // Status
         $('#table-professor').on('click', '.btn-deactivate', function() {
-                var id = $(this).data('id');
-                var status = $(this).data('status');
+            var id = $(this).data('id');
+            var status = $(this).data('status');
 
-                $.ajax({
-                    url: '{{ route('professor.status') }}',
-                    type: 'POST',
-                    data: {
-                        id: id,
-                        status: status
-                    },
-                    success: function(response) {
-                        if (response.success) {
-                            alert(response.message);
-                            window.location.reload();
-                        } else {
-                            alert('Failed to update status');
-                        }
+            $.ajax({
+                url: '{{ route('professor.status') }}',
+                type: 'POST',
+                data: {
+                    id: id,
+                    status: status
+                },
+                success: function(response) {
+                    if (response.success) {
+                        alert(response.message);
+                        window.location.reload();
+                    } else {
+                        alert('Failed to update status');
                     }
-                });
+                }
             });
+        });
 
-            $('#table-professor').on('click', '.btn-activate', function() {
-                var id = $(this).data('id')
-                var status = $(this).data('status');
+        $('#table-professor').on('click', '.btn-activate', function() {
+            var id = $(this).data('id')
+            var status = $(this).data('status');
 
-                $.ajax({
-                    url: '{{ route('professor.status') }}',
-                    type: 'POST',
-                    data: {
-                        id: id,
-                        status: status
-                    },
-                    success: function(response) {
-                        if (response.success) {
-                            alert(response.message);
-                            window.location.reload();
-                        } else {
-                            alert('Failed to update status');
-                        }
+            $.ajax({
+                url: '{{ route('professor.status') }}',
+                type: 'POST',
+                data: {
+                    id: id,
+                    status: status
+                },
+                success: function(response) {
+                    if (response.success) {
+                        alert(response.message);
+                        window.location.reload();
+                    } else {
+                        alert('Failed to update status');
                     }
-                });
+                }
             });
+        });
+        
 
+        // Form validation
+        $('#addProfessorModal, #editProfessorModal').on('submit', 'form', function(event) {
+            var firstName = $(this).find('input[name="first_name"]').val().trim();
+            var middleName = $(this).find('input[name="middle_name"]').val().trim();
+            var lastName = $(this).find('input[name="last_name"]').val().trim();
+            var maximumHours = $(this).find('input[name="maximum_hours"]').val().trim();
+
+            if (firstName === middleName && middleName === lastName) {
+                event.preventDefault();
+                alert('First name, middle name, and last name cannot be the same.');
+            } else if (firstName === lastName) {
+                event.preventDefault();
+                alert('First name and last name cannot be the same.');
+            } else if (middleName === lastName) {
+                event.preventDefault();
+                alert('Middle name and last name cannot be the same.');
+            } else if (firstName === middleName) {
+                event.preventDefault();
+                alert('First name and middle name cannot be the same.');
+            } else if (maximumHours <= 0) {
+                event.preventDefault();
+                alert('Maximum hours cannot be 0 or a negative number.');
+            }
+        });
     });
 
 </script>

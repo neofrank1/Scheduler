@@ -78,7 +78,7 @@ CREATE TABLE `college` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -93,7 +93,6 @@ INSERT INTO `college` VALUES (3,'COT','College of Technology',1,'2024-10-11 23:3
 INSERT INTO `college` VALUES (4,'','College of Management and Entrepreneurship',1,'2024-10-11 23:35:33','2024-10-11 23:35:33');
 INSERT INTO `college` VALUES (5,'CCICT','College of Computer, Information and Communications Technology',1,'2024-10-11 23:35:33','2024-10-11 23:35:33');
 INSERT INTO `college` VALUES (6,'CAS','College of Arts and Science',1,'2024-10-11 23:35:33','2024-10-11 23:35:33');
-INSERT INTO `college` VALUES (7,'BSIT-2-B','Bachelor of Science in Information Technology-2-B',1,'2024-10-22 07:01:29','2024-10-22 07:01:29');
 /*!40000 ALTER TABLE `college` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -343,7 +342,7 @@ DROP TABLE IF EXISTS `professors`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `professors` (
   `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
-  `employee_id` int(11) NOT NULL,
+  `employee_id` int(11) NOT NULL UNIQUE,
   `first_name` varchar(255) NOT NULL,
   `middle_name` varchar(255) NOT NULL,
   `last_name` varchar(255) NOT NULL,
@@ -628,7 +627,7 @@ CREATE TABLE `users` (
   `user_type` int(11) NOT NULL,
   `college_id` bigint(20) unsigned DEFAULT NULL,
   `course_id` bigint(20) unsigned DEFAULT NULL,
-  `email` varchar(255) NOT NULL,
+  `email` varchar(255) NOT NULL UNIQUE,
   `email_verified_at` timestamp NULL DEFAULT NULL,
   `password` varchar(255) NOT NULL,
   `status` int(11) NOT NULL DEFAULT 0,
