@@ -170,7 +170,7 @@
                                 </select>
                         </div>
                         <div class="col-4">
-                            <label for="subj_units" class="form-label">Subject Prerequisite</label>
+                            <label for="subj_units" class="form-label">Subject Unit</label>
                             <input type="text" class="form-control" name="subj_units" id="edit_subj_units" required>
                         </div>
                     </div>

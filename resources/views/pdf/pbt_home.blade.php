@@ -7,7 +7,7 @@
                     <div class="card-header">
                         <div class="row mt-2">
                             <div class="col-6">
-                                <h4 class="card-title">PBT</h4>
+                                <h4 class="card-title">Program By Teacher</h4>
                             </div>
                             <div class="col-6 text-end">
                             </div>

@@ -502,7 +502,7 @@ DROP TABLE IF EXISTS `section`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `section` (
   `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
-  `name` varchar(255) NOT NULL,
+  `name` varchar(255) NOT NULL UNIQUE,
   `year_lvl` int(11) NOT NULL,
   `college_id` bigint(20) unsigned DEFAULT NULL,
   `course_id` bigint(20) unsigned DEFAULT NULL,

@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Subjects</title>
+    <title>Program by Section</title>
     @vite(['resources/sass/app.scss','resources/css/app.css', 'resources/js/app.js'])
     <style>
          * {

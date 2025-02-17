@@ -197,18 +197,19 @@ class PDFController extends Controller
                     ->get();
 
         $summary = Schedule::select('schedule.*', 'subjects.*', 'section.name as section_name')
-                    ->leftJoin('subjects', 'schedule.subject_id', '=', 'subjects.id')
-                    ->leftJoin('section', 'schedule.section_id', '=', 'section.id')
-                    ->where('schedule.course_id', !empty(Auth::user()->course_id) ?  Auth::user()->course_id : $professor_id['course_id'])
-                    ->where('schedule.semester', $semester)
-                    ->where('schedule.school_yr', $school_yr)
-                    ->where('schedule.prof_id', $id)
-                    ->get();
+                ->leftJoin('subjects', 'schedule.subject_id', '=', 'subjects.id')
+                ->leftJoin('section', 'schedule.section_id', '=', 'section.id')
+                ->where('schedule.course_id', !empty(Auth::user()->course_id) ? Auth::user()->course_id : $professor_id['course_id'])
+                ->where('schedule.semester', $semester)
+                ->where('schedule.school_yr', $school_yr)
+                ->where('schedule.prof_id', $id)
+                ->distinct()
+                ->get();
 
         $schedule = $schedule->toArray();
         $summary = $summary->toArray();
         $data = [
-            'college' => $college['short_name'],
+            'college' => $college['full_name'],
             'school_year' => date('Y') . '-' . (date('Y') + 1),
             'course' => $course['short_name'] . '-' . $course['full_name'],
             'semester' => $schedule[0]['semester'],
@@ -217,7 +218,8 @@ class PDFController extends Controller
             'program' => $schedule[0]['program'] == 1 ? 'Day' : 'Evening',
             'time_slots' => $timeSlots,
             'summary' => $summary,
-            'professor' => $professor
+            'professor' => $professor,
+            'date' => date('Y-m-d')
         ];
 
         return view('pdf.pbt_result', ['data' => $data]);
@@ -287,7 +289,7 @@ class PDFController extends Controller
 
         $schedule = $schedule->toArray();
         $data = [
-            'college' => $college['short_name'],
+            'college' => $college['full_name'],
             'school_year' => date('Y') . '-' . (date('Y') + 1),
             'semester' => $schedule[0]['semester'],
             'schedule' => $schedule,
@@ -369,7 +371,7 @@ class PDFController extends Controller
         $schedule = $schedule->toArray();
         $summary = $summary->toArray();
         $data = [
-            'college' => $college['short_name'],
+            'college' => $college['full_name'],
             'school_year' => date('Y') . '-' . (date('Y') + 1),
             'course' => $course['short_name'] . '-' . $course['full_name'],
             'semester' => $schedule[0]['semester'],

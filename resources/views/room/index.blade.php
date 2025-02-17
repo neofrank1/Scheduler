@@ -88,6 +88,17 @@
             ],
             responsive: true
             });
+
+            $('#addRoomModal, #editRoomModal').on('submit', 'form', function(event) {
+                var floorNumber = $(this).find('input[name="floor_number"]').val().trim();
+                var roomNumber = $(this).find('input[name="room_number"]').val().trim();
+
+                if (floorNumber == 0 || roomNumber == 0) {
+                    event.preventDefault();
+                alert('Floor number and room number cannot be zero.');
+                }
+            });
+
         });
 
         $('#table-room').on('click','.btn-edit', function(){ 

@@ -66,7 +66,6 @@
         $('#table-subject').dataTable({
             processing : true,
             serverSide : true,
-            searching : false,
             ajax: `{{ route('subject.home') }}`,
             columns: [
                 { data: 'id', name: 'id' },
@@ -77,11 +76,12 @@
                     name: 'subj_type',
                     render: function(data, type, row) {
                         return data == 1 ? 'Major' : 'Minor';
-                    }
+                    },
+                    searchable: false, orderable: false
                 },
                 { data: 'subj_lab_hours', name: 'subj_lab_hours' },
                 { data: 'subj_lec_hours', name: 'subj_lec_hours' },
-                { data: 'course', name: 'course' },
+                { data: 'course', name: 'course', searchable: false, orderable: false },
                 { data: 'semester', name: 'semester' },
                 { data: 'year_level', name: 'year_level' },
                 { 
@@ -205,6 +205,38 @@
                     subjTypeSelect.val(response.subject.subj_type);
                 }
             });
+        });
+
+        // Form validation
+        $('#addSubjectModal, #editSubjectModal').on('submit', 'form', function(event) {
+            let isValid = true;
+            let errorMessage = "";
+
+            // Validate lab hours
+            let labHours = parseInt($("#subj_lab_hours").val());
+            if (isNaN(labHours) || labHours <= 0) {
+                isValid = false;
+                errorMessage += "Lab hours must be a positive number.\n";
+            }
+
+            // Validate lecture hours
+            let lecHours = parseInt($("#subj_lec_hours").val());
+            if (isNaN(lecHours) || lecHours <= 0) {
+                isValid = false;
+                errorMessage += "Lecture hours must be a positive number.\n";
+            }
+
+            // Validate total hours
+            let totalHours = labHours + lecHours;
+            if (totalHours <= 0) {
+                isValid = false;
+                errorMessage += "Total hours must be a positive number.\n";
+            }
+
+            if (!isValid) {
+                event.preventDefault();
+                alert(errorMessage);
+            }
         });
     });
 </script>

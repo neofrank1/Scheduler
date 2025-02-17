@@ -18,7 +18,7 @@ class ScheduleController extends Controller
     public function index()
     {
         $subjects = Subject::getSubjectsByCourseId(Auth::user()->course_id);
-        $professors = Professor::getProfessorByCourseId(Auth::user()->course_id);
+        $professors = Professor::getProfessorByCollegeId(Auth::user()->college_id);
         $sections = Section::getSectionByCourseId(Auth::user()->course_id);
         $rooms = Room::get();
 
@@ -27,7 +27,8 @@ class ScheduleController extends Controller
             ->leftJoin('section', 'schedule.section_id', '=', 'section.id')
             ->leftJoin('subjects', 'schedule.subject_id', '=', 'subjects.id')
             ->leftJoin('professors', 'schedule.prof_id', '=', 'professors.id')
-            ->leftJoin('course', 'schedule.course_id', '=', 'course.id');
+            ->leftJoin('course', 'schedule.course_id', '=', 'course.id')
+            ->where('schedule.course_id', Auth::user()->course_id);
             
             return DataTables::of($query)->make(true);    
         }
@@ -106,7 +107,7 @@ class ScheduleController extends Controller
     public function editSchedule($id)
     {
         $subjects = Subject::getSubjectsByCourseId(Auth::user()->course_id);
-        $professors = Professor::getProfessorByCourseId(Auth::user()->course_id);
+        $professors = Professor::getProfessorByCollegeId(Auth::user()->college_id);
         $sections = Section::getSectionByCourseId(Auth::user()->course_id);
         $rooms = Room::get();
 
@@ -119,7 +120,7 @@ class ScheduleController extends Controller
     public function editSchedule2($id)
     {
         $subjects = Subject::getSubjectsByCourseId(Auth::user()->course_id);
-        $professors = Professor::getProfessorByCourseId(Auth::user()->course_id);
+        $professors = Professor::getProfessorByCollegeId(Auth::user()->college_id);
         $sections = Section::getSectionByCourseId(Auth::user()->course_id);
         $rooms = Room::get();
         $schedule = Schedule::find($id);

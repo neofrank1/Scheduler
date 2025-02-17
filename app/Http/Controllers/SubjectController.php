@@ -13,7 +13,8 @@ class SubjectController extends Controller
     {
         if (request()->ajax()) {
             $query = Subject::select('subjects.*', 'course.short_name as course')
-                ->leftJoin('course', 'subjects.course_id', '=', 'course.id');
+                ->leftJoin('course', 'subjects.course_id', '=', 'course.id')
+                ->where('subjects.course_id', Auth::user()->course_id);
 
             return DataTables::of($query)->make(true);    
         }

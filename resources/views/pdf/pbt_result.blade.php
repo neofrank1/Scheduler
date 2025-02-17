@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Subjects</title>
+    <title>Program By Teacher</title>
     @vite(['resources/sass/app.scss','resources/css/app.css', 'resources/js/app.js'])
     <style>
          * {
@@ -269,7 +269,7 @@
                 var element = document.getElementById('content');
                 var opt = {
                     margin:       0.5,
-                    filename:     'PBS.pdf',
+                    filename:     'PBT.pdf',
                     image:        { type: 'png', quality: 1 },
                     html2canvas:  { scale: 1 },
                     jsPDF:        { unit: 'in', format: 'tabloid', orientation: 'landscape' },

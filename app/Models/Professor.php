@@ -30,4 +30,9 @@ class Professor extends Model
     {
         return self::where('course_id', $courseId)->get();
     }
+
+    public static function getProfessorByCollegeId($collegeId)
+    {
+        return self::where('college_id', $collegeId)->get();
+    }
 }
