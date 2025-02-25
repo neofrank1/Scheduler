@@ -26,6 +26,14 @@ class RoomController extends Controller
             return false;
         }
 
+        $existingRoom = Room::where('building_name', $request->input('building_name'))
+                    ->where('floor_number', $request->input('floor_number'))
+                    ->where('room_number', $request->input('room_number'))
+                    ->first();
+        if ($existingRoom) {
+            return redirect()->route('room.home')->with('error', 'Room already exists!');
+        }
+
         Room::create($request->except('_token',));
         return redirect()->route('room.home')->with('success', 'Room created successfully!');
     }
@@ -47,6 +55,14 @@ class RoomController extends Controller
         $id = $request->input('room_id');
 
         $room = Room::find($id);
+
+        $existingRoom = Room::where('building_name', $request->input('building_name'))
+                    ->where('floor_number', $request->input('floor_number'))
+                    ->where('room_number', $request->input('room_number'))
+                    ->first();
+        if ($existingRoom) {
+            return redirect()->route('room.home')->with('error', 'Room already exists!');
+        }
 
         $result = $room->update($request->except('_token'));
 

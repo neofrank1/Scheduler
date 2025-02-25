@@ -35,6 +35,11 @@ class ProfessorController extends Controller
             return false;
         }
 
+        $existingProfessor = Professor::where('employee_id', $request->input('employee_id'))->first();
+        if ($existingProfessor) {
+            return redirect()->route('professor.home')->with('error', 'Employee ID already exists!');
+        }
+
         Professor::create($request->except('_token'));
         return redirect()->route('professor.home')->with('success', 'Professor created successfully!');
 
@@ -80,6 +85,11 @@ class ProfessorController extends Controller
 
         $professor = Professor::find($id);
 
+        $existingProfessor = Professor::where('employee_id', $request->input('employee_id'))->first();
+        if ($existingProfessor) {
+            return redirect()->route('professor.home')->with('error', 'Employee ID already exists!');
+        }
+        
         $result = $professor->update($request->except('_token'));
 
         if ($result) {

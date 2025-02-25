@@ -210,6 +210,7 @@
             var middleName = $(this).find('input[name="middle_name"]').val().trim();
             var lastName = $(this).find('input[name="last_name"]').val().trim();
             var maximumHours = $(this).find('input[name="maximum_hours"]').val().trim();
+            var employee_id = $(this).find('input[name="employee_id"]').val().trim();
 
             if (firstName === middleName && middleName === lastName) {
                 event.preventDefault();
@@ -226,6 +227,9 @@
             } else if (maximumHours <= 0) {
                 event.preventDefault();
                 alert('Maximum hours cannot be 0 or a negative number.');
+            } else if (employee_id <= 0) {
+                event.preventDefault();
+                alert('Employee ID cannot be 0 or a negative number.');
             }
         });
     });

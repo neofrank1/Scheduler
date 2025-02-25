@@ -126,7 +126,7 @@ class PDFController extends Controller
         $schedules = $groupedSchedule;
         
         $data = [
-            'college' => $college['short_name'],
+            'college' => $college['full_name'],
             'school_year' => $schedule[0]['school_yr'],
             'semester' => $schedule[0]['semester'],
             'schedule' => $schedules,

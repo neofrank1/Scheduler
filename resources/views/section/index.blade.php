@@ -69,8 +69,8 @@
                         return data == 1 ? 'Day' : 'Evening';
                     }, searchable: false, orderable: false
                 },
-                { data: 'college_name', name: 'college_name' },
-                { data: 'course_name', name: 'course_name' },
+                { data: 'college_name', name: 'college_name', searchable: false, orderable: false },
+                { data: 'course_name', name: 'course_name', searchable: false, orderable: false },
                 { 
                     data: null, 
                     name: 'actions', 
