@@ -2,11 +2,19 @@
 
 @section('content')
     <div class="container">
-       @if(session('success'))
+        @if(session('success'))
             <div class="container">
                 <div class="alert alert-success alert-dismissible fade show" role="alert">
                 <i class="fas fa-check-square"></i>
                     {{ session('success') }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            </div>
+        @elseif(session('error'))
+            <div class="container">
+                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                <i class="fas fa-check-square"></i>
+                    {{ session('error') }}
                     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                 </div>
             </div>

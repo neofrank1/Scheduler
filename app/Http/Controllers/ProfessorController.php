@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use App\Models\Professor;
 use App\Models\College;
 use App\Models\Course;
@@ -20,7 +21,8 @@ class ProfessorController extends Controller
             $query = Professor::select('professors.*', 'ranking.title as ranking_title', 'college.full_name as college_name', 'course.full_name as course_name')
                            ->leftJoin('ranking', 'professors.ranking_id', '=', 'ranking.id') 
                            ->leftJoin('college', 'professors.college_id', '=', 'college.id')
-                           ->leftJoin('course', 'professors.course_id', '=', 'course.id');
+                           ->leftJoin('course', 'professors.course_id', '=', 'course.id')
+                           ->where('professors.course_id', Auth::user()->course_id);
             
             return DataTables::make($query)->make(true);
         }

@@ -45,9 +45,9 @@
                                     <h3 style="font-size: 12px; font-weight: bold;" class="mt-3">PROGRAM BY SECTION</h3>
                                     <h3 style="font-size: 12px;">{{ strtoupper($data['program']) }} PROGRAM</h3>
                                     <?php if ($data['semester'] == 1):?>
-                                        <h4 style="font-size: 12px; font-weight: bold;" class="mt-1">{{$data['semester']}}st Semester SY {{$data['school_year']}}</h4>
+                                        <h4 style="font-size: 12px; font-weight: bold;" class="mt-1">{{$data['semester']}}st Semester AY {{$data['school_year']}}</h4>
                                     <?php else: ?>
-                                        <h4 style="font-size: 12px; font-weight: bold;" class="mt-1">{{$data['semester']}}nd Semester SY {{$data['school_year']}}</h4>
+                                        <h4 style="font-size: 12px; font-weight: bold;" class="mt-1">{{$data['semester']}}nd Semester AY {{$data['school_year']}}</h4>
                                     <?php endif; ?>
                                 </div>
                             <?php

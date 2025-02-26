@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
+use Illuminate\Validation\ValidationException;
 
 class LoginController extends Controller
 {
@@ -69,4 +70,21 @@ class LoginController extends Controller
             ->withInput($request->only($this->username(), 'remember'))
             ->withErrors($errors);
     }
+
+    protected function validateLogin(Request $request)
+    {
+        $request->validate([
+            $this->username() => 'required|string',
+            'password' => 'required|string',
+        ]);
+
+        $user = \App\Models\User::where($this->username(), $request->input($this->username()))->first();
+
+        if ($user && !$user->status) {
+            throw ValidationException::withMessages([
+            $this->username() => [trans('User is inactive (Needs to be activated by admin)')],
+            ]);
+        }
+    }
+
 }

@@ -30,6 +30,8 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancel</button>
+                    <input type="hidden" name="course_id" id="course_id" value="{{ Auth::user()->course_id }}">
+                    <input type="hidden" name="college_id" id="college_id" value="{{ Auth::user()->college_id }}">
                     <button type="sumbit" class="btn btn-primary">Add</button>
                 </div>
             </div>
@@ -64,6 +66,8 @@
                         <div class="col-12">
                             <label for="name" class="form-label">Room Number</label>
                             <input type="number" class="form-control" name="room_number" id="edit_room_number" required>
+                            <input type="hidden" name="course_id" id="edit_course_id" value="{{ Auth::user()->course_id }}">
+                            <input type="hidden" name="college_id" id="edit_college_id" value="{{ Auth::user()->college_id }}">
                             <input type="hidden" name="room_id" id="edit_room_id">
                         </div>
                     </div>

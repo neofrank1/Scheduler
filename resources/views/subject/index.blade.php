@@ -9,6 +9,14 @@
                     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                 </div>
             </div>
+        @elseif(session('error'))
+            <div class="container">
+                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                <i class="fas fa-check-square"></i>
+                    {{ session('error') }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            </div>
         @endif
         <div class="row">
             <div class="col-12">
@@ -214,21 +222,24 @@
 
             // Validate lab hours
             let labHours = parseInt($("#subj_lab_hours").val());
-            if (isNaN(labHours) || labHours <= 0) {
+            let editlabHours = parseInt($("#edti_subj_lab_hours").val());
+            if (isNaN(labHours) || labHours <= 0 || (isNaN(editlabHours) || editlabHours <= 0)) {
                 isValid = false;
                 errorMessage += "Lab hours must be a positive number.\n";
             }
 
             // Validate lecture hours
             let lecHours = parseInt($("#subj_lec_hours").val());
-            if (isNaN(lecHours) || lecHours <= 0) {
+            let editlecHours = parseInt($("#edit_subj_lec_hours").val());
+            if (isNaN(lecHours) || lecHours <= 0 || isNaN(editlecHours) || editlecHours <= 0) {
                 isValid = false;
                 errorMessage += "Lecture hours must be a positive number.\n";
             }
 
             // Validate total hours
             let totalHours = labHours + lecHours;
-            if (totalHours <= 0) {
+            let edtiTotalHours = editlabHours + editlecHours;
+            if (totalHours <= 0 || edtiTotalHours <= 0) {
                 isValid = false;
                 errorMessage += "Total hours must be a positive number.\n";
             }
@@ -237,6 +248,22 @@
                 event.preventDefault();
                 alert(errorMessage);
             }
+        });
+
+        // Automatically calculate and set total hours
+        $('#subj_lab_hours, #subj_lec_hours').on('input', function() {
+            let labHours = parseInt($('#subj_lab_hours').val()) || 0;
+            let lecHours = parseInt($('#subj_lec_hours').val()) || 0;
+            let totalHours = labHours + lecHours;
+            $('#subj_hours').val(totalHours);
+        });
+
+         // Automatically calculate and set total hours
+         $('#edit_subj_lab_hours, #edit_subj_lec_hours').on('input', function() {
+            let labHours = parseInt($('#edit_subj_lab_hours').val()) || 0;
+            let lecHours = parseInt($('#edit_subj_lec_hours').val()) || 0;
+            let totalHours = labHours + lecHours;
+            $('#edit_subj_hours').val(totalHours);
         });
     });
 </script>

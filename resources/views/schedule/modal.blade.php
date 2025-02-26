@@ -38,7 +38,7 @@
                             <select class="form-select" name="section_id">
                                 <option disabled selected>Choose Section</option>
                                 <?php foreach ($sections as $section): ?>
-                                    <option value="<?= $section['id'] ?>"><?= $section['name'] ?></option>
+                                    <option value="<?= $section['id'] ?>"><?= $section['name'] ?> <?php echo ($section['program'] == 1) ? 'Day' : 'Evening'?></option>
                                 <?php endforeach; ?>
                             </select>
                         </div>

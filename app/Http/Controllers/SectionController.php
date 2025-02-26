@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+use Illuminate\Support\Facades\Auth;
 use App\Models\College;
 use App\Models\Course;
 use App\Models\Section;
@@ -17,7 +18,8 @@ class SectionController extends Controller
         if (request()->ajax()){
             $query = Section::select('section.*', 'college.full_name as college_name', 'course.full_name as course_name')
                            ->leftJoin('college', 'section.college_id', '=', 'college.id')
-                           ->leftJoin('course', 'section.course_id', '=', 'course.id');
+                           ->leftJoin('course', 'section.course_id', '=', 'course.id')
+                           ->where('section.course_id', Auth::user()->course_id);
             
             return DataTables::make($query)->make(true);
         }

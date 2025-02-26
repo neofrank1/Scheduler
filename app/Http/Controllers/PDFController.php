@@ -49,7 +49,7 @@ class PDFController extends Controller
         $course = Course::find($id)->toArray();
         $data = [
             'school_year' => date('Y') . '-' . (date('Y') + 1),
-            'course' => $course['short_name'] . '-' . $course['full_name'],
+            'course' =>  $course['full_name'] . ' (' . $course['short_name'] . ')',
             'subjects' => $subject->toArray()
         ];
 

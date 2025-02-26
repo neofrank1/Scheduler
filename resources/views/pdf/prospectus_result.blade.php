@@ -39,7 +39,7 @@
                                 <p style="font-weight: bold; margin: 2px;">CEBU TECHNOLOGICAL UNIVERSITY</p>
                                 <p style="margin: 2px;">MAIN CAMPUS</p>
                                 <p style="font-weight: bold; margin: 2px;">{{$data['course'] ?? null}}</p>
-                                <p style="margin: 2px;">Effective As of SY {{$data['school_year'] ?? null}}</p>
+                                <p style="margin: 2px;">Effective As of AY {{$data['school_year'] ?? null}}</p>
                             </div>
                         <?php
                         $path2 = Vite::asset('resources/img/bplogo.png');
