@@ -88,7 +88,7 @@ class ProfessorController extends Controller
         $professor = Professor::find($id);
 
         $existingProfessor = Professor::where('employee_id', $request->input('employee_id'))->first();
-        if ($existingProfessor) {
+        if ($existingProfessor && $existingProfessor->id != $professor->id) {
             return redirect()->route('professor.home')->with('error', 'Employee ID already exists!');
         }
         

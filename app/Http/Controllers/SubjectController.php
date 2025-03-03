@@ -31,6 +31,15 @@ class SubjectController extends Controller
         $data = array();
 
         foreach($request->input('subj_code') as $index => $subj_code) {
+            $existingSubject = Subject::where('subj_code', $subj_code)
+                ->where('subj_desc', $request->input('subj_desc')[$index] ?? null)
+                ->where('semester', $request->input('semester') ?? null)
+                ->where('year_level', $request->input('year_lvl') ?? null)
+                ->first();
+
+            if ($existingSubject) {
+                continue; // Skip this subject if it already exists
+            }
 
             $data = [
                 'subj_code' => $subj_code,
@@ -101,6 +110,18 @@ class SubjectController extends Controller
         if (empty($request->input('_token'))) {
             return false;
         }
+                
+        $existingSubject = Subject::where('subj_code', $request->input('edit_subj_code'))
+            ->where('subj_desc', $request->input('edit_subj_desc'))
+            ->where('semester', $request->input('edit_semester'))
+            ->where('year_level', $request->input('edit_year_lvl'))
+            ->where('id', '!=', $request->input('subject_id'))
+            ->first();
+
+        if ($existingSubject) {
+            return redirect()->route('subject.home')->with('error', 'Subject already exists!');
+        }
+
         $id = $request->input('subject_id');
 
         $subject = Subject::find($id);

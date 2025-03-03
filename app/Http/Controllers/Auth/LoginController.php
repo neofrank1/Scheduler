@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
+use App\Models\User; // Import the User model
 
 class LoginController extends Controller
 {
@@ -54,7 +55,7 @@ class LoginController extends Controller
      */
     protected function sendFailedLoginResponse(Request $request)
     {
-        $user = \App\Models\User::where($this->username(), $request->{$this->username()})->first();
+        $user = User::where($this->username(), $request->{$this->username()})->first();
 
         if ($user && $user->status == 0) {
             $errors = [$this->username() => 'Your account is inactive. Please contact support.'];
@@ -78,7 +79,7 @@ class LoginController extends Controller
             'password' => 'required|string',
         ]);
 
-        $user = \App\Models\User::where($this->username(), $request->input($this->username()))->first();
+        $user = User::where($this->username(), $request->input($this->username()))->first();
 
         if ($user && !$user->status) {
             throw ValidationException::withMessages([
@@ -87,4 +88,27 @@ class LoginController extends Controller
         }
     }
 
+    protected function attemptLogin(Request $request)
+    {
+        $credentials = $this->credentials($request);
+
+        $user = User::where($this->username(), $credentials[$this->username()])->first();
+
+        if ($user && $user->status == 1) {
+            // User exists and is active, so proceed with the normal login check
+            return $this->guard()->attempt(
+                $credentials, $request->boolean('remember')
+            );
+        } elseif ($user && $user->status == 0) {
+            // User exists but is inactive, fail the login and return a message
+            return back()->withErrors([
+            $this->username() => 'Your account is inactive. Please contact support.'
+            ]);
+        } else {
+            // User does not exist, so we will send the error using the credentials
+            return back()->withErrors([
+            $this->username() => trans('auth.failed')
+            ]);
+        }
+    }
 }

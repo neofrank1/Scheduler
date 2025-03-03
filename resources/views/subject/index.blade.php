@@ -215,38 +215,67 @@
             });
         });
 
-        // Form validation
-        $('#addSubjectModal, #editSubjectModal').on('submit', 'form', function(event) {
+        // Form validation for add form
+        $('#addSubjectModal').on('submit', 'form', function(event) {
             let isValid = true;
             let errorMessage = "";
 
             // Validate lab hours
             let labHours = parseInt($("#subj_lab_hours").val());
-            let editlabHours = parseInt($("#edti_subj_lab_hours").val());
-            if (isNaN(labHours) || labHours <= 0 || (isNaN(editlabHours) || editlabHours <= 0)) {
-                isValid = false;
-                errorMessage += "Lab hours must be a positive number.\n";
+            if (isNaN(labHours) || labHours <= 0) {
+            isValid = false;
+            errorMessage += "Lab hours must be a positive number.\n";
             }
 
             // Validate lecture hours
             let lecHours = parseInt($("#subj_lec_hours").val());
-            let editlecHours = parseInt($("#edit_subj_lec_hours").val());
-            if (isNaN(lecHours) || lecHours <= 0 || isNaN(editlecHours) || editlecHours <= 0) {
-                isValid = false;
-                errorMessage += "Lecture hours must be a positive number.\n";
+            if (isNaN(lecHours) || lecHours <= 0) {
+            isValid = false;
+            errorMessage += "Lecture hours must be a positive number.\n";
             }
 
             // Validate total hours
             let totalHours = labHours + lecHours;
-            let edtiTotalHours = editlabHours + editlecHours;
-            if (totalHours <= 0 || edtiTotalHours <= 0) {
-                isValid = false;
-                errorMessage += "Total hours must be a positive number.\n";
+            if (totalHours <= 0) {
+            isValid = false;
+            errorMessage += "Total hours must be a positive number.\n";
             }
 
             if (!isValid) {
-                event.preventDefault();
-                alert(errorMessage);
+            event.preventDefault();
+            alert(errorMessage);
+            }
+        });
+
+        // Form validation for edit form
+        $('#editSubjectModal').on('submit', 'form', function(event) {
+            let isValid = true;
+            let errorMessage = "";
+
+            // Validate lab hours
+            let editlabHours = parseInt($("#edit_subj_lab_hours").val());
+            if (isNaN(editlabHours) || editlabHours <= 0) {
+            isValid = false;
+            errorMessage += "Edit Lab hours must be a positive number.\n";
+            }
+
+            // Validate lecture hours
+            let editlecHours = parseInt($("#edit_subj_lec_hours").val());
+            if (isNaN(editlecHours) || editlecHours <= 0) {
+            isValid = false;
+            errorMessage += "Edit Lecture hours must be a positive number.\n";
+            }
+
+            // Validate total hours
+            let edtiTotalHours = editlabHours + editlecHours;
+            if (edtiTotalHours <= 0) {
+            isValid = false;
+            errorMessage += "Total hours must be a positive number.\n";
+            }
+
+            if (!isValid) {
+            event.preventDefault();
+            alert(errorMessage);
             }
         });
 
@@ -266,6 +295,7 @@
             $('#edit_subj_hours').val(totalHours);
         });
     });
+    
 </script>
 
 @endsection

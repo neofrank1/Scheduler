@@ -561,7 +561,7 @@ DROP TABLE IF EXISTS `subjects`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `subjects` (
   `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
-  `subj_code` varchar(255) NOT NULL,
+  `subj_code` varchar(255) NOT NULL UNIQUE,
   `subj_desc` varchar(255) NOT NULL,
   `subj_prereq` varchar(255) NOT NULL,
   `subj_type` int(11) NOT NULL,

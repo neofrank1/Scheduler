@@ -34,6 +34,10 @@ class SectionController extends Controller
         }
 
         Section::create($request->except('_token',));
+        $existingSection = Section::where('name', $request->input('name'))->first();
+        if ($existingSection) {
+            return redirect()->back()->withErrors(['name' => 'Section name already exists.']);
+        }
         return redirect()->route('section.home')->with('success', 'Section created successfully!');
     }
 
