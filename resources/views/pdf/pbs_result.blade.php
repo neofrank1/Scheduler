@@ -151,6 +151,7 @@
                                                             <td rowspan="{{ $diff }}">
                                                                 {{ date("h:i A", strtotime($schedule['start_time'])) }} - {{ date("h:i A", strtotime($schedule['end_time'])) }}<br>
                                                                 {{ $schedule['subj_code'] }}<br>
+                                                                {{ $schedule['building_name'] }} {{$schedule['floor_number']}}{{ str_pad($schedule['room_number'], 2, '0', STR_PAD_LEFT) }} <br>
                                                                 {{ $schedule['first_name'] }} {{ $schedule['last_name'] }}
                                                             </td>
 
