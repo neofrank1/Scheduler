@@ -187,7 +187,13 @@
             var element = document.getElementById('content');
             var opt = {
                 margin:       0.5,
-                filename:     'mis.pdf',
+                filename:     `<?php echo($data['semester'] == 1) ? '1st Semester ' : '2nd Semester '; ?>`+ 'AY'+ `{{$data['school_year']}}` + '_MIS_' + (function() {
+                        const today = new Date();
+                        const dd = String(today.getDate()).padStart(2, '0');
+                        const mm = String(today.getMonth() + 1).padStart(2, '0');
+                        const yy = String(today.getFullYear()).slice(-2);
+                        return mm + `-` + dd + `-` + yy;
+                    })() + '.pdf',
                 image:        { type: 'png', quality: 1 },
                 html2canvas:  { scale: 2 },
                 jsPDF:        { unit: 'in', format: 'legal', orientation: 'landscape' },
