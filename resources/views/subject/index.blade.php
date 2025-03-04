@@ -294,6 +294,9 @@
             let totalHours = labHours + lecHours;
             $('#edit_subj_hours').val(totalHours);
         });
+
+        $("#edit_subj_hours").prop("readonly", true);
+        $("#subj_hours").prop("readonly", true);
     });
     
 </script>
