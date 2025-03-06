@@ -212,8 +212,37 @@
         });
         
 
-        // Form validation
-        $('#addProfessorModal, #editProfessorModal').on('submit', 'form', function(event) {
+        // Form validation for Add Professor Modal
+        $('#addProfessorModal').on('submit', 'form', function(event) {
+            var firstName = $(this).find('input[name="first_name"]').val().trim();
+            var middleName = $(this).find('input[name="middle_name"]').val().trim();
+            var lastName = $(this).find('input[name="last_name"]').val().trim();
+            var maximumHours = $(this).find('input[name="maximum_hours"]').val().trim();
+            var employee_id = $(this).find('input[name="employee_id"]').val().trim();
+
+            if (firstName === middleName && middleName === lastName) {
+                event.preventDefault();
+                alert('First name, middle name, and last name cannot be the same.');
+            } else if (firstName === lastName) {
+                event.preventDefault();
+                alert('First name and last name cannot be the same.');
+            } else if (middleName === lastName) {
+                event.preventDefault();
+                alert('Middle name and last name cannot be the same.');
+            } else if (firstName === middleName) {
+                event.preventDefault();
+                alert('First name and middle name cannot be the same.');
+            } else if (maximumHours <= 0) {
+                event.preventDefault();
+                alert('Maximum hours cannot be 0 or a negative number.');
+            } else if (employee_id <= 0) {
+                event.preventDefault();
+                alert('Employee ID cannot be 0 or a negative number.');
+            }
+        });
+
+        // Form validation for Edit Professor Modal 
+        $('#editProfessorModal').on('submit', 'form', function(event) {
             var firstName = $(this).find('input[name="first_name"]').val().trim();
             var middleName = $(this).find('input[name="middle_name"]').val().trim();
             var lastName = $(this).find('input[name="last_name"]').val().trim();

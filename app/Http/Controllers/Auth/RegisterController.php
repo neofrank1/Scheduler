@@ -7,6 +7,9 @@ use App\Models\User;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Auth\Events\Registered;
 
 class RegisterController extends Controller
 {
@@ -21,7 +24,10 @@ class RegisterController extends Controller
     |
     */
 
-    use RegistersUsers;
+    use RegistersUsers {
+        register as protected traitRegister;
+        showRegistrationForm as protected traitShowRegistrationForm;
+    }
 
     /**
      * Where to redirect users after registration.
@@ -38,6 +44,39 @@ class RegisterController extends Controller
     public function __construct()
     {
         $this->middleware('guest');
+    }
+
+    /**
+     * Show the application registration form.
+     *
+     * @return \Illuminate\View\View
+     */
+    public function showRegistrationForm()
+    {
+        // You can return your custom registration form view here
+        // or redirect to another page if you don't want to show the registration form
+        return redirect('/');
+    }
+
+    /**
+     * Handle a registration request for the application.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function register(Request $request)
+    {
+        // Validate the registration data
+        $this->validator($request->all())->validate();
+        
+        // Create the user but don't log them in
+        event(new Registered($user = $this->create($request->all())));
+        
+        // Don't auto-login the user
+        // $this->guard()->login($user);
+        
+        // Redirect with a message
+        return redirect('/')->with('status', 'Your account has been registered but needs to be activated by an admin before you can log in.');
     }
 
     /**
@@ -86,5 +125,24 @@ class RegisterController extends Controller
             'status' => $data['status'],
             'password' => Hash::make($data['password']),
         ]);
+    }
+
+    /**
+     * The user has been registered.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  mixed  $user
+     * @return mixed
+     */
+    protected function registered(Request $request, $user)
+    {
+        // If user status is 0, log them out and show a message
+        if ($user->status == 0) {
+            Auth::logout();
+            return redirect('/')
+                ->with('status', 'Your account has been registered but needs to be activated by an admin before you can log in.');
+        }
+
+        return redirect($this->redirectPath());
     }
 }

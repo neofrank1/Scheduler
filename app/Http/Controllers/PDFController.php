@@ -196,15 +196,15 @@ class PDFController extends Controller
                     ->where('schedule.prof_id', $id)
                     ->get();
 
-        $summary = Schedule::select('schedule.*', 'subjects.*', 'section.name as section_name')
-                ->leftJoin('subjects', 'schedule.subject_id', '=', 'subjects.id')
-                ->leftJoin('section', 'schedule.section_id', '=', 'section.id')
-                ->where('schedule.course_id', !empty(Auth::user()->course_id) ? Auth::user()->course_id : $professor_id['course_id'])
-                ->where('schedule.semester', $semester)
-                ->where('schedule.school_yr', $school_yr)
-                ->where('schedule.prof_id', $id)
-                ->distinct()
-                ->get();
+        $summary = Schedule::select('subjects.subj_code', 'subjects.subj_desc', 'section.name as section_name')
+                    ->leftJoin('subjects', 'schedule.subject_id', '=', 'subjects.id')
+                    ->leftJoin('section', 'schedule.section_id', '=', 'section.id')
+                    ->where('schedule.course_id', !empty(Auth::user()->course_id) ? Auth::user()->course_id : $professor_id['course_id'])
+                    ->where('schedule.semester', $semester)
+                    ->where('schedule.school_yr', $school_yr)
+                    ->where('schedule.prof_id', $id)
+                    ->groupBy('subjects.subj_code', 'subjects.subj_desc', 'section.name')
+                    ->get();
 
         $schedule = $schedule->toArray();
         $summary = $summary->toArray();
@@ -360,12 +360,13 @@ class PDFController extends Controller
                     ->where('section.program', $program)
                     ->get();
 
-        $summary = Schedule::select('schedule.*', 'subjects.*')
+        $summary = Schedule::select('subjects.subj_code', 'subjects.subj_desc')
                     ->leftJoin('subjects', 'schedule.subject_id', '=', 'subjects.id')
                     ->where('schedule.course_id', !empty(Auth::user()->course_id) ? Auth::user()->course_id : $section['course_id'])
                     ->where('schedule.section_id', $section)
                     ->where('schedule.semester', $semester)
                     ->where('schedule.school_yr', $school_yr)
+                    ->groupBy('subjects.subj_code', 'subjects.subj_desc')
                     ->get();
 
         $schedule = $schedule->toArray();

@@ -133,7 +133,7 @@
                                     </table>
                                 </div>
                                 <div class="col-8">
-                                    <table id="data_table" style="font-size: 12px;">
+                                <table id="data_table" style="font-size: 12px;">
                                         <thead>
                                             <tr>
                                                 <th>Time</th>
@@ -146,64 +146,89 @@
                                             @php
                                                 // Track rowspans for each day and time slot
                                                 $rowspans = array_fill(1, 7, []); // 7 days (1-7)
+                                                $colspans = []; // Track colspan merges
                                             @endphp
 
                                             @foreach($data['time_slots'] as $timeslot)
                                                 <tr>
                                                     <td>{{ date("h:i A", strtotime($timeslot)) }}</td>
-                                                    @foreach([1 => 'Monday', 2 => 'Tuesday', 3 => 'Wednesday', 4 => 'Thursday', 5 => 'Friday', 6 => 'Saturday', 7 => 'Sunday'] as $key => $day)
+                                                    @php $currentDay = 1; @endphp
+                                                    @while($currentDay <= 7)
                                                         @php
-                                                            $isCovered = false;
-                                                            // Check if this day/time slot is covered by a previous rowspan
-                                                            if (isset($rowspans[$key][$timeslot]) && $rowspans[$key][$timeslot] > 0) {
-                                                                $rowspans[$key][$timeslot]--;
-                                                                $isCovered = true;
+                                                            // Skip if covered by previous rowspan
+                                                            if (isset($rowspans[$currentDay][$timeslot]) && $rowspans[$currentDay][$timeslot] > 0) {
+                                                                $rowspans[$currentDay][$timeslot]--;
+                                                                $currentDay++;
+                                                                continue;
                                                             }
-                                                        @endphp
 
-                                                        @if($isCovered)
-                                                            {{-- Skip this cell (covered by rowspan) --}}
-                                                            @continue
-                                                        @endif
-
-                                                        @php
                                                             $scheduleFound = false;
+                                                            $colspan = 1;
+                                                            $matchingSchedule = null;
+
+                                                            // Find schedule for current day
                                                             foreach ($data['schedule'] as $schedule) {
                                                                 if (
-                                                                    $schedule['day'] == $key && 
+                                                                    $schedule['day'] == $currentDay && 
                                                                     date("h:i A", strtotime($schedule['start_time'])) == date("h:i A", strtotime($timeslot))
                                                                 ) {
-                                                                    $start = strtotime($schedule['start_time']);
-                                                                    $end = strtotime($schedule['end_time']);
-                                                                    $diff = ($end - $start) / 3600; // 30-minute intervals
                                                                     $scheduleFound = true;
+                                                                    $matchingSchedule = $schedule;
+
+                                                                    // Check subsequent days for matching schedules
+                                                                    $nextDay = $currentDay + 1;
+                                                                    while ($nextDay <= 7) {
+                                                                        $hasMatch = false;
+                                                                        foreach ($data['schedule'] as $nextSchedule) {
+                                                                            if (
+                                                                                $nextSchedule['day'] == $nextDay &&
+                                                                                $nextSchedule['start_time'] == $schedule['start_time'] &&
+                                                                                $nextSchedule['end_time'] == $schedule['end_time'] &&
+                                                                                $nextSchedule['section_name'] == $schedule['section_name'] &&
+                                                                                $nextSchedule['building_name'] == $schedule['building_name'] &&
+                                                                                $nextSchedule['room_number'] == $schedule['room_number']
+                                                                            ) {
+                                                                                $colspan++;
+                                                                                $hasMatch = true;
+                                                                                break;
+                                                                            }
+                                                                        }
+                                                                        if (!$hasMatch) break;
+                                                                        $nextDay++;
+                                                                    }
                                                                     break;
                                                                 }
                                                             }
                                                         @endphp
 
                                                         @if($scheduleFound)
-                                                            {{-- Render the cell with rowspan --}}
-                                                            <td rowspan="{{ $diff }}">
-                                                                {{ date("h:i A", strtotime($schedule['start_time'])) }} - {{ date("h:i A", strtotime($schedule['end_time'])) }}<br>
-                                                                {{ $schedule['subj_code'] }}<br>
-                                                                {{ $schedule['section_name'] }}<br>
-                                                                {{ $schedule['building_name'] }} {{$schedule['floor_number']}}{{ str_pad($schedule['room_number'], 2, '0', STR_PAD_LEFT) }}
-                                                            </td>
-
-                                                            {{-- Mark subsequent time slots as covered by this rowspan --}}
                                                             @php
+                                                                $start = strtotime($matchingSchedule['start_time']);
+                                                                $end = strtotime($matchingSchedule['end_time']);
+                                                                $diff = ($end - $start) / 3600;
+                                                            @endphp
+                                                            <td colspan="{{ $colspan }}" rowspan="{{ $diff }}">
+                                                                {{ date("h:i A", strtotime($matchingSchedule['start_time'])) }} - {{ date("h:i A", strtotime($matchingSchedule['end_time'])) }}<br>
+                                                                {{ $matchingSchedule['subj_code'] }}<br>
+                                                                {{ $matchingSchedule['section_name'] }}<br>
+                                                                {{ $matchingSchedule['building_name'] }} {{$matchingSchedule['floor_number']}}{{ str_pad($matchingSchedule['room_number'], 2, '0', STR_PAD_LEFT) }}
+                                                            </td>
+                                                            @php
+                                                                // Mark cells covered by rowspan
                                                                 $currentTime = strtotime($timeslot);
                                                                 for ($i = 1; $i < $diff; $i++) {
-                                                                    $nextTime = date("H:i", $currentTime + 3600 * $i); // Add 30 minutes
-                                                                    $rowspans[$key][$nextTime] = $diff - $i;
+                                                                    $nextTime = date("H:i", $currentTime + 3600 * $i);
+                                                                    for ($j = 0; $j < $colspan; $j++) {
+                                                                        $rowspans[$currentDay + $j][$nextTime] = $diff - $i;
+                                                                    }
                                                                 }
+                                                                $currentDay += $colspan;
                                                             @endphp
                                                         @else
-                                                            {{-- Empty cell --}}
                                                             <td></td>
+                                                            @php $currentDay++; @endphp
                                                         @endif
-                                                    @endforeach
+                                                    @endwhile
                                                 </tr>
                                             @endforeach
                                         </tbody>

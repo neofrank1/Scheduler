@@ -154,12 +154,44 @@ class ScheduleController extends Controller
                     'schedule_id' => $timeslot['schedule_id'] ?? null,
                 ];
 
-                if ($arr['start_time'] != null && $arr['end_time'] != null && $arr['day'] != null && $arr['schedule_id'] != null && isset($timeslot['id']) && $timeslot['id'] != null) {
-                    $res = TimeSlot::where('id', $timeslot['id'])
-                               ->where('schedule_id', $timeslot['schedule_id'])
-                               ->update($arr); 
-                } else if ($arr['start_time'] != null && $arr['end_time'] != null && $arr['day'] != null && $arr['schedule_id'] != null) {
-                    $res = TimeSlot::create($arr);
+                if ($arr['start_time'] != null && $arr['end_time'] != null && $arr['day'] != null && $arr['schedule_id'] != null) {
+                    // Get schedule details for conflict checking
+                    $schedule = Schedule::find($arr['schedule_id']);
+                    
+                    // Check for conflicts
+                    $conflicts = DB::select("
+                        SELECT COUNT(*) as count 
+                        FROM schedule AS scheduled
+                        LEFT JOIN time_slot AS day_time ON scheduled.id = day_time.schedule_id
+                        WHERE scheduled.status = 1 
+                        AND scheduled.id != ?
+                        AND (
+                            (scheduled.room_id = ? AND scheduled.school_yr = ? AND scheduled.semester = ? 
+                            AND day_time.start_time <= ? AND day_time.end_time >= ? AND day_time.day = ?) 
+                            OR 
+                            (scheduled.prof_id = ? AND scheduled.school_yr = ? AND scheduled.semester = ? 
+                            AND day_time.start_time <= ? AND day_time.end_time >= ? AND day_time.day = ?)
+                        )", [
+                            $arr['schedule_id'],
+                            $schedule->room_id, $schedule->school_yr, $schedule->semester,
+                            $arr['end_time'], $arr['start_time'], $arr['day'],
+                            $schedule->prof_id, $schedule->school_yr, $schedule->semester,
+                            $arr['end_time'], $arr['start_time'], $arr['day']
+                        ]
+                    );
+
+                    if ($conflicts[0]->count > 0) {
+                        return redirect()->back()->with('error', 'Schedule conflict detected! Please choose a different time slot.');
+                    }
+
+                    // No conflicts, proceed with update/create
+                    if (isset($timeslot['id']) && $timeslot['id'] != null) {
+                        $res = TimeSlot::where('id', $timeslot['id'])
+                                   ->where('schedule_id', $timeslot['schedule_id'])
+                                   ->update($arr);
+                    } else {
+                        $res = TimeSlot::create($arr);
+                    }
                 } else if ($arr['start_time'] == null && $arr['end_time'] == null && $arr['day'] != null && $arr['schedule_id'] != null && isset($timeslot['id']) && $timeslot['id'] != null) {
                     $res = TimeSlot::where('id', $timeslot['id'])
                                ->where('schedule_id', $timeslot['schedule_id'])
