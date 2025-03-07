@@ -101,9 +101,9 @@
                 var floorNumber = $(this).find('input[name="floor_number"]').val().trim();
                 var roomNumber = $(this).find('input[name="room_number"]').val().trim();
 
-                if (floorNumber == 0 || roomNumber == 0) {
+                if (floorNumber <= 0 || roomNumber <= 0) {
                     event.preventDefault();
-                    alert('Floor number and room number cannot be zero.');
+                    alert('Floor number and room number must be positive numbers.');
                 }
             });
 
@@ -111,9 +111,9 @@
                 var floorNumber = $(this).find('input[name="floor_number"]').val().trim();
                 var roomNumber = $(this).find('input[name="room_number"]').val().trim();
 
-                if (floorNumber == 0 || roomNumber == 0) {
+                if (floorNumber <= 0 || roomNumber <= 0) {
                     event.preventDefault();
-                    alert('Floor number and room number cannot be zero.');
+                    alert('Floor number and room number must be positive numbers.');
                 }
             });
         });

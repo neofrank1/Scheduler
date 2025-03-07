@@ -194,7 +194,7 @@
             var element = document.getElementById('content');
             var opt = {
                 margin:       0.5,
-                filename:    `{{$data['course_2']}}` + ' AY' + `{{ $data['school_year'] }}` + (function() {
+                filename:    `{{$data['course_2']}}` + ' AY' + `{{ $data['school_year'] }}_` + (function() {
                                 const today = new Date();
                                 const dd = String(today.getDate()).padStart(2, '0');
                                 const mm = String(today.getMonth() + 1).padStart(2, '0');
