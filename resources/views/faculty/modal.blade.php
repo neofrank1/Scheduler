@@ -198,12 +198,13 @@
                         </div>
                         <div class="col-6 mt-2">
                             <input type="hidden" class="form-control" name="status" id="status" value="1">
+                            <input type="hidden" class="form-control" name="id" id="edit_id" value="1">
                         </div>
                     </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancel</button>
-                    <button type="sumbit" class="btn btn-primary">Add</button>
+                    <button type="sumbit" class="btn btn-primary">Update</button>
                 </div>
             </div>
         </form>

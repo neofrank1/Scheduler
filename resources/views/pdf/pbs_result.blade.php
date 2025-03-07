@@ -174,8 +174,8 @@
                                                             <td colspan="{{ $colspan }}" rowspan="{{ $diff }}">
                                                                 {{ date("h:i A", strtotime($matchingSchedule['start_time'])) }} - {{ date("h:i A", strtotime($matchingSchedule['end_time'])) }}<br>
                                                                 {{ $matchingSchedule['subj_code'] }}<br>
-                                                                {{ $matchingSchedule['building_name'] }} {{$matchingSchedule['floor_number']}}{{ str_pad($matchingSchedule['room_number'], 2, '0', STR_PAD_LEFT) }} <br>
-                                                                {{ $matchingSchedule['first_name'] }} {{ $matchingSchedule['last_name'] }}
+                                                                {{ $matchingSchedule['first_name'] }} {{ $matchingSchedule['last_name'] }} <br>
+                                                                {{ $matchingSchedule['building_name'] }} {{$matchingSchedule['floor_number']}}{{ str_pad($matchingSchedule['room_number'], 2, '0', STR_PAD_LEFT) }}
                                                             </td>
 
                                                             @php

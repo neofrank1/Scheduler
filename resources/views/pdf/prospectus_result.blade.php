@@ -113,7 +113,7 @@
                                     <?php endforeach;?>
                                     <tr>
                                         <td colspan="3" class="text-end">Total</td>
-                                        <td>0</td>
+                                        <td>{{$totalUnits}}</td>
                                         <td>{{$totalLec}}</td>
                                         <td>{{$totalLab}}</td>
                                         <td>{{$total}}</td>
@@ -169,7 +169,7 @@
                                 <?php endforeach;?>
                                 <tr>
                                     <td colspan="3" class="text-end">Total</td>
-                                    <td>0</td>
+                                    <td>{{$totalUnits}}</td>
                                     <td>{{$totalLec}}</td>
                                     <td>{{$totalLab}}</td>
                                     <td>{{$total}}</td>
@@ -194,7 +194,13 @@
             var element = document.getElementById('content');
             var opt = {
                 margin:       0.5,
-                filename:     'myfile.pdf',
+                filename:    `{{$data['course_2']}}` + ' AY' + `{{ $data['school_year'] }}` + (function() {
+                                const today = new Date();
+                                const dd = String(today.getDate()).padStart(2, '0');
+                                const mm = String(today.getMonth() + 1).padStart(2, '0');
+                                const yy = String(today.getFullYear()).slice(-2);
+                                return mm + `-` + dd + `-` + yy;
+                                })() + '.pdf',
                 image:        { type: 'png', quality: 1 },
                 html2canvas:  { scale: 2 },
                 jsPDF:        { unit: 'in', format: 'letter', orientation: 'portrait' },

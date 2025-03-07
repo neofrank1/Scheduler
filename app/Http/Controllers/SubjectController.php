@@ -38,7 +38,7 @@ class SubjectController extends Controller
                 ->first();
 
             if ($existingSubject) {
-                continue; // Skip this subject if it already exists
+                return redirect()->route('subject.home')->with('error', 'Subject already exists!');
             }
 
             $data = [

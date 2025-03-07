@@ -153,6 +153,7 @@
                     $('#edit_mobile_no').val(response.mobile_no);
                     $('#edit_address').val(response.address);
                     $('#edit_maximum_hours').val(response.maximum_hours);
+                    $('#edit_id').val(id);
                     if ($('#edit_education_id option[value="' + response.education_id + '"]').length === 1) {
                         $('#edit_education_id').val(response.education_id); 
                     }

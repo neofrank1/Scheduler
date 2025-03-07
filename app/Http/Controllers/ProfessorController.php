@@ -83,7 +83,7 @@ class ProfessorController extends Controller
         if (empty($request->input('_token'))) {
             return false;
         }
-        $id = $request->input('employee_id');
+        $id = $request->input('id');
 
         $professor = Professor::find($id);
 
@@ -92,6 +92,10 @@ class ProfessorController extends Controller
             return redirect()->route('professor.home')->with('error', 'Employee ID already exists!');
         }
         
+        if (!$professor) {
+            return redirect()->route('professor.home')->with('error', 'Professor not found!');
+        }
+
         $result = $professor->update($request->except('_token'));
 
         if ($result) {

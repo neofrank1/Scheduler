@@ -50,6 +50,7 @@ class PDFController extends Controller
         $data = [
             'school_year' => date('Y') . '-' . (date('Y') + 1),
             'course' =>  $course['full_name'] . ' (' . $course['short_name'] . ')',
+            'course_2' => $course['short_name'],
             'subjects' => $subject->toArray()
         ];
 
@@ -87,6 +88,10 @@ class PDFController extends Controller
                     ->leftJoin('rooms', 'schedule.room_id', '=', 'rooms.id')
                     ->where('schedule.section_id', $id)
                     ->get();
+
+        if ($schedule->isEmpty()) {
+            return redirect()->route('pdf.mis.home')->with('error', 'No schedule found for this section.');
+        }
 
         $college = College::find(Auth::user()->college_id)->toArray();
         $section = Section::find($id)->toArray();

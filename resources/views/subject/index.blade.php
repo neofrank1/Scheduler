@@ -241,6 +241,13 @@
             errorMessage += "Total hours must be a positive number.\n";
             }
 
+            // Validate subject units
+            let subjectUnits = parseInt($("#subj_units").val());
+            if (isNaN(subjectUnits) || subjectUnits < 0) {
+            isValid = false;
+            errorMessage += "Subject units cannot be a negative number.\n";
+            }
+
             if (!isValid) {
             event.preventDefault();
             alert(errorMessage);
@@ -264,6 +271,13 @@
             if (isNaN(editlecHours) || editlecHours <= 0) {
             isValid = false;
             errorMessage += "Edit Lecture hours must be a positive number.\n";
+            }
+
+             // Validate subject units
+             let editSubjectUnits = parseInt($("#edit_subj_units").val());
+            if (isNaN(editSubjectUnits) || editSubjectUnits < 0) {
+            isValid = false;
+            errorMessage += "Edit Subject units cannot be a negative number.\n";
             }
 
             // Validate total hours
