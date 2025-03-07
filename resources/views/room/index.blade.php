@@ -116,6 +116,7 @@
                     alert('Floor number and room number cannot be zero.');
                 }
             });
+        });
 
         $('#table-room').on('click','.btn-edit', function(){ 
             var id = $(this).data('id');
