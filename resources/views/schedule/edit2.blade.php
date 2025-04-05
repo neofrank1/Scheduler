@@ -77,9 +77,9 @@
                                     <option disabled selected>Choose Subject</option>
                                     <?php foreach ($subjects as $subject): ?>
                                         <?php if ($schedule['subject_id'] == $subject['id']): ?>
-                                            <option value="<?= $subject['id'] ?>" selected><?= $subject['subj_code'] ?></option>
+                                            <option value="<?= $subject['id'] ?>" selected><?= $subject['subj_code'] .  " - " . $subject['subj_desc'] ?></option>
                                         <?php else: ?>
-                                            <option value="<?= $subject['id'] ?>"><?= $subject['subj_code'] ?></option>
+                                            <option value="<?= $subject['id'] ?>"><?= $subject['subj_code' ].  " - " . $subject['subj_desc'] ?></option>
                                         <?php endif; ?>
                                     <?php endforeach; ?>
                                 </select>

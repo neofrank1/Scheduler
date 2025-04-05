@@ -222,14 +222,14 @@
 
             // Validate lab hours
             let labHours = parseInt($("#subj_lab_hours").val());
-            if (isNaN(labHours) || labHours <= 0) {
+            if (isNaN(labHours) || labHours < 0) {
             isValid = false;
             errorMessage += "Lab hours must be a positive number.\n";
             }
 
             // Validate lecture hours
             let lecHours = parseInt($("#subj_lec_hours").val());
-            if (isNaN(lecHours) || lecHours <= 0) {
+            if (isNaN(lecHours) || lecHours < 0) {
             isValid = false;
             errorMessage += "Lecture hours must be a positive number.\n";
             }

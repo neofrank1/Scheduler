@@ -51,7 +51,7 @@
                                     <select class="form-select" name="subjects[0][subject_id]">
                                         <option disabled selected>Choose Subject</option>
                                         <?php foreach ($subjects as $subject): ?>
-                                            <option value="<?= $subject['id'] ?>"><?= $subject['subj_code'] ?></option>
+                                            <option value="<?= $subject['id'] ?>"><?= $subject['subj_code'] .  " - " . $subject['subj_desc'] ?></option>
                                         <?php endforeach; ?>
                                     </select>
                                 </div>
